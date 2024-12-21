@@ -1,0 +1,255 @@
+//
+//  SLHomePageNewsViewController.m
+//  digg
+//
+//  Created by hey on 2024/9/26.
+//
+
+#import "SLHomePageNewsViewController.h"
+
+#import <Masonry/Masonry.h>
+#import "CaocaoRefresh.h"
+#import "SLGeneralMacro.h"
+
+#import "SLHomePageNewsTableViewCell.h"
+#import "SLHomePageLatestNewsTableViewCell.h"
+#import "SLHomePageQATableViewCell.h"
+#import "SLHomePageProductionTableViewCell.h"
+
+#import "SLWebViewController.h"
+#import "SLUser.h"
+
+# define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
+# define kSLHomePageLatestNewsTableViewCellID @"SLHomePageLatestNewsTableViewCell"
+# define kSLHomePageQATableViewCellID @"SLHomePageQATableViewCell"
+# define kSLHomePageProductionTableViewCellID @"SLHomePageProductionTableViewCell"
+
+@interface SLHomePageNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) SLHomePageViewModel *viewModel;
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@end
+
+@implementation SLHomePageNewsViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [self addRefresh];
+    [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
+}
+
+- (void)changeBgColor{
+//    if (self.pageStyle == HomePageSyleProduct) {
+//        self.tableView.backgroundColor = Color16(0xF7F7F7);
+////        self.tableView.backgroundColor = [UIColor redColor];
+//
+//    }else{
+//        self.tableView.backgroundColor = [UIColor clearColor];
+//    }
+    
+    self.tableView.backgroundColor = [UIColor clearColor];
+
+}
+
+- (void)dataLoadActionCallback{
+    //刷新
+    [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
+}
+
+- (UIView *)listView {
+    [self changeBgColor];
+    return self.view;
+}
+
+- (void)addRefresh{
+    @weakobj(self);
+    self.tableView.mj_header = [CaocaoRefreshHeader headerWithRefreshingBlock:^{
+        @strongobj(self);
+        [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
+    }];
+    
+    self.tableView.mj_footer = [CaocaoRefreshFooter footerWithRefreshingBlock:^{
+        @strongobj(self);
+        [self loadMessagesList:CaocaoCarMessageListRefreshTypeLoadMore];
+    }];
+}
+
+- (void)setView:(UIView *)view{
+    [super setView:view];
+}
+
+- (void)loadMessagesList:(CaocaoCarMessageListRefreshType)type{
+    @weakobj(self);
+    [self.viewModel loadMessageListWithRefreshType:type withPageStyle:self.pageStyle resultHandler:^(BOOL isSuccess, NSError *error) {
+        @strongobj(self);
+        if (isSuccess) {
+            if ([self.viewModel.dataArray count] == 0) {
+                self.dataState = CaocaoDataLoadStateEmpty;
+            }else{
+                self.dataState = CaocaoDataLoadStateNormal;
+            }
+        }else{
+            self.dataState = CaocaoDataLoadStateError;
+        }
+        [self endRefresh];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)jumpToLogin{    
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
+    dvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (void)jumpToH5WithUrl:(NSString *)url{
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    [dvc startLoadRequestWithUrl:url];
+    dvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (void)endRefresh
+{
+//    [self.tableView.mj_header endRefreshing];
+//    [self.tableView.mj_footer endRefreshing];
+
+    if (self.viewModel.hasToEnd) {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    } else {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"%@/post/%@",H5BaseUrl,entity.articleId];
+    [self jumpToH5WithUrl:url];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.viewModel.dataArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
+    if (cell) {
+        SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+        [cell updateWithEntity:entity];
+        @weakobj(self);
+        cell.likeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self jumpToLogin];
+                return;
+            }
+            [self.viewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+        
+        cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self jumpToLogin];
+                return;
+            }
+            [self.viewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+        
+        cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            [self jumpToH5WithUrl:entity.url];
+        };
+    }
+    return cell;
+//    switch (self.pageStyle) {
+//        case HomePageSyleToday:{
+//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
+//            if (cell) {
+//                SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+//                [cell updateWithEntity:entity];
+//            }
+//            return cell;
+//        }
+//        case HomePageSyleLatest:{
+//            SLHomePageLatestNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageLatestNewsTableViewCellID forIndexPath:indexPath];
+//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+//            [cell updateWithEntity:entity];
+//            return cell;
+//        }
+//        case HomePageSyleProduct:{
+//            SLHomePageProductionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageProductionTableViewCellID forIndexPath:indexPath];
+//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+//            @weakobj(self);
+//            cell.likeClick = ^(SLArticleTodayEntity *entity) {
+//                @strongobj(self);
+//            };
+//            
+//            cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
+//                @strongobj(self);
+//            };
+//            [cell updateWithEntity:entity];
+//            return cell;
+//        }
+//        case HomePageSyleQuestion:{
+//            SLHomePageQATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageQATableViewCellID forIndexPath:indexPath];
+//            SLCommentFeedEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+//            [cell updateWithEntity:entity];
+//            return cell;
+//        }
+//            
+//        default:HomePageSyleToday:{
+//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
+//            if (cell) {
+//                [cell updateWithEntity:nil];
+//            }
+//            return nil;
+//
+//        }
+//    }
+//    return nil;
+}
+
+- (UITableView *)tableView{
+    if(!_tableView){
+        _tableView = [[UITableView alloc] init];
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageNewsTableViewCellID];
+        [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
+        [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
+        [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
+    }
+    return _tableView;
+}
+
+
+- (SLHomePageViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[SLHomePageViewModel alloc] init];
+    }
+    return _viewModel;
+}
+
+
+@end
