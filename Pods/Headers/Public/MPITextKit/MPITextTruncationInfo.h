@@ -1,0 +1,1 @@
+../../../MPITextKit/Sources/MPITextTruncationInfo.h
