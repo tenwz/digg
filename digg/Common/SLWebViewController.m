@@ -32,10 +32,14 @@
     // Do any additional setup after loading the view.
 
     [self.view addSubview:self.wkwebView];
-    self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    [self.view addSubview:self.progressView];
+    
     [self setupDefailUA];
-    [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    
+    if (self.isShowProgress) {
+        self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        [self.view addSubview:self.progressView];
+        [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -46,11 +50,13 @@
         make.left.bottom.right.equalTo(self.view);
         make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
     }];
-    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(self.view);
-        make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
-        make.height.equalTo(@2);
-    }];
+    if (self.isShowProgress) {
+        [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.view);
+            make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+            make.height.equalTo(@2);
+        }];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

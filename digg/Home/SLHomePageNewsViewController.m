@@ -114,6 +114,7 @@
 
 - (void)jumpToH5WithUrl:(NSString *)url{
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    dvc.isShowProgress = YES;
     [dvc startLoadRequestWithUrl:url];
     dvc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:dvc animated:YES];

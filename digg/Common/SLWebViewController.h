@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SLWebViewController : UIViewController
 
 @property (nonatomic, copy) NSString *uxTitle;
+@property (nonatomic, assign) BOOL isShowProgress;
 @property (nonatomic, copy) void(^loginSucessCallback) ();
 
 - (void)startLoadRequestWithUrl:(NSString *)url;

@@ -8,7 +8,7 @@
 #import "AppDelegate.h"
 #import "SLTabbarController.h"
 #import "SLUser.h"
-#import <Bugly/Bugly.h>
+//#import <Bugly/Bugly.h>
 
 @interface AppDelegate ()<UIApplicationDelegate>
 
@@ -28,7 +28,7 @@
     }
     [UIApplication sharedApplication].delegate.window.rootViewController = rootVC;
     [self.window makeKeyAndVisible];
-    [Bugly startWithAppId:@"b8c3f72ee7"];
+//    [Bugly startWithAppId:@"b8c3f72ee7"];
     return YES;
 }
 
