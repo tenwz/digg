@@ -12,16 +12,17 @@
 #import "SLHomepageNewsViewController.h"
 #import "UIView+CommonKit.h"
 #import "SLHomeWebViewController.h"
+#import "SLHomePageViewModel.h"
 
 @interface SLHomePageViewController ()<JXCategoryViewDelegate,JXCategoryListContainerViewDelegate>
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) UIButton *searchBtn;
-@property (nonatomic, strong) JXCategoryTitleView *categoryView;
+@property (nonatomic, strong) JXCategoryNumberView *categoryView;
 @property (nonatomic, strong) JXCategoryListContainerView *listContainerView;
 @property (nonatomic, assign) BOOL isNeedIndicatorPositionChangeItem;
-@property (nonatomic, strong) JXCategoryTitleView *myCategoryView;
+@property (nonatomic, strong) JXCategoryNumberView *myCategoryView;
 @property (nonatomic, strong) NSMutableDictionary <NSString *, id<JXCategoryListContentViewDelegate>> *listCache;
-
+@property (nonatomic, strong) SLHomePageViewModel *viewModel;
 
 @end
 
@@ -34,18 +35,34 @@
     [self.view addSubview:self.categoryView];
     [self.view addSubview:self.searchBtn];
     [self.view addSubview:self.listContainerView];
-    self.titles = @[@"今天", @"发现",@"为你"];
+    self.titles = @[@"今天", @"发现", @"为你"];
 
     CGFloat categoryViewHeight = 44;
     self.categoryView.frame = CGRectMake(0, STATUSBAR_HEIGHT, self.view.bounds.size.width-categoryViewHeight, categoryViewHeight);
     self.searchBtn.frame = CGRectMake(self.view.bounds.size.width - 24 - 16, STATUSBAR_HEIGHT+9, 24, 24);
     self.listContainerView.frame = CGRectMake(0, categoryViewHeight+STATUSBAR_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height-(categoryViewHeight+STATUSBAR_HEIGHT)-self.tabBarController.tabBar.frame.size.height);
     self.myCategoryView.titles = self.titles;
+    self.myCategoryView.counts = @[@0, @0, @0];
+    self.myCategoryView.numberLabelOffset = CGPointMake(-2, 5);
+    self.myCategoryView.numberStringFormatterBlock = ^NSString *(NSInteger number) {
+        if (number > 99) {
+            return @"99+";
+        }
+        return [NSString stringWithFormat:@"%ld", (long)number];
+    };
     
     JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
     lineView.indicatorColor = Color16(0xFF1852);
     lineView.indicatorWidth = 28;
     self.myCategoryView.indicators = @[lineView];
+    
+    @weakobj(self);
+    [self.viewModel getForYouRedPoint:^(NSInteger number, NSError *error) {
+        if (!error) {
+            @strongobj(self);
+            self.myCategoryView.counts = @[@0, @0, @(number)];
+        }
+    }];
 }
 
 - (void)searchBtnAction:(id)sender{
@@ -55,12 +72,12 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 
-- (JXCategoryTitleView *)myCategoryView {
-    return (JXCategoryTitleView *)self.categoryView;
+- (JXCategoryNumberView *)myCategoryView {
+    return (JXCategoryNumberView *)self.categoryView;
 }
 
-- (JXCategoryTitleView *)preferredCategoryView {
-    return [[JXCategoryTitleView alloc] init];
+- (JXCategoryNumberView *)preferredCategoryView {
+    return [[JXCategoryNumberView alloc] init];
 }
 
 #pragma mark - JXCategoryViewDelegate
@@ -81,6 +98,9 @@
 // 滚动选中的情况才会调用该方法
 - (void)categoryView:(JXCategoryBaseView *)categoryView didScrollSelectedItemAtIndex:(NSInteger)index {
 //    NSLog(@"%@", NSStringFromSelector(_cmd));
+    if (index == 2) {
+        self.myCategoryView.counts = @[@0, @0, @0];
+    }
     
 }
 
@@ -132,6 +152,7 @@
 - (JXCategoryBaseView *)categoryView {
     if (!_categoryView) {
         _categoryView = [self preferredCategoryView];
+        _categoryView.numberBackgroundColor = UIColor.redColor;
         _categoryView.delegate = self;
         _categoryView.titleColorGradientEnabled = YES;
         _categoryView.titleLabelZoomEnabled = YES;
@@ -162,6 +183,13 @@
         [_searchBtn addTarget:self action:@selector(searchBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _searchBtn;
+}
+
+- (SLHomePageViewModel *)viewModel{
+    if (!_viewModel) {
+        _viewModel = [[SLHomePageViewModel alloc] init];
+    }
+    return _viewModel;
 }
 
 @end

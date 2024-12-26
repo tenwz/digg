@@ -53,5 +53,8 @@ typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
 - (void)cancelLikeWith:(NSString *)articleId
       resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler;
 
+//首页“为你”未读消息数量
+- (void)getForYouRedPoint:(void(^)(NSInteger number, NSError *error))handler;
+
 @end
 

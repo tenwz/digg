@@ -155,6 +155,28 @@
     }];
 }
 
+- (void)getForYouRedPoint:(void(^)(NSInteger number, NSError *error))handler {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSString *urlString = [NSString stringWithFormat:@"%@/redPoint", ApiBaseUrl];
+    @weakobj(self);
+    [manager GET:urlString parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (handler) {
+//            NSLog(@"res:%@",responseObject);
+            @strongobj(self);
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *dic = (NSDictionary *)responseObject;
+                NSInteger count = [[dic objectForKey:@"forYou"] integerValue];
+                handler(count, nil);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"req error = %@",error);
+        if (handler) {
+            handler(0, error);
+        }
+    }];
+}
+
 - (NSMutableArray *)dataArray{
     if (!_dataArray) {
         _dataArray = [[NSMutableArray alloc] init];

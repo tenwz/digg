@@ -33,7 +33,6 @@
     [self.view addSubview:self.wkwebView];
     
     [self setupDefailUA];
-    [self setupNavigationBarConfig];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -48,21 +47,6 @@
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.navigationController.navigationBar.hidden = YES;
-}
-
-- (void)setupNavigationBarConfig {
-    UIImage *image = [UIImage imageNamed:@"navbar_back_icon"];
-    UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    customButton.bounds = CGRectMake( 0, 0, image.size.width, image.size.height );
-    [customButton setImage:image forState:UIControlStateNormal];
-    [customButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
-    self.navigationItem.leftBarButtonItem = barButtonItem;
-}
-
-- (void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)jsBridgeMethod{
