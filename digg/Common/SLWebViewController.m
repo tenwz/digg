@@ -36,24 +36,23 @@
     [self setupDefailUA];
     
     if (self.isShowProgress) {
+        self.navigationController.navigationBar.hidden = NO;
+        [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
         self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         [self.view addSubview:self.progressView];
-        [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.hidden = NO;
-    [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(self.view);
-        make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
-    }];
-    if (self.isShowProgress) {
+        [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.right.equalTo(self.view);
+            make.top.equalTo(self.view).offset(NAVBAR_HEIGHT);
+        }];
         [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.view);
-            make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+            make.top.equalTo(self.view).offset(NAVBAR_HEIGHT);
             make.height.equalTo(@2);
+        }];
+    } else {
+        self.navigationController.navigationBar.hidden = YES;
+        [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
         }];
     }
 }
@@ -190,6 +189,7 @@
         _wkwebView.backgroundColor = [UIColor whiteColor];
         _wkwebView.scrollView.bounces = NO;
         _wkwebView.navigationDelegate = self;
+        _wkwebView.allowsBackForwardNavigationGestures = YES;
     }
     return _wkwebView;
 }
@@ -199,28 +199,32 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"estimatedProgress"]) {
-        self.progressView.progress = self.wkwebView.estimatedProgress;
-        if (self.wkwebView.estimatedProgress >= 1.0) {
-            [UIView animateWithDuration:0.5 animations:^{
-                self.progressView.alpha = 0.0;
-            }];
+    if (self.isShowProgress) {
+        if ([keyPath isEqualToString:@"estimatedProgress"]) {
+            self.progressView.progress = self.wkwebView.estimatedProgress;
+            if (self.wkwebView.estimatedProgress >= 1.0) {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.progressView.alpha = 0.0;
+                }];
+            } else {
+                self.progressView.alpha = 1.0;
+            }
         } else {
-            self.progressView.alpha = 1.0;
+            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
         }
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
 #pragma makr - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    __weak typeof(self) weakSelf = self;
-    [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError* _Nullable error) {
-        if (!error) {
-            weakSelf.title = title;
-        }
-    }];
+    if (self.isShowProgress) {
+        __weak typeof(self) weakSelf = self;
+        [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError* _Nullable error) {
+            if (!error) {
+                weakSelf.title = title;
+            }
+        }];
+    }
 }
 
 @end

@@ -105,7 +105,7 @@
     }];
 }
 
-- (void)jumpToLogin{    
+- (void)jumpToLogin {
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
     dvc.hidesBottomBarWhenPushed = YES;
