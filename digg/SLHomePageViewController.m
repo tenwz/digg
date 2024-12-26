@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.hidden = YES;
+    self.navigationItem.hidesBackButton = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.categoryView];
     [self.view addSubview:self.searchBtn];
@@ -55,12 +56,16 @@
     lineView.indicatorColor = Color16(0xFF1852);
     lineView.indicatorWidth = 28;
     self.myCategoryView.indicators = @[lineView];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     @weakobj(self);
     [self.viewModel getForYouRedPoint:^(NSInteger number, NSError *error) {
         if (!error) {
             @strongobj(self);
             self.myCategoryView.counts = @[@0, @0, @(number)];
+            [self.myCategoryView reloadData];
         }
     }];
 }
@@ -90,6 +95,10 @@
 //    }else{
 //        self.view.backgroundColor = [UIColor whiteColor];
 //    }
+    if (index == 2) {
+        self.myCategoryView.counts = @[@0, @0, @0];
+        [self.myCategoryView reloadData];
+    }
     
     self.view.backgroundColor = [UIColor whiteColor];
 
@@ -100,8 +109,8 @@
 //    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (index == 2) {
         self.myCategoryView.counts = @[@0, @0, @0];
+        [self.myCategoryView reloadData];
     }
-    
 }
 
 #pragma mark - JXCategoryListContainerViewDelegate

@@ -21,6 +21,7 @@
 @property (nonatomic, strong) WKWebView *wkwebView;
 @property (nonatomic, assign) BOOL isSetUA;
 @property (nonatomic, strong) NSString *requestUrl;
+@property (nonatomic, strong) UIProgressView* progressView;
 
 @end
 
@@ -31,22 +32,41 @@
     // Do any additional setup after loading the view.
 
     [self.view addSubview:self.wkwebView];
-    
+    self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    [self.view addSubview:self.progressView];
     [self setupDefailUA];
+    [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
+    self.navigationItem.hidesBackButton = YES;
     [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+    }];
+    [self.progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+        make.height.equalTo(@2);
     }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)dealloc {
+
+    if ([self isViewLoaded]) {
+        [self.wkwebView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    }
+
+    // if you have set either WKWebView delegate also set these to nil here
+    [self.wkwebView setNavigationDelegate:nil];
+    [self.wkwebView setUIDelegate:nil];
 }
 
 - (void)jsBridgeMethod{
@@ -170,6 +190,21 @@
 
 - (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message{
     NSLog(@"js bridge message =%@",message.name);
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"estimatedProgress"]) {
+        self.progressView.progress = self.wkwebView.estimatedProgress;
+        if (self.wkwebView.estimatedProgress >= 1.0) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.progressView.alpha = 0.0;
+            }];
+        } else {
+            self.progressView.alpha = 1.0;
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma makr - WKNavigationDelegate
