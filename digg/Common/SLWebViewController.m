@@ -16,7 +16,7 @@
 #import "SLGeneralMacro.h"
 #import "SLUser.h"
 
-@interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler>
+@interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
 @property (nonatomic, strong) WKWebView *wkwebView;
 @property (nonatomic, assign) BOOL isSetUA;
@@ -31,11 +31,38 @@
     // Do any additional setup after loading the view.
 
     [self.view addSubview:self.wkwebView];
-    [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     
     [self setupDefailUA];
+    [self setupNavigationBarConfig];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.navigationController.navigationBar.hidden = NO;
+    [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.view);
+        make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
+    }];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)setupNavigationBarConfig {
+    UIImage *image = [UIImage imageNamed:@"navbar_back_icon"];
+    UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    customButton.bounds = CGRectMake( 0, 0, image.size.width, image.size.height );
+    [customButton setImage:image forState:UIControlStateNormal];
+    [customButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:customButton];
+    self.navigationItem.leftBarButtonItem = barButtonItem;
+}
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)jsBridgeMethod{
@@ -103,6 +130,7 @@
     }
     
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.wkwebView];
+    [self.bridge setWebViewDelegate:self];
     [self jsBridgeMethod];
     
     NSString *defaultUserAgent = [[NSUserDefaults standardUserDefaults] objectForKey:@"digg_default_userAgent"];
@@ -151,6 +179,7 @@
         _wkwebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
         _wkwebView.backgroundColor = [UIColor whiteColor];
         _wkwebView.scrollView.bounces = NO;
+        _wkwebView.navigationDelegate = self;
     }
     return _wkwebView;
 }
@@ -159,16 +188,14 @@
     NSLog(@"js bridge message =%@",message.name);
 }
 
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma makr - WKNavigationDelegate
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    __weak typeof(self) weakSelf = self;
+    [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError* _Nullable error) {
+        if (!error) {
+            weakSelf.title = title;
+        }
+    }];
 }
-*/
 
 @end
