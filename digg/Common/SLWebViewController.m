@@ -31,11 +31,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.hidesBackButton = YES;
+    self.view.backgroundColor = UIColor.whiteColor;
     [self.view addSubview:self.wkwebView];
-    
-    [self setupDefailUA];
-    
+
     if (self.isShowProgress) {
+        self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
         self.navigationController.navigationBar.hidden = NO;
         [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
         self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
@@ -55,11 +55,18 @@
             make.edges.equalTo(self.view);
         }];
     }
+    [self setupDefailUA];
+    
+    if (self.navigationController.interactivePopGestureRecognizer != nil) {
+        [self.wkwebView.scrollView.panGestureRecognizer shouldRequireFailureOfGestureRecognizer:self.navigationController.interactivePopGestureRecognizer];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    if (self.isShowProgress) {
+        self.navigationController.navigationBar.hidden = YES;
+    }
 }
 
 - (void)dealloc {
@@ -190,6 +197,7 @@
         _wkwebView.scrollView.bounces = NO;
         _wkwebView.navigationDelegate = self;
         _wkwebView.allowsBackForwardNavigationGestures = YES;
+        [_wkwebView.scrollView.panGestureRecognizer setEnabled:YES];
     }
     return _wkwebView;
 }
@@ -218,10 +226,11 @@
 #pragma makr - WKNavigationDelegate
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     if (self.isShowProgress) {
-        __weak typeof(self) weakSelf = self;
+        @weakobj(self);
         [webView evaluateJavaScript:@"document.title" completionHandler:^(id _Nullable title, NSError* _Nullable error) {
-            if (!error) {
-                weakSelf.title = title;
+            if (!error && [title length] > 0) {
+                @strongobj(self);
+                self.title = title;
             }
         }];
     }
