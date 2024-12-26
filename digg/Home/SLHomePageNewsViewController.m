@@ -112,9 +112,9 @@
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
-- (void)jumpToH5WithUrl:(NSString *)url{
+- (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
-    dvc.isShowProgress = YES;
+    dvc.isShowProgress = show;
     [dvc startLoadRequestWithUrl:url];
     dvc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:dvc animated:YES];
@@ -137,7 +137,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
     NSString *url = [NSString stringWithFormat:@"%@/post/%@",H5BaseUrl,entity.articleId];
-    [self jumpToH5WithUrl:url];
+    [self jumpToH5WithUrl:url andShowProgress:NO];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -178,7 +178,7 @@
         
         cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
-            [self jumpToH5WithUrl:entity.url];
+            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
         };
     }
     return cell;

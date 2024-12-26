@@ -6,6 +6,7 @@
 //
 
 #import "SLTabbarController.h"
+#import "SLNavigationController.h"
 #import "SLHomePageViewController.h"
 #import "SLFollowingListViewController.h"
 #import "SLMineViewController.h"
@@ -21,9 +22,9 @@
 #import <WebKit/WebKit.h>
 
 @interface SLTabbarController ()<UITabBarControllerDelegate>
-@property (nonatomic, strong) UINavigationController *homeNavi;
-@property (nonatomic, strong) UINavigationController *publishNavi;
-@property (nonatomic, strong) UINavigationController *mineNavi;
+@property (nonatomic, strong) SLNavigationController *homeNavi;
+@property (nonatomic, strong) SLNavigationController *publishNavi;
+@property (nonatomic, strong) SLNavigationController *mineNavi;
 @property (nonatomic, strong) WKWebView *wkWebView;
 @end
 
@@ -70,7 +71,7 @@
     self.tabBar.tintColor = [UIColor blackColor];
     
     SLHomePageViewController *homeVC = [[SLHomePageViewController alloc] init];
-    UINavigationController *homeNavi = [self createRootNavi];
+    SLNavigationController *homeNavi = [self createRootNavi];
     homeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"home_unsel"] selectedImage:[UIImage imageNamed:@"home_selected"]];
     homeNavi.viewControllers = @[homeVC];
     self.homeNavi = homeNavi;
@@ -80,7 +81,7 @@
     
     SLWebViewController *noticeVC = [[SLWebViewController alloc] init];
     [noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-    UINavigationController *noticeNavi = [self createRootNavi];
+    SLNavigationController *noticeNavi = [self createRootNavi];
     noticeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:[UIImage imageNamed:@"notice_unsel"] selectedImage:[UIImage imageNamed:@"notice_selected"]];
     noticeNavi.viewControllers = @[noticeVC];
     noticeVC.navigationController.navigationBar.hidden = YES;
@@ -90,14 +91,14 @@
 
     SLWebViewController *recordVC = [[SLWebViewController alloc] init];
     [recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
-    UINavigationController *recordNavi = [self createRootNavi];
+    SLNavigationController *recordNavi = [self createRootNavi];
     self.publishNavi = recordNavi;
     recordNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"记录" image:[UIImage imageNamed:@"record_unsel"] selectedImage:[UIImage imageNamed:@"record_selected"]];
     recordNavi.viewControllers = @[recordVC];
     recordVC.navigationController.navigationBar.hidden = YES;
 
 //    SLMineViewController *userVC = [[SLMineViewController alloc] init];
-    UINavigationController *userNavi = [self createRootNavi];
+    SLNavigationController *userNavi = [self createRootNavi];
     SLWebViewController *userVC = [[SLWebViewController alloc] init];
     [userVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/my",H5BaseUrl]];
     self.mineNavi = userNavi;
@@ -108,8 +109,8 @@
     self.viewControllers = @[homeNavi,noticeNavi,recordNavi,userNavi];
 }
 
-- (UINavigationController *)createRootNavi{
-    UINavigationController *navi = [[UINavigationController alloc] init];
+- (SLNavigationController *)createRootNavi{
+    SLNavigationController *navi = [[SLNavigationController alloc] init];
     return navi;
 }
 

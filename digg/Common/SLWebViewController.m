@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    self.navigationItem.hidesBackButton = YES;
     [self.view addSubview:self.wkwebView];
     
     [self setupDefailUA];
@@ -45,7 +45,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationItem.hidesBackButton = YES;
     [self.wkwebView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(self.view);
         make.top.equalTo(self.navigationController.navigationBar.mas_bottom);
@@ -118,6 +117,7 @@
             NSString *url = [dic objectForKey:@"url"];
             SLWebViewController *dvc = [[SLWebViewController alloc] init];
             [dvc startLoadRequestWithUrl:url];
+            dvc.isShowProgress = YES;
             dvc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:dvc animated:YES];
         }

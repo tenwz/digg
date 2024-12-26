@@ -30,8 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden = YES;
     self.navigationItem.hidesBackButton = YES;
+    self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.categoryView];
     [self.view addSubview:self.searchBtn];
