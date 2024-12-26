@@ -34,7 +34,7 @@
     [self.view addSubview:self.categoryView];
     [self.view addSubview:self.searchBtn];
     [self.view addSubview:self.listContainerView];
-    self.titles = @[@"今日", @"发现",@"为你"];
+    self.titles = @[@"今天", @"发现",@"为你"];
 
     CGFloat categoryViewHeight = 44;
     self.categoryView.frame = CGRectMake(0, STATUSBAR_HEIGHT, self.view.bounds.size.width-categoryViewHeight, categoryViewHeight);
