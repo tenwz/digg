@@ -181,6 +181,16 @@
                             
             }];
         };
+        cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self jumpToLogin];
+                return;
+            }
+            [self.viewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                            
+            }];
+        };
     }
     return cell;
 }
