@@ -53,13 +53,19 @@
     CGRect rect = self.likeBtn.frame;
     if (rect.size.width > 0) {
         [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width + 4);
+            make.width.mas_equalTo(rect.size.width);
         }];
+    }
+    rect = self.dislikeBtn.frame;
+    if (rect.size.width > 0) {
         [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width + 4);
+            make.width.mas_equalTo(rect.size.width);
         }];
+    }
+    rect = self.messageBtn.frame;
+    if (rect.size.width > 0) {
         [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width + 4);
+            make.width.mas_equalTo(rect.size.width);
         }];
     }
 }
@@ -118,6 +124,8 @@
             make.right.equalTo(self.contentView).offset(-offset);
         }];
     }
+    
+    [self layoutIfNeeded];
 }
 
 - (void)createViews{
@@ -279,6 +287,7 @@
         [_likeBtn setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"agree_selected"] forState:UIControlStateSelected];
         [_likeBtn addTarget:self action:@selector(likeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_likeBtn sizeToFit];
     }
     return _likeBtn;
 }
@@ -294,6 +303,7 @@
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree"]forState:UIControlStateNormal];
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree_selected"] forState:UIControlStateSelected];
         [_dislikeBtn addTarget:self action:@selector(dislikeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_dislikeBtn sizeToFit];
     }
     return _dislikeBtn;
 }
@@ -307,6 +317,7 @@
         _messageBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [_messageBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
         [_messageBtn setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
+        [_messageBtn sizeToFit];
     }
     return _messageBtn;
 }

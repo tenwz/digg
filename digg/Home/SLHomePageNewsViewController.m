@@ -48,14 +48,6 @@
 }
 
 - (void)changeBgColor{
-//    if (self.pageStyle == HomePageSyleProduct) {
-//        self.tableView.backgroundColor = Color16(0xF7F7F7);
-////        self.tableView.backgroundColor = [UIColor redColor];
-//
-//    }else{
-//        self.tableView.backgroundColor = [UIColor clearColor];
-//    }
-    
     self.tableView.backgroundColor = [UIColor clearColor];
 
 }
@@ -100,8 +92,8 @@
         } else {
             self.dataState = CaocaoDataLoadStateError;
         }
-        [self endRefresh];
         [self.tableView reloadData];
+        [self endRefresh];
     }];
 }
 
@@ -180,52 +172,6 @@
         };
     }
     return cell;
-//    switch (self.pageStyle) {
-//        case HomePageSyleToday:{
-//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
-//            if (cell) {
-//                SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//                [cell updateWithEntity:entity];
-//            }
-//            return cell;
-//        }
-//        case HomePageSyleLatest:{
-//            SLHomePageLatestNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageLatestNewsTableViewCellID forIndexPath:indexPath];
-//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//        case HomePageSyleProduct:{
-//            SLHomePageProductionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageProductionTableViewCellID forIndexPath:indexPath];
-//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            @weakobj(self);
-//            cell.likeClick = ^(SLArticleTodayEntity *entity) {
-//                @strongobj(self);
-//            };
-//            
-//            cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
-//                @strongobj(self);
-//            };
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//        case HomePageSyleQuestion:{
-//            SLHomePageQATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageQATableViewCellID forIndexPath:indexPath];
-//            SLCommentFeedEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//            
-//        default:HomePageSyleToday:{
-//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
-//            if (cell) {
-//                [cell updateWithEntity:nil];
-//            }
-//            return nil;
-//
-//        }
-//    }
-//    return nil;
 }
 
 - (UITableView *)tableView {

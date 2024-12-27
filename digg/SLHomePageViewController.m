@@ -65,7 +65,7 @@
         if (!error) {
             @strongobj(self);
             self.myCategoryView.counts = @[@0, @0, @(number)];
-            [self.myCategoryView reloadData];
+            [self.myCategoryView reloadDataWithoutListContainer];
         }
     }];
 }
@@ -97,7 +97,7 @@
 //    }
     if (index == 2) {
         self.myCategoryView.counts = @[@0, @0, @0];
-        [self.myCategoryView reloadData];
+        [self.myCategoryView reloadDataWithoutListContainer];
     }
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -109,7 +109,7 @@
 //    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (index == 2) {
         self.myCategoryView.counts = @[@0, @0, @0];
-        [self.myCategoryView reloadData];
+        [self.myCategoryView reloadDataWithoutListContainer];
     }
 }
 
