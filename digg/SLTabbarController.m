@@ -133,6 +133,7 @@
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
     UINavigationController *currentNav = self.selectedViewController;
     dvc.hidesBottomBarWhenPushed = YES;
+    dvc.isLoginPage = YES;
     [currentNav pushViewController:dvc animated:YES];
 }
 

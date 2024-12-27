@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *uxTitle;
 @property (nonatomic, assign) BOOL isShowProgress;
+@property (nonatomic, assign) BOOL isLoginPage;
 @property (nonatomic, copy) void(^loginSucessCallback) ();
 
 - (void)startLoadRequestWithUrl:(NSString *)url;

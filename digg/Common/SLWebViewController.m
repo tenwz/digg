@@ -136,13 +136,18 @@
         NSLog(@"jumpToH5 called with: %@", data);
         if ([data isKindOfClass:[NSDictionary class]]) {
             @strongobj(self);
-            NSDictionary *dic = (NSDictionary *)data;
-            NSString *url = [dic objectForKey:@"url"];
-            SLWebViewController *dvc = [[SLWebViewController alloc] init];
-            [dvc startLoadRequestWithUrl:url];
-            dvc.isShowProgress = YES;
-            dvc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:dvc animated:YES];
+            if (self.isLoginPage) {
+                [self.navigationController popViewControllerAnimated:NO];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *dic = (NSDictionary *)data;
+                NSString *url = [dic objectForKey:@"url"];
+                SLWebViewController *dvc = [[SLWebViewController alloc] init];
+                [dvc startLoadRequestWithUrl:url];
+                dvc.isShowProgress = YES;
+                dvc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:dvc animated:YES];
+            });
         }
         responseCallback(data);
     }];
