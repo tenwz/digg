@@ -96,7 +96,12 @@
     
     if (refreshType == CaocaoCarMessageListRefreshTypeLoadMore &&
         resArray.count > 0) {
-        self.curPage ++;
+        self.curPage++;
+        if (resArray.count < self.pageSize) {
+            self.hasToEnd = YES;
+        } else {
+            self.hasToEnd = NO;
+        }
     }
 }
 

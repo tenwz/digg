@@ -25,10 +25,8 @@
         self.layer.cornerRadius = 6;
         [self addSubview:self.tagLabel];
         [self.tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.left.equalTo(self).offset(4);
-            make.right.equalTo(self).offset(-4);
-            make.bottom.equalTo(self).offset(-4);
+            make.edges.equalTo(self).insets(UIEdgeInsetsMake(4, 4, 4, 4));
+            make.width.equalTo(@0);
         }];
     }
     return self;
@@ -36,6 +34,11 @@
 
 - (void)updateWithLabel:(NSString *)label{
     self.tagLabel.text = label;
+    CGSize size = [self.tagLabel sizeThatFits:CGSizeZero];
+    [self.tagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self).insets(UIEdgeInsetsMake(4, 4, 4, 4));
+        make.width.equalTo(@(size.width));
+    }];
 }
 
 - (UILabel *)tagLabel{
@@ -43,7 +46,7 @@
         _tagLabel = [[UILabel alloc] init];
         _tagLabel.textColor = Color16(0xFF1852);
         _tagLabel.textAlignment = NSTextAlignmentCenter;
-        _tagLabel.font = [UIFont boldSystemFontOfSize:12];
+        _tagLabel.font = [UIFont systemFontOfSize:12];
     }
     return _tagLabel;
 }

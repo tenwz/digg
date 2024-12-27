@@ -27,7 +27,6 @@
 @property (nonatomic, strong) SLArticleTodayEntity *entity;
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, strong) UIButton *moreBtn;
-@property (nonatomic, strong) MASConstraint *tagViewWidthConstraint;
 
 @end
 
@@ -48,24 +47,52 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGRect rect = self.likeBtn.frame;
+    if (rect.size.width > 0) {
+        [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(rect.size.width + 4);
+        }];
+        [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(rect.size.width + 4);
+        }];
+        [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(rect.size.width + 4);
+        }];
+    }
+}
+
 - (void)updateWithEntity:(SLArticleTodayEntity *)entiy{
     self.entity = entiy;
-    self.titleLabel.text = entiy.title;
+//    self.titleLabel.text = entiy.title;
     CGFloat lineSpacing = 6;
+    NSString *titleStr = entiy.title;
+    NSMutableParagraphStyle *titleParagraphStyle = [NSMutableParagraphStyle new];
+    titleParagraphStyle.lineSpacing = lineSpacing;
+    NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
+    [titleAttributes setObject:[UIFont boldSystemFontOfSize:16] forKey:NSFontAttributeName];
+    [titleAttributes setObject:Color16(0x222222) forKey:NSForegroundColorAttributeName];
+    [titleAttributes setObject:titleParagraphStyle forKey:NSParagraphStyleAttributeName];
+    if (titleStr != nil) {
+        self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleStr attributes:titleAttributes];
+    }
+    
     NSString *contentStr = entiy.content;
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.lineSpacing = lineSpacing;
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    [attributes setObject:[UIFont systemFontOfSize:14] forKey:NSFontAttributeName];
+    [attributes setObject:Color16(0x313131) forKey:NSForegroundColorAttributeName];
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
     if (contentStr != nil) {
         self.contentLabel.attributedText = [[NSAttributedString alloc] initWithString:contentStr attributes:attributes];
     }
 
-    self.contentLabel.text = entiy.content;
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%ld",entiy.likeCnt] forState:UIControlStateNormal];
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%ld",entiy.dislikeCnt] forState:UIControlStateNormal];
     [self.messageBtn setTitle:[NSString stringWithFormat:@"%ld",entiy.commentsCnt] forState:UIControlStateNormal];
-//    [self.messageBtn setTitle:[NSString stringWithFormat:@"12"] forState:UIControlStateNormal];
 
     if (!self.isSelected) {
         //重置
@@ -80,18 +107,15 @@
             make.left.equalTo(self.contentView).offset(offset);
             make.top.equalTo(self.contentView).offset(offset);
             make.right.equalTo(self.contentView).offset(-offset);
-            make.height.mas_greaterThanOrEqualTo(20);
         }];
-    }else{
+    } else {
         self.tagView.hidden = NO;
-        self.tagViewWidthConstraint.offset = [self calTagViewWidth:entiy];
         [self.tagView updateWithLabel:entiy.label];
-        
+
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.tagView.mas_right).offset(8);
             make.top.equalTo(self.contentView).offset(offset);
             make.right.equalTo(self.contentView).offset(-offset);
-            make.height.mas_greaterThanOrEqualTo(20);
         }];
     }
 }
@@ -113,21 +137,17 @@
     
     [self.tagView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView).offset(offset+2);
-        make.centerY.equalTo(self.titleLabel.mas_centerY);
-//        make.width.lessThanOrEqualTo(@120); // 设置 tagView 最大宽度，避免过宽
-        self.tagViewWidthConstraint = make.width.mas_equalTo(30);
+        make.top.equalTo(self.contentView).offset(offset);
+        make.height.equalTo(@20);
     }];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.tagView.mas_right).offset(8);
         make.top.equalTo(self.contentView).offset(offset);
         make.right.equalTo(self.contentView).offset(-offset);
-        make.height.mas_greaterThanOrEqualTo(20);
     }];
     
     [self.tagView setContentCompressionResistancePriority:UILayoutPriorityRequired
-                                            forAxis:UILayoutConstraintAxisHorizontal];
-    [self.titleLabel setContentCompressionResistancePriority:UILayoutPriorityDragThatCanResizeScene
                                             forAxis:UILayoutConstraintAxisHorizontal];
 
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -139,7 +159,7 @@
     [self.likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(16);
         make.top.equalTo(self.contentLabel.mas_bottom).offset(18);
-        make.left.equalTo(self.contentView).offset(offset+2);
+        make.left.equalTo(self.contentView).offset(offset);
         make.bottom.equalTo(self.lineView).offset(-16);
     }];
     
@@ -150,7 +170,7 @@
     }];
     
     [self.dislikeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.dot1Label.mas_right).offset(12+2);
+        make.left.equalTo(self.dot1Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
         make.height.equalTo(self.likeBtn.mas_height);
     }];
@@ -162,9 +182,8 @@
     }];
    
     [self.messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.dot2Label.mas_right).offset(12+2);
+        make.left.equalTo(self.dot2Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(16, 16));
     }];
     
     [self.dot3Label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -174,8 +193,7 @@
     }];
     
     [self.checkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.dot3Label.mas_right).offset(18);
-        make.height.mas_equalTo(16);
+        make.left.equalTo(self.dot3Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
     }];
     
@@ -183,9 +201,8 @@
         make.left.equalTo(self.contentView).offset(offset);
         make.right.equalTo(self.contentView).offset(-offset);
         make.bottom.equalTo(self.contentView);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
-   
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -230,28 +247,28 @@
     }
 }
 
-- (UILabel *)titleLabel{
-    if(!_titleLabel){
+#pragma mark - Property
+- (UILabel *)titleLabel {
+    if(!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:16];
         _titleLabel.textColor = Color16(0x222222);
-        _titleLabel.numberOfLines = 1;
+        _titleLabel.numberOfLines = 2;
     }
     return _titleLabel;
 }
 
-- (UILabel *)contentLabel{
+- (UILabel *)contentLabel {
     if(!_contentLabel){
         _contentLabel = [[UILabel alloc] init];
         _contentLabel.font = [UIFont systemFontOfSize:14];
         _contentLabel.numberOfLines = 3;
         _contentLabel.textColor = Color16(0x313131);
-
     }
     return _contentLabel;
 }
 
-- (CaocaoButton *)likeBtn{
+- (CaocaoButton *)likeBtn {
     if(!_likeBtn){
         _likeBtn = [[CaocaoButton alloc] init];
         _likeBtn.imageButtonType = CaocaoRightImageButton;
@@ -266,7 +283,7 @@
     return _likeBtn;
 }
 
-- (CaocaoButton *)dislikeBtn{
+- (CaocaoButton *)dislikeBtn {
     if (!_dislikeBtn) {
         _dislikeBtn = [[CaocaoButton alloc] init];
         _dislikeBtn.margin = 4;
@@ -281,7 +298,7 @@
     return _dislikeBtn;
 }
 
-- (CaocaoButton *)messageBtn{
+- (CaocaoButton *)messageBtn {
     if (!_messageBtn) {
         _messageBtn = [[CaocaoButton alloc] init];
         _messageBtn.margin = 4;
@@ -294,7 +311,7 @@
     return _messageBtn;
 }
 
-- (UIButton *)checkBtn{
+- (UIButton *)checkBtn {
     if (!_checkBtn) {
         _checkBtn = [[UIButton alloc] init];
         [_checkBtn setTitle:@"查看" forState:UIControlStateNormal];
@@ -305,7 +322,7 @@
     return _checkBtn;
 }
 
-- (UILabel *)dot1Label{
+- (UILabel *)dot1Label {
     if (!_dot1Label) {
         _dot1Label = [[UILabel alloc] init];
         _dot1Label.text = @"·";
@@ -315,7 +332,7 @@
     return _dot1Label;
 }
 
-- (UILabel *)dot2Label{
+- (UILabel *)dot2Label {
     if (!_dot2Label) {
         _dot2Label = [[UILabel alloc] init];
         _dot2Label.text = @"·";
@@ -335,7 +352,7 @@
     return _dot3Label;
 }
 
-- (UIView *)lineView{
+- (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
         _lineView.backgroundColor = Color16(0xEEEEEE);
@@ -343,14 +360,14 @@
     return _lineView;
 }
 
-- (SLHomeTagView *)tagView{
+- (SLHomeTagView *)tagView {
     if (!_tagView) {
         _tagView = [[SLHomeTagView alloc] init];
     }
     return _tagView;
 }
 
-- (UIButton *)moreBtn{
+- (UIButton *)moreBtn {
     if (!_moreBtn) {
         _moreBtn = [[UIButton alloc] init];
         [_moreBtn setImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];

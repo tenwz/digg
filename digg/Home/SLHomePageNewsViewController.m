@@ -94,10 +94,10 @@
         if (isSuccess) {
             if ([self.viewModel.dataArray count] == 0) {
                 self.dataState = CaocaoDataLoadStateEmpty;
-            }else{
+            } else {
                 self.dataState = CaocaoDataLoadStateNormal;
             }
-        }else{
+        } else {
             self.dataState = CaocaoDataLoadStateError;
         }
         [self endRefresh];
@@ -109,7 +109,8 @@
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
     dvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:dvc animated:YES];
+    [self.navigationController presentViewController:dvc animated:YES completion:^{     
+    }];
 }
 
 - (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
@@ -122,9 +123,6 @@
 
 - (void)endRefresh
 {
-//    [self.tableView.mj_header endRefreshing];
-//    [self.tableView.mj_footer endRefreshing];
-
     if (self.viewModel.hasToEnd) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -230,9 +228,10 @@
 //    return nil;
 }
 
-- (UITableView *)tableView{
-    if(!_tableView){
+- (UITableView *)tableView {
+    if (!_tableView) {
         _tableView = [[UITableView alloc] init];
+        _tableView.backgroundColor = UIColor.clearColor;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -240,12 +239,17 @@
         [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
         [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
         [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        if (@available(iOS 15.0, *)) {
+            _tableView.sectionHeaderTopPadding = 0;
+        }
+        _tableView.estimatedRowHeight = 100;
     }
     return _tableView;
 }
 
 
-- (SLHomePageViewModel *)viewModel{
+- (SLHomePageViewModel *)viewModel {
     if (!_viewModel) {
         _viewModel = [[SLHomePageViewModel alloc] init];
     }

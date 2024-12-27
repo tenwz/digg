@@ -70,7 +70,6 @@
 }
 
 - (void)dealloc {
-
     if ([self isViewLoaded]) {
         [self.wkwebView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
     }
@@ -80,11 +79,28 @@
     [self.wkwebView setUIDelegate:nil];
 }
 
-- (void)jsBridgeMethod{
+- (void)backTo:(BOOL)rootVC {
+    NSArray *viewcontrollers = self.navigationController.viewControllers;
+    if (viewcontrollers.count > 1) {
+        if ([viewcontrollers objectAtIndex:viewcontrollers.count - 1] == self) { //push方式
+            if (rootVC) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            } else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
+    }
+    else { //present方式
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)jsBridgeMethod {
     @weakobj(self);
     [self.bridge registerHandler:@"backToHomePage" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"backToHomePage: %@", data);
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self backTo:YES];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
         self.tabBarController.selectedIndex = 0;
         responseCallback(data);
     }];
@@ -112,7 +128,8 @@
     [self.bridge registerHandler:@"page_back" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"page_back = %@",data);
         @strongobj(self);
-        [self.navigationController popViewControllerAnimated:YES];
+        [self backTo:NO];
+//        [self.navigationController popViewControllerAnimated:YES];
     }];
     
     [self.bridge registerHandler:@"jumpToH5" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -133,7 +150,8 @@
     [self.bridge registerHandler:@"closeH5" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"closeH5 called with: %@", data);
         @strongobj(self);
-        [self.navigationController popViewControllerAnimated:YES];
+        [self backTo:YES];
+//        [self.navigationController popViewControllerAnimated:YES];
     }];
     
 //    [self.bridge callHandler:@"JS Echo" data:nil responseCallback:^(id responseData) {

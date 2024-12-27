@@ -93,16 +93,19 @@
     CGSize imageSize = self.imageView.size;
     CGSize labelSize = self.titleLabel.size;
     CGFloat margin = self.margin;
+    
+    self.titleLabel.left = 0;
+    self.imageView.left = self.titleLabel.right + margin;
 
-    CGFloat totalWidth = labelSize.width + imageSize.width + margin;
-
-    //Right image
-    CGFloat rightDelta = MAX(self.width - totalWidth, 0) / 2;
-    self.imageView.right = self.width - rightDelta;
-
-    //Left title
-    self.titleLabel.right = self.imageView.left - margin;
-    self.titleLabel.textAlignment = NSTextAlignmentRight;
+//    CGFloat totalWidth = labelSize.width + imageSize.width + margin;
+//
+//    //Right image
+//    CGFloat rightDelta = MAX(self.width - totalWidth, 0) / 2;
+//    self.imageView.right = self.width - rightDelta;
+//
+//    //Left title
+//    self.titleLabel.right = self.imageView.left - margin;
+//    self.titleLabel.textAlignment = NSTextAlignmentRight;    
 }
 
 - (void)rightImageAndRightAligment {
