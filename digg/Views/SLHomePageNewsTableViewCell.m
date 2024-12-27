@@ -219,7 +219,7 @@
     // Configure the view for the selected state
 }
 
-- (void)likeBtnAction:(id)sender{
+- (void)likeBtnAction:(id)sender {
     if (self.likeClick) {
         self.likeClick(self.entity);
     }
@@ -228,9 +228,41 @@
     
     self.likeBtn.selected = YES;
     self.dislikeBtn.selected = NO;
+    
+    [self layoutIfNeeded];
 }
 
-- (void)dislikeBtnAction:(id)sender{
+- (void)likeBtnRepeatAction:(id)sender {
+    //连续双击点赞 是 取消点赞
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(likeBtnAction:) object:sender];
+
+    if (self.cancelLikeClick) {
+        self.cancelLikeClick(self.entity);
+    }
+    if (self.likeBtn.selected) {
+        [self.likeBtn setTitle:[NSString stringWithFormat:@"%ld",self.entity.likeCnt] forState:UIControlStateNormal];
+    }
+    self.likeBtn.selected = NO;
+    
+    [self layoutIfNeeded];
+}
+
+- (void)dislikeBtnRepeatAction:(id)sender {
+    //连续双击点赞 是 取消点赞
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(dislikeBtnAction:) object:sender];
+
+    if (self.cancelLikeClick) {
+        self.cancelLikeClick(self.entity);
+    }
+    if (self.likeBtn.selected) {
+        [self.likeBtn setTitle:[NSString stringWithFormat:@"%ld",self.entity.likeCnt] forState:UIControlStateNormal];
+    }
+    self.likeBtn.selected = NO;
+    
+    [self layoutIfNeeded];
+}
+
+- (void)dislikeBtnAction:(id)sender {
     if (self.dislikeClick) {
         self.dislikeClick(self.entity);
     }
@@ -239,14 +271,18 @@
     [self.dislikeBtn setTitle:[NSString stringWithFormat:@"%ld",self.entity.dislikeCnt+1] forState:UIControlStateNormal];
     self.likeBtn.selected = NO;
     self.dislikeBtn.selected = YES;
+    
+    [self layoutIfNeeded];
 }
 
--(CGFloat)calTagViewWidth:(SLArticleTodayEntity *)entity{
-    UILabel *label = [[UILabel alloc] init];
-    label.text =  entity.label;
-    label.font = [UIFont boldSystemFontOfSize:12];
-    CGSize size = [label sizeThatFits:CGSizeMake(CGFLOAT_MAX, 20)];
-    return size.width+8;//左右间距4
+- (void)likeBtnTouchOne:(UIButton *)sender forEvent:(UIEvent *)event
+{
+    [self performSelector:@selector(likeBtnAction:) withObject:sender afterDelay:0.3];
+}
+
+- (void)dislikeBtnTouchOne:(UIButton *)sender forEvent:(UIEvent *)event
+{
+    [self performSelector:@selector(dislikeBtnAction:) withObject:sender afterDelay:0.3];
 }
 
 - (void)checkBtnAction:(id)sender{
@@ -286,8 +322,9 @@
         [_likeBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"agree_selected"] forState:UIControlStateSelected];
-        [_likeBtn addTarget:self action:@selector(likeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_likeBtn addTarget:self action:@selector(likeBtnTouchOne:forEvent:) forControlEvents:UIControlEventTouchDown];
         [_likeBtn sizeToFit];
+        [_likeBtn addTarget:self action:@selector(likeBtnRepeatAction:) forControlEvents:UIControlEventTouchDownRepeat];
     }
     return _likeBtn;
 }
@@ -302,8 +339,9 @@
         [_dislikeBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree"]forState:UIControlStateNormal];
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree_selected"] forState:UIControlStateSelected];
-        [_dislikeBtn addTarget:self action:@selector(dislikeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_dislikeBtn addTarget:self action:@selector(dislikeBtnTouchOne:forEvent:) forControlEvents:UIControlEventTouchDown];
         [_dislikeBtn sizeToFit];
+        [_dislikeBtn addTarget:self action:@selector(dislikeBtnRepeatAction:) forControlEvents:UIControlEventTouchDownRepeat];
     }
     return _dislikeBtn;
 }

@@ -16,6 +16,8 @@
 
 @property (nonatomic, copy) void(^dislikeClick)(SLArticleTodayEntity *entity);
 
+@property (nonatomic, copy) void(^cancelLikeClick)(SLArticleTodayEntity *entity);
+
 @property (nonatomic, copy) void(^checkDetailClick)(SLArticleTodayEntity *entity);
 
 @end
