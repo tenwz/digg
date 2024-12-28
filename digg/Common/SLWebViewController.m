@@ -142,11 +142,16 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSDictionary *dic = (NSDictionary *)data;
                 NSString *url = [dic objectForKey:@"url"];
+                BOOL isJumpToLogin = [[[dic objectForKey:@"pageType"] stringValue] isEqualToString:@"login"];
                 SLWebViewController *dvc = [[SLWebViewController alloc] init];
                 [dvc startLoadRequestWithUrl:url];
                 dvc.isShowProgress = YES;
                 dvc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:dvc animated:YES];
+                if (isJumpToLogin) {
+                    [self.navigationController presentViewController:dvc animated:YES completion:nil];
+                } else {
+                    [self.navigationController pushViewController:dvc animated:YES];
+                }
             });
         }
         responseCallback(data);
