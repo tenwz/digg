@@ -79,6 +79,10 @@
     [self.wkwebView setUIDelegate:nil];
 }
 
+- (void)reload {
+    [self.wkwebView reload];
+}
+
 - (void)backTo:(BOOL)rootVC {
     NSArray *viewcontrollers = self.navigationController.viewControllers;
     if (viewcontrollers.count > 1) {
@@ -117,6 +121,8 @@
         entity.userId = userId;
         [[SLUser defaultUser] saveUserInfo:entity];
         responseCallback(data);
+        
+        [self backTo:NO];
     }];
     
     [self.bridge registerHandler:@"userLogout" handler:^(id data, WVJBResponseCallback responseCallback) {

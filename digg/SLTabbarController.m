@@ -123,6 +123,13 @@
             [self jumpToLogin];
             return NO;
         }
+        if ([viewController isMemberOfClass:[SLNavigationController class]]) {
+            UIViewController *rootVC = [((SLNavigationController *)viewController).viewControllers objectAtIndex:0];
+
+            if ([rootVC isKindOfClass:[SLWebViewController class]]) {
+                [(SLWebViewController *)rootVC reload];
+            }
+        }
     }
     return YES;
 }
