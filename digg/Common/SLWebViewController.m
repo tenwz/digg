@@ -142,8 +142,9 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSDictionary *dic = (NSDictionary *)data;
                 NSString *url = [dic objectForKey:@"url"];
-                BOOL isJumpToLogin = [[[dic objectForKey:@"pageType"] stringValue] isEqualToString:@"login"];
-                BOOL isOuterUrl = [[[dic objectForKey:@"pageType"] stringValue] isEqualToString:@"outer"];
+                NSString* type = [dic objectForKey:@"pageType"];
+                BOOL isJumpToLogin = [type isEqualToString:@"login"];
+                BOOL isOuterUrl = [type isEqualToString:@"outer"];
                 SLWebViewController *dvc = [[SLWebViewController alloc] init];
                 [dvc startLoadRequestWithUrl:url];
                 if (isOuterUrl) {
