@@ -143,9 +143,12 @@
                 NSDictionary *dic = (NSDictionary *)data;
                 NSString *url = [dic objectForKey:@"url"];
                 BOOL isJumpToLogin = [[[dic objectForKey:@"pageType"] stringValue] isEqualToString:@"login"];
+                BOOL isOuterUrl = [[[dic objectForKey:@"pageType"] stringValue] isEqualToString:@"outer"];
                 SLWebViewController *dvc = [[SLWebViewController alloc] init];
                 [dvc startLoadRequestWithUrl:url];
-                dvc.isShowProgress = YES;
+                if (isOuterUrl) {
+                    dvc.isShowProgress = YES;
+                }
                 dvc.hidesBottomBarWhenPushed = YES;
                 if (isJumpToLogin) {
                     [self.navigationController presentViewController:dvc animated:YES completion:nil];
