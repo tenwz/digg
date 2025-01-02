@@ -89,24 +89,14 @@
 
 // 点击选中或者滚动选中都会调用该方法。适用于只关心选中事件，不关心具体是点击还是滚动选中的。
 - (void)categoryView:(JXCategoryBaseView *)categoryView didSelectedItemAtIndex:(NSInteger)index {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-//    if (index == HomePageSyleProduct) {
-//        self.view.backgroundColor = Color16(0xF7F7F7);
-//    }else{
-//        self.view.backgroundColor = [UIColor whiteColor];
-//    }
     if (index == 2) {
         self.myCategoryView.counts = @[@0, @0, @0];
         [self.myCategoryView reloadDataWithoutListContainer];
     }
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-
 }
 
 // 滚动选中的情况才会调用该方法
 - (void)categoryView:(JXCategoryBaseView *)categoryView didScrollSelectedItemAtIndex:(NSInteger)index {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
     if (index == 2) {
         self.myCategoryView.counts = @[@0, @0, @0];
         [self.myCategoryView reloadDataWithoutListContainer];

@@ -35,8 +35,8 @@
     [self.view addSubview:self.wkwebView];
 
     if (self.isShowProgress) {
-        self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
-        self.navigationController.navigationBar.hidden = NO;
+//        self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
+//        self.navigationController.navigationBar.hidden = NO;
         [self.wkwebView addObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress)) options:NSKeyValueObservingOptionNew context:NULL];
         self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
         [self.view addSubview:self.progressView];
@@ -62,14 +62,24 @@
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     if (self.isShowProgress) {
+        self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
+        self.navigationController.navigationBar.hidden = NO;
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (self.isShowProgress) {
+        self.navigationController.navigationBar.barTintColor = nil;
         self.navigationController.navigationBar.hidden = YES;
     }
 }
 
 - (void)dealloc {
+    [self.bridge setWebViewDelegate:nil];
     if ([self isViewLoaded]) {
         [self.wkwebView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
     }
