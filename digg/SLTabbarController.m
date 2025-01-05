@@ -23,8 +23,9 @@
 
 @interface SLTabbarController ()<UITabBarControllerDelegate>
 @property (nonatomic, strong) SLNavigationController *homeNavi;
-@property (nonatomic, strong) SLNavigationController *publishNavi;
-@property (nonatomic, strong) SLNavigationController *mineNavi;
+@property (nonatomic, strong) SLWebViewController *noticeVC;
+@property (nonatomic, strong) SLWebViewController *recordVC;
+@property (nonatomic, strong) SLWebViewController *mineVC;
 @property (nonatomic, strong) WKWebView *wkWebView;
 @end
 
@@ -81,6 +82,7 @@
     
     SLWebViewController *noticeVC = [[SLWebViewController alloc] init];
     [noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
+    self.noticeVC = noticeVC;
     SLNavigationController *noticeNavi = [self createRootNavi];
     noticeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:[UIImage imageNamed:@"notice_unsel"] selectedImage:[UIImage imageNamed:@"notice_selected"]];
     noticeNavi.viewControllers = @[noticeVC];
@@ -91,17 +93,18 @@
 
     SLWebViewController *recordVC = [[SLWebViewController alloc] init];
     [recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
+    self.recordVC = recordVC;
     SLNavigationController *recordNavi = [self createRootNavi];
-    self.publishNavi = recordNavi;
     recordNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"记录" image:[UIImage imageNamed:@"record_unsel"] selectedImage:[UIImage imageNamed:@"record_selected"]];
     recordNavi.viewControllers = @[recordVC];
     recordVC.navigationController.navigationBar.hidden = YES;
 
 //    SLMineViewController *userVC = [[SLMineViewController alloc] init];
-    SLNavigationController *userNavi = [self createRootNavi];
+    
     SLWebViewController *userVC = [[SLWebViewController alloc] init];
     [userVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/my",H5BaseUrl]];
-    self.mineNavi = userNavi;
+    self.mineVC = userVC;
+    SLNavigationController *userNavi = [self createRootNavi];
     userNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的" image:[UIImage imageNamed:@"mine_unsel"] selectedImage:[UIImage imageNamed:@"mine_selected"]];
     userNavi.viewControllers = @[userVC];
     userVC.navigationController.navigationBar.hidden = YES;
@@ -118,42 +121,31 @@
     
     if ([viewController isEqual:self.homeNavi]) {
         return YES;
-    }else{
+    } else {
         if (![SLUser defaultUser].isLogin) {
             [self jumpToLogin];
             return NO;
         }
-        if ([viewController isMemberOfClass:[SLNavigationController class]]) {
-            UIViewController *rootVC = [((SLNavigationController *)viewController).viewControllers objectAtIndex:0];
-
-            if ([rootVC isKindOfClass:[SLWebViewController class]]) {
-                [(SLWebViewController *)rootVC reload];
-            }
+        if ([viewController isEqual:self.noticeVC]) {
+            [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
+        } else if ([viewController isEqual:self.recordVC]) {
+            [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
+        } else if ([viewController isEqual:self.mineVC]) {
+            [self.mineVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/my",H5BaseUrl]];
         }
     }
     return YES;
 }
 
 
-- (void)jumpToLogin{
+- (void)jumpToLogin {
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
     UINavigationController *currentNav = self.selectedViewController;
     dvc.hidesBottomBarWhenPushed = YES;
     dvc.isLoginPage = YES;
-    [currentNav pushViewController:dvc animated:YES];
-}
-
-- (void)jumpToPublish{
-    UINavigationController *navi = [[UINavigationController alloc] init];
-//    SLPublishViewController *dvc = [[SLPublishViewController alloc] init];
-    SLWebViewController *dvc = [[SLWebViewController alloc] init];
-    [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
-
-    navi.modalPresentationStyle = UIModalPresentationFullScreen;
-    navi.viewControllers = @[dvc];
-    
-    [self presentViewController:navi animated:YES completion:nil];
+    [currentNav presentViewController:dvc animated:YES completion:nil];
+//    [currentNav pushViewController:dvc animated:YES];
 }
 
 @end

@@ -152,9 +152,10 @@
         NSLog(@"jumpToH5 called with: %@", data);
         if ([data isKindOfClass:[NSDictionary class]]) {
             @strongobj(self);
-//            if (self.isLoginPage) {
-//                [self.navigationController popViewControllerAnimated:NO];
-//            }
+            if (self.isLoginPage) {
+                [self.navigationController popViewControllerAnimated:NO];
+                return;
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSDictionary *dic = (NSDictionary *)data;
                 NSString *url = [dic objectForKey:@"url"];
