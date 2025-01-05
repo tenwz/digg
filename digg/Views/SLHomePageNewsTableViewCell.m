@@ -279,7 +279,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:16];
         _titleLabel.textColor = Color16(0x222222);
-        _titleLabel.numberOfLines = 2;
+        _titleLabel.numberOfLines = 1;
     }
     return _titleLabel;
 }
