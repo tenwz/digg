@@ -21,11 +21,16 @@
 
 #import <WebKit/WebKit.h>
 
-@interface SLTabbarController ()<UITabBarControllerDelegate>
+//todo：空白页是登录页面
+#import "SLProfileViewController.h"
+
+@interface SLTabbarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) SLNavigationController *homeNavi;
+@property (nonatomic, strong) SLNavigationController *noticeNavi;
 @property (nonatomic, strong) SLWebViewController *noticeVC;
+@property (nonatomic, strong) SLNavigationController *recordNavi;
 @property (nonatomic, strong) SLWebViewController *recordVC;
-@property (nonatomic, strong) SLWebViewController *mineVC;
+@property (nonatomic, strong) SLNavigationController *mineNavi;
 @property (nonatomic, strong) WKWebView *wkWebView;
 @end
 
@@ -35,6 +40,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    self.tabBar.backgroundColor = [UIColor whiteColor];
+
     self.delegate = self;
     
     [self createTabbarControllers];
@@ -76,40 +83,32 @@
     homeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"首页" image:[UIImage imageNamed:@"home_unsel"] selectedImage:[UIImage imageNamed:@"home_selected"]];
     homeNavi.viewControllers = @[homeVC];
     self.homeNavi = homeNavi;
-    
-//    SLFollowingListController *noticeVC = [[SLFollowingListViewController alloc] init];
-//    UINavigationController *noticeNavi = [self createRootNavi];
-    
-    SLWebViewController *noticeVC = [[SLWebViewController alloc] init];
-    [noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-    self.noticeVC = noticeVC;
+
+    self.noticeVC = [[SLWebViewController alloc] init];
+    [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
     SLNavigationController *noticeNavi = [self createRootNavi];
+    self.noticeNavi = noticeNavi;
     noticeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:[UIImage imageNamed:@"notice_unsel"] selectedImage:[UIImage imageNamed:@"notice_selected"]];
-    noticeNavi.viewControllers = @[noticeVC];
-    noticeVC.navigationController.navigationBar.hidden = YES;
+    noticeNavi.viewControllers = @[self.noticeVC];
+    self.noticeVC.navigationController.navigationBar.hidden = YES;
 
-//    HomeViewController *recordVC = [[HomeViewController alloc] init];
-//    UINavigationController *recordNavi = [self createRootNavi];
-
-    SLWebViewController *recordVC = [[SLWebViewController alloc] init];
-    [recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
-    self.recordVC = recordVC;
+    self.recordVC = [[SLWebViewController alloc] init];
+    [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
     SLNavigationController *recordNavi = [self createRootNavi];
+    self.recordNavi = recordNavi;
     recordNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"记录" image:[UIImage imageNamed:@"record_unsel"] selectedImage:[UIImage imageNamed:@"record_selected"]];
-    recordNavi.viewControllers = @[recordVC];
-    recordVC.navigationController.navigationBar.hidden = YES;
-
-//    SLMineViewController *userVC = [[SLMineViewController alloc] init];
+    recordNavi.viewControllers = @[self.recordVC];
+    self.recordVC.navigationController.navigationBar.hidden = YES;
     
-    SLWebViewController *userVC = [[SLWebViewController alloc] init];
-    [userVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/my",H5BaseUrl]];
-    self.mineVC = userVC;
+    SLProfileViewController *userVC = [[SLProfileViewController alloc] init];
+    userVC.userId = [SLUser defaultUser].userEntity.userId;
     SLNavigationController *userNavi = [self createRootNavi];
+    self.mineNavi = userNavi;
     userNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"我的" image:[UIImage imageNamed:@"mine_unsel"] selectedImage:[UIImage imageNamed:@"mine_selected"]];
     userNavi.viewControllers = @[userVC];
     userVC.navigationController.navigationBar.hidden = YES;
 
-    self.viewControllers = @[homeNavi,noticeNavi,recordNavi,userNavi];
+    self.viewControllers = @[homeNavi, noticeNavi, recordNavi, userNavi];
 }
 
 - (SLNavigationController *)createRootNavi{
@@ -119,19 +118,17 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
     
-    if ([viewController isEqual:self.homeNavi]) {
+    if ([viewController isEqual:self.homeNavi] || [viewController isEqual:self.mineNavi]) {
         return YES;
     } else {
         if (![SLUser defaultUser].isLogin) {
             [self jumpToLogin];
             return NO;
         }
-        if ([viewController isEqual:self.noticeVC]) {
+        if ([viewController isEqual:self.noticeNavi]) {
             [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-        } else if ([viewController isEqual:self.recordVC]) {
+        } else if ([viewController isEqual:self.recordNavi]) {
             [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
-        } else if ([viewController isEqual:self.mineVC]) {
-            [self.mineVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/my",H5BaseUrl]];
         }
     }
     return YES;
@@ -145,7 +142,6 @@
     dvc.hidesBottomBarWhenPushed = YES;
     dvc.isLoginPage = YES;
     [currentNav presentViewController:dvc animated:YES completion:nil];
-//    [currentNav pushViewController:dvc animated:YES];
 }
 
 @end

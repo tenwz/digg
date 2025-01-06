@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EBC12D1D3C2700A55258 /* SLNavigationController.m */; };
+		3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFD72D2A634200A55258 /* SLProfileViewController.m */; };
+		3486EFDC2D2A6A4100A55258 /* SLProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */; };
+		3486EFDF2D2A959500A55258 /* SLTagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFDE2D2A959500A55258 /* SLTagCollectionViewCell.m */; };
+		3486EFE22D2A9E3C00A55258 /* SLSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFE12D2A9E3C00A55258 /* SLSegmentControl.m */; };
+		3486EFE52D2B721900A55258 /* SLEmptyWithLoginButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFE42D2B721900A55258 /* SLEmptyWithLoginButtonView.m */; };
+		3486EFE82D2B807A00A55258 /* SLProfilePageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */; };
+		3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */; };
 		703F132D482FE46A6379243D /* libPods-digg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E828F1163A81AA53E358E2FB /* libPods-digg.a */; };
 		E76A45B52CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B42CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m */; };
 		E76A45B92CB8C06F008B2746 /* CaocaoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B82CB8C06F008B2746 /* CaocaoButton.m */; };
@@ -89,6 +96,20 @@
 /* Begin PBXFileReference section */
 		3486EBC02D1D3C2700A55258 /* SLNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLNavigationController.h; sourceTree = "<group>"; };
 		3486EBC12D1D3C2700A55258 /* SLNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLNavigationController.m; sourceTree = "<group>"; };
+		3486EFD62D2A634200A55258 /* SLProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileViewController.h; sourceTree = "<group>"; };
+		3486EFD72D2A634200A55258 /* SLProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileViewController.m; sourceTree = "<group>"; };
+		3486EFDA2D2A6A4100A55258 /* SLProfileHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileHeaderView.h; sourceTree = "<group>"; };
+		3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileHeaderView.m; sourceTree = "<group>"; };
+		3486EFDD2D2A959500A55258 /* SLTagCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagCollectionViewCell.h; sourceTree = "<group>"; };
+		3486EFDE2D2A959500A55258 /* SLTagCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagCollectionViewCell.m; sourceTree = "<group>"; };
+		3486EFE02D2A9E3C00A55258 /* SLSegmentControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLSegmentControl.h; sourceTree = "<group>"; };
+		3486EFE12D2A9E3C00A55258 /* SLSegmentControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLSegmentControl.m; sourceTree = "<group>"; };
+		3486EFE32D2B721900A55258 /* SLEmptyWithLoginButtonView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLEmptyWithLoginButtonView.h; sourceTree = "<group>"; };
+		3486EFE42D2B721900A55258 /* SLEmptyWithLoginButtonView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLEmptyWithLoginButtonView.m; sourceTree = "<group>"; };
+		3486EFE62D2B807A00A55258 /* SLProfilePageViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfilePageViewModel.h; sourceTree = "<group>"; };
+		3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfilePageViewModel.m; sourceTree = "<group>"; };
+		3486EFE92D2B80EB00A55258 /* SLProfileEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileEntity.h; sourceTree = "<group>"; };
+		3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileEntity.m; sourceTree = "<group>"; };
 		44262EF495A884D327C8F69E /* Pods-digg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.debug.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.debug.xcconfig"; sourceTree = "<group>"; };
 		C0C36A29D1E20E9D246DAEB5 /* Pods-digg.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.release.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.release.xcconfig"; sourceTree = "<group>"; };
 		E76A45B32CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLHomePageLatestNewsTableViewCell.h; sourceTree = "<group>"; };
@@ -236,6 +257,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3486EFD92D2A69F800A55258 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3486EFDA2D2A6A4100A55258 /* SLProfileHeaderView.h */,
+				3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */,
+				3486EFDD2D2A959500A55258 /* SLTagCollectionViewCell.h */,
+				3486EFDE2D2A959500A55258 /* SLTagCollectionViewCell.m */,
+				3486EFE02D2A9E3C00A55258 /* SLSegmentControl.h */,
+				3486EFE12D2A9E3C00A55258 /* SLSegmentControl.m */,
+				3486EFE32D2B721900A55258 /* SLEmptyWithLoginButtonView.h */,
+				3486EFE42D2B721900A55258 /* SLEmptyWithLoginButtonView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		640F3E5572CD9D019BCD7399 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,10 +642,17 @@
 		E7C139312CF3258D00C5053A /* User */ = {
 			isa = PBXGroup;
 			children = (
+				3486EFD92D2A69F800A55258 /* Views */,
 				E7C139322CF325A600C5053A /* SLUser.h */,
 				E7C139332CF325A600C5053A /* SLUser.m */,
 				E7C139352CF325BC00C5053A /* SLUserEntity.h */,
 				E7C139362CF325BC00C5053A /* SLUserEntity.m */,
+				3486EFD62D2A634200A55258 /* SLProfileViewController.h */,
+				3486EFD72D2A634200A55258 /* SLProfileViewController.m */,
+				3486EFE62D2B807A00A55258 /* SLProfilePageViewModel.h */,
+				3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */,
+				3486EFE92D2B80EB00A55258 /* SLProfileEntity.h */,
+				3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -814,9 +857,11 @@
 				E7C137E32CF31F2A00C5053A /* SLHomeWebViewController.m in Sources */,
 				E7C405792CC26970004D90CD /* SLCommentFeedEntity.m in Sources */,
 				E7769EB52CB1A72400AE84F4 /* SLLoginViewController.m in Sources */,
+				3486EFDF2D2A959500A55258 /* SLTagCollectionViewCell.m in Sources */,
 				E76A45EB2CBFB9AB008B2746 /* CaocaoLoadDataDefaultView.m in Sources */,
 				E7769EC02CB798F800AE84F4 /* SLWebViewController.m in Sources */,
 				E7769EBC2CB265C300AE84F4 /* CaocaoClickableAttributedTextLabel.m in Sources */,
+				3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */,
 				E76A45BC2CB8C08D008B2746 /* UIView+CommonKit.m in Sources */,
 				E7C1393C2CF33C8800C5053A /* SLHomeTagView.m in Sources */,
 				E7769FBE2CB7CF1F00AE84F4 /* ContentModel.m in Sources */,
@@ -829,6 +874,7 @@
 				E76A45B52CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m in Sources */,
 				E7769FDA2CB7CF1F00AE84F4 /* HomeViewController.m in Sources */,
 				3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */,
+				3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */,
 				E7769EB12CB1A37300AE84F4 /* SLMineViewController.m in Sources */,
 				E7769E5B2CA2E63A00AE84F4 /* AppDelegate.m in Sources */,
 				E76A45E42CBCA955008B2746 /* SLArticleNewsEntity.m in Sources */,
@@ -836,13 +882,17 @@
 				E7769EA12CA4F9F700AE84F4 /* SLHomePageNewsTableViewCell.m in Sources */,
 				E7C139342CF325A600C5053A /* SLUser.m in Sources */,
 				E7769E6C2CA2E63B00AE84F4 /* main.m in Sources */,
+				3486EFE82D2B807A00A55258 /* SLProfilePageViewModel.m in Sources */,
 				E7C139372CF325BC00C5053A /* SLUserEntity.m in Sources */,
+				3486EFE52D2B721900A55258 /* SLEmptyWithLoginButtonView.m in Sources */,
 				E7769FD02CB7CF1F00AE84F4 /* HomeMenuCollectionViewCell.m in Sources */,
 				E76A45DC2CBB590E008B2746 /* SLMineUserInfoTableViewCell.m in Sources */,
 				E7769FD72CB7CF1F00AE84F4 /* CollectionViewModel.m in Sources */,
 				E7C405742CC0EF13004D90CD /* SLHomePageViewModel.m in Sources */,
+				3486EFDC2D2A6A4100A55258 /* SLProfileHeaderView.m in Sources */,
 				E76A45D92CBAB283008B2746 /* SLHomePageProductionTableViewCell.m in Sources */,
 				E76A45C32CB8F960008B2746 /* SLPublishViewController.m in Sources */,
+				3486EFE22D2A9E3C00A55258 /* SLSegmentControl.m in Sources */,
 				E7769EC32CB7A68B00AE84F4 /* SLRegistViewController.m in Sources */,
 				E7769FCF2CB7CF1F00AE84F4 /* TitleModel.m in Sources */,
 			);

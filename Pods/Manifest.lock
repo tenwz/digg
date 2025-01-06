@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
+  - DZNEmptyDataSet (1.8.1)
   - JXCategoryView (1.6.1)
   - Masonry (1.1.0)
   - MJRefresh (3.7.5)
@@ -31,6 +32,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - DZNEmptyDataSet
   - JXCategoryView
   - Masonry
   - MJRefresh
@@ -45,6 +47,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
     - AFNetworking
+    - DZNEmptyDataSet
     - JXCategoryView
     - Masonry
     - MJRefresh
@@ -58,6 +61,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   JXCategoryView: 7b1ee69ede4843c581688afe84d0f047723262f2
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
@@ -69,6 +73,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: 77862d7c2cc714f533e5c52d25909eba332db40b
+PODFILE CHECKSUM: 1d82dfc1db0c2fb76ac39b54d2fcd60d599ff01a
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

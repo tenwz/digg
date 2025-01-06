@@ -30,6 +30,7 @@ target 'digg' do
    pod 'AFNetworking'
    pod 'WebViewJavascriptBridge'
    pod 'YYText'
+   pod 'DZNEmptyDataSet'
     post_install do |installer|
       # Get main project development team id
       dev_team = "5E9JBA6XT3"

@@ -162,7 +162,7 @@
 
 - (void)getForYouRedPoint:(void(^)(NSInteger number, NSError *error))handler {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *urlString = [NSString stringWithFormat:@"%@/redPoint", @"http://47.96.25.87:9000"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/redPoint", APPBaseUrl];
 
     @weakobj(self);
     [manager GET:urlString parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
