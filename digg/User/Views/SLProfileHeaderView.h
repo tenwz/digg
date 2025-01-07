@@ -10,8 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SLProfileHeaderViewDelegate <NSObject>
+
+@optional
+- (void)gotoEditPersonalInfo;
+
+@end
+
 @interface SLProfileHeaderView : UIView
 
+@property (nonatomic, weak) id<SLProfileHeaderViewDelegate> delegate;
 @property (nonatomic, strong) SLProfileEntity* entity;
 @property (nonatomic, strong) UIImageView* avatarImageView;
 

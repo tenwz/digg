@@ -14,9 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SLProfilePageViewModel : NSObject
 
 @property (nonatomic, strong) SLProfileEntity *entity;
-//@property (nonatomic, strong) NSMutableArray *submitList;
-//@property (nonatomic, strong) NSMutableArray *likeList;
-//@property (nonatomic, strong) NSMutableArray *feedList;
 
 /// 当前页面
 @property (nonatomic, assign) NSInteger curPage;
@@ -31,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 //拉取用户信息
 - (void)loadUserProfileWithProfileID:(NSString *)profileId
                         resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler;
+
+- (void)isUserLogin:(void(^)(BOOL isLogin, NSError *error))handler;
 
 @end
 

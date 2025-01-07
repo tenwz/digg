@@ -21,7 +21,7 @@
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "SLHomePageViewModel.h"
 
-@interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate>
+@interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
 
 @property (nonatomic, strong) UIImageView* headerImageView;
 @property (nonatomic, strong) UIButton* leftBackButton;
@@ -53,8 +53,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self updateUI];
+    @weakobj(self)
+    [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
+        @strongobj(self)
+        if (isLogin) {
+            [self updateUI];
+        } else {
+            [self.emptyView setHidden: NO];
+        }
+    }];
 }
 
 - (void)updateUI {
@@ -227,6 +234,11 @@
     }
 }
 
+#pragma mark - SLProfileHeaderViewDelegate
+- (void)gotoEditPersonalInfo {
+    //TODO:
+}
+
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SLArticleTodayEntity *entity;
@@ -352,10 +364,12 @@
 
 - (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView
 {
-    NSString *text = @"No Data";
+    NSString *text = @"还没有内容";
     
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0f],
-                                 NSForegroundColorAttributeName: [[UIColor blackColor] colorWithAlphaComponent:0.5]};
+    NSDictionary *attributes = @{
+                              NSFontAttributeName: [UIFont boldSystemFontOfSize:16.0f],
+                              NSForegroundColorAttributeName: Color16(0xC6C6C6)
+                             };
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
@@ -411,6 +425,7 @@
 - (SLProfileHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[SLProfileHeaderView alloc] init];
+        _headerView.delegate = self;
     }
     return _headerView;
 }

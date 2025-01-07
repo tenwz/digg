@@ -192,6 +192,13 @@
     [self.collectionView reloadData];
 }
 
+#pragma mark - Actions
+- (void)gotoEdit {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoEditPersonalInfo)]) {
+        [self.delegate gotoEditPersonalInfo];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.entity.labels.count;
@@ -231,6 +238,7 @@
         [_editorButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _editorButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_editorButton setHidden: YES];
+        [_editorButton addTarget:self action:@selector(gotoEdit) forControlEvents:UIControlEventTouchUpInside];
     }
     return _editorButton;
 }

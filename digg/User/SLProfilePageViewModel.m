@@ -45,4 +45,29 @@
     }];
 }
 
+- (void)isUserLogin:(void(^)(BOOL isLogin, NSError *error))handler {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSString *urlString = [NSString stringWithFormat:@"%@/auth/currentUser", APPBaseUrl];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
+    [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
+    
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    @weakobj(self);
+    [manager GET:urlString parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (handler) {
+            @strongobj(self);
+            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                handler(YES, nil);
+            } else {
+                handler(NO, nil);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (handler) {
+            handler(NO, error);
+        }
+    }];
+}
+
 @end
