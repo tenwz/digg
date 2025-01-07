@@ -199,9 +199,32 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGPoint contentOffset = scrollView.contentOffset;
         
-    CGFloat alpha = MAX(0, MIN(1, contentOffset.y / 110));
+    CGFloat alpha = MAX(0, MIN(1, contentOffset.y / 100));
     self.nameLabel.alpha = alpha;
     self.briefLabel.alpha = alpha;
+    
+    // 设置头像的变换
+    CGFloat headerHeight = self.headerView.frame.size.height;
+    CGFloat avatarSize = 60;
+    CGFloat minAvatarSize = 30;
+    CGFloat avatarMargin = 14;
+
+    CGFloat offsetY = scrollView.contentOffset.y;
+    
+    // 限制最大偏移
+    CGFloat avatarInitialSize = avatarSize;
+    CGFloat avatarFinalSize = minAvatarSize;
+    
+    // 计算缩放比例
+    CGFloat scaleFactor = MAX(avatarFinalSize / avatarInitialSize, 1 - offsetY / 100);
+    
+    // 应用缩放和位置变化
+    self.headerView.avatarImageView.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
+    
+    // 限制 header 的压缩高度
+    if (offsetY > 0) {
+        self.headerView.frame = CGRectMake(0, -offsetY, self.view.bounds.size.width, headerHeight);
+    }
 }
 
 #pragma mark - UITableViewDataSource

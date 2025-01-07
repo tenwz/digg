@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong) UIView* headerBGView;
 @property (nonatomic, strong) UIView* contentView;
-@property (nonatomic, strong) UIImageView* avatarImageView;
 @property (nonatomic, strong) UIButton* editorButton;
 @property (nonatomic, strong) UIButton* focusButton;
 @property (nonatomic, strong) UILabel* nameLabel;

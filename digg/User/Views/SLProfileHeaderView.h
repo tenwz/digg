@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SLProfileHeaderView : UIView
 
 @property (nonatomic, strong) SLProfileEntity* entity;
+@property (nonatomic, strong) UIImageView* avatarImageView;
 
 @end
 
