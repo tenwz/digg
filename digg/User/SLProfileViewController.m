@@ -20,6 +20,7 @@
 #import "SLProfileEntity.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "SLHomePageViewModel.h"
+#import "SLEditProfileViewController.h"
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
 
@@ -236,7 +237,8 @@
 
 #pragma mark - SLProfileHeaderViewDelegate
 - (void)gotoEditPersonalInfo {
-    //TODO:
+    SLEditProfileViewController* vc = [SLEditProfileViewController new];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDataSource

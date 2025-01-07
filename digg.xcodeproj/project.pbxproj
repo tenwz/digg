@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340F64012D2D55130046FC97 /* SLEditProfileViewController.m */; };
 		3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EBC12D1D3C2700A55258 /* SLNavigationController.m */; };
 		3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFD72D2A634200A55258 /* SLProfileViewController.m */; };
 		3486EFDC2D2A6A4100A55258 /* SLProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */; };
@@ -94,6 +95,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		340F64002D2D55130046FC97 /* SLEditProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLEditProfileViewController.h; sourceTree = "<group>"; };
+		340F64012D2D55130046FC97 /* SLEditProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLEditProfileViewController.m; sourceTree = "<group>"; };
 		3486EBC02D1D3C2700A55258 /* SLNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLNavigationController.h; sourceTree = "<group>"; };
 		3486EBC12D1D3C2700A55258 /* SLNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLNavigationController.m; sourceTree = "<group>"; };
 		3486EFD62D2A634200A55258 /* SLProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileViewController.h; sourceTree = "<group>"; };
@@ -653,6 +656,8 @@
 				3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */,
 				3486EFE92D2B80EB00A55258 /* SLProfileEntity.h */,
 				3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */,
+				340F64002D2D55130046FC97 /* SLEditProfileViewController.h */,
+				340F64012D2D55130046FC97 /* SLEditProfileViewController.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -877,6 +882,7 @@
 				3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */,
 				E7769EB12CB1A37300AE84F4 /* SLMineViewController.m in Sources */,
 				E7769E5B2CA2E63A00AE84F4 /* AppDelegate.m in Sources */,
+				340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */,
 				E76A45E42CBCA955008B2746 /* SLArticleNewsEntity.m in Sources */,
 				E7769FC12CB7CF1F00AE84F4 /* CDViewController.m in Sources */,
 				E7769EA12CA4F9F700AE84F4 /* SLHomePageNewsTableViewCell.m in Sources */,
