@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) UIImageView* headerImageView;
 @property (nonatomic, strong) UIImageView* avatarImageView;
+@property (nonatomic, strong) UIImageView* addAvatarImageView;
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UITextField *nameTextField;
@@ -72,6 +73,12 @@
         make.top.equalTo(self.headerImageView.mas_bottom).offset(-40);
         make.left.equalTo(self.view).offset(16);
         make.size.mas_equalTo(CGSizeMake(80, 80));
+    }];
+    
+    [self.view addSubview:self.addAvatarImageView];
+    [self.addAvatarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.avatarImageView);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
     }];
     
     CGSize size = [self.nameLabel sizeThatFits:CGSizeZero];
@@ -181,8 +188,6 @@
         _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.layer.borderColor = UIColor.whiteColor.CGColor;
         _avatarImageView.layer.borderWidth = 2;
-        _avatarImageView.clipsToBounds = YES;
-        _avatarImageView.layer.zPosition = 1; // 提高层级
         
         [_avatarImageView setUserInteractionEnabled: YES];
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chageAvatarImage)];
@@ -236,6 +241,17 @@
         _briefTextView.returnKeyType = UIReturnKeyDefault;
     }
     return _briefTextView;
+}
+
+- (UIImageView *)addAvatarImageView {
+    if (!_addAvatarImageView) {
+        _addAvatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_image_icon"]];
+        _addAvatarImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [_addAvatarImageView setUserInteractionEnabled: YES];
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chageAvatarImage)];
+        [_addAvatarImageView addGestureRecognizer:tap];
+    }
+    return _addAvatarImageView;
 }
 
 @end
