@@ -33,10 +33,12 @@
         [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [self.buttons removeAllObjects];
         
-        CGFloat buttonWidth = self.frame.size.width / self.titles.count;
+        CGFloat buttonWidth = 40;
+        CGFloat space = (self.frame.size.width  - buttonWidth * 3) / 2;
+//        CGFloat buttonWidth = (self.frame.size.width  - space * 2) / self.titles.count;
         for (int i = 0; i < self.titles.count; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.frame = CGRectMake(buttonWidth * i, 0, buttonWidth, self.frame.size.height);
+            button.frame = CGRectMake((buttonWidth + space) * i, 0, buttonWidth, self.frame.size.height);
             [button setTitle:self.titles[i] forState:UIControlStateNormal];
             [button setTitleColor:UIColor.blackColor forState:UIControlStateSelected];
             [button setTitleColor:Color16(0x999999) forState:UIControlStateNormal];

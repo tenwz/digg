@@ -306,11 +306,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SLArticleTodayEntity *entity;
     if (self.segmentControl.selectedIndex == 0) {
-        entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
+        entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
     } else if (self.segmentControl.selectedIndex == 1) {
         entity = [self.viewModel.entity.likeList objectAtIndex:indexPath.row];
     } else if (self.segmentControl.selectedIndex == 2) {
-        entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
+        entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
     }
     NSString *url = [NSString stringWithFormat:@"%@/post/%@", H5BaseUrl, entity.articleId];
     [self jumpToH5WithUrl:url andShowProgress:NO];
@@ -337,13 +337,13 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 51)];
+    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 41)];
     sectionView.backgroundColor = UIColor.whiteColor;
     [sectionView addSubview:self.segmentControl];
     [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(sectionView).offset(7);
-        make.left.equalTo(sectionView).offset(40);
-        make.right.equalTo(sectionView).offset(-40);
+        make.top.equalTo(sectionView);
+        make.left.equalTo(sectionView).offset(50);
+        make.right.equalTo(sectionView).offset(-50);
         make.height.mas_equalTo(40);
     }];
     

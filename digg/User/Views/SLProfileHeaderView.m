@@ -182,7 +182,7 @@
     NSString* txt = [NSString stringWithFormat:@"%ld 粉丝", entity.followCnt];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
     // 设置字体和颜色
-    UIFont *bigFont = [UIFont systemFontOfSize:18];
+    UIFont *bigFont = [UIFont systemFontOfSize:12];
     UIColor *bigColor = [UIColor blackColor];
     UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
     UIColor *smallColor = Color16(0x999999);
@@ -206,13 +206,13 @@
     [attributedString1 addAttribute:NSForegroundColorAttributeName value:smallColor range:range1];
     self.attentionLabel.attributedText = attributedString1;
     
-    NSString* collectionString = [NSString stringWithFormat:@"%ld 收藏", entity.likedArticleCnt];
+    NSString* collectionString = [NSString stringWithFormat:@"%ld 点赞", entity.likedArticleCnt];
     NSMutableAttributedString *attributedString2 = [[NSMutableAttributedString alloc] initWithString:collectionString];
     
     [attributedString2 addAttribute:NSFontAttributeName value:bigFont range:NSMakeRange(0, collectionString.length)];
     [attributedString2 addAttribute:NSForegroundColorAttributeName value:bigColor range:NSMakeRange(0, collectionString.length)];
     
-    NSRange range2 = [collectionString rangeOfString:@"收藏"];
+    NSRange range2 = [collectionString rangeOfString:@"点赞"];
     [attributedString2 addAttribute:NSFontAttributeName value:smallFont range:range2];
     [attributedString2 addAttribute:NSForegroundColorAttributeName value:smallColor range:range2];
     self.collectLabel.attributedText = attributedString2;
@@ -306,7 +306,7 @@
         NSString* txt = @"0 粉丝";
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont systemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:12];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -328,7 +328,7 @@
         NSString* txt = @"0 关注";
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont systemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:12];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -347,12 +347,12 @@
 - (UILabel *)collectLabel {
     if (!_collectLabel) {
         _collectLabel = [[UILabel alloc] init];
-        NSString* txt = @"0 收藏";
+        NSString* txt = @"0 点赞";
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont systemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:12];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -360,7 +360,7 @@
         [attributedString addAttribute:NSFontAttributeName value:bigFont range:NSMakeRange(0, txt.length)];
         [attributedString addAttribute:NSForegroundColorAttributeName value:bigColor range:NSMakeRange(0, txt.length)];
         
-        NSRange range = [txt rangeOfString:@"收藏"];
+        NSRange range = [txt rangeOfString:@"点赞"];
         [attributedString addAttribute:NSFontAttributeName value:smallFont range:range];
         [attributedString addAttribute:NSForegroundColorAttributeName value:smallColor range:range];
         _collectLabel.attributedText = attributedString;
