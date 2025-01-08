@@ -231,7 +231,6 @@
 		E7C405732CC0EF13004D90CD /* SLHomePageViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SLHomePageViewModel.m; path = Home/SLHomePageViewModel.m; sourceTree = "<group>"; };
 		E7C405772CC26970004D90CD /* SLCommentFeedEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLCommentFeedEntity.h; sourceTree = "<group>"; };
 		E7C405782CC26970004D90CD /* SLCommentFeedEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLCommentFeedEntity.m; sourceTree = "<group>"; };
-		E7EB1C642CFC700600A74D43 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bugly.framework; sourceTree = "<group>"; };
 		E7EB1C662CFC702500A74D43 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		E7EB1C682CFC702B00A74D43 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E7EB1C6A2CFC703A00A74D43 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -453,7 +452,6 @@
 				E7769E6A2CA2E63B00AE84F4 /* Info.plist */,
 				E7769E6B2CA2E63B00AE84F4 /* main.m */,
 				E7769EA72CB1A10900AE84F4 /* Main.storyboard */,
-				E7EB1C642CFC700600A74D43 /* Bugly.framework */,
 			);
 			path = digg;
 			sourceTree = "<group>";
