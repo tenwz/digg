@@ -10,6 +10,7 @@
 #import "SLGeneralMacro.h"
 #import "SLTagCollectionViewCell.h"
 #import "SDWebImage.h"
+#import "SLTagsView.h"
 
 @interface SLProfileHeaderView() <UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -26,6 +27,7 @@
 
 @property (nonatomic, strong) UILabel* tagLabel;
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) SLTagsView *tagsView;
 
 @end
 
@@ -60,7 +62,8 @@
 
         [self.contentView addSubview:self.tagLabel];
 
-        [self.contentView addSubview:self.collectionView];
+//        [self.contentView addSubview:self.collectionView];
+        [self.contentView addSubview:self.tagsView];
     }
     return self;
 }
@@ -120,7 +123,14 @@
         make.left.equalTo(self.contentView).offset(16);
         make.right.equalTo(self.contentView).offset(-16);
     }];
-    [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+//    [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
+//        make.left.equalTo(self.contentView).offset(16);
+//        make.right.equalTo(self.contentView).offset(-16);
+//        make.height.mas_equalTo(31);
+//        make.bottom.equalTo(self.contentView);
+//    }];
+    [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
         make.left.equalTo(self.contentView).offset(16);
         make.right.equalTo(self.contentView).offset(-16);
@@ -154,7 +164,7 @@
     NSString* txt = [NSString stringWithFormat:@"%ld 粉丝", entity.followCnt];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
     // 设置字体和颜色
-    UIFont *bigFont = [UIFont boldSystemFontOfSize:18];
+    UIFont *bigFont = [UIFont systemFontOfSize:18];
     UIColor *bigColor = [UIColor blackColor];
     UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
     UIColor *smallColor = Color16(0x999999);
@@ -189,7 +199,15 @@
     [attributedString2 addAttribute:NSForegroundColorAttributeName value:smallColor range:range2];
     self.collectLabel.attributedText = attributedString2;
     
-    [self.collectionView reloadData];
+    [self.tagsView setTags:entity.labels maxWidth:self.contentView.bounds.size.width - 32];
+    
+    CGFloat finalHeight = [self.tagsView calculatedHeight];
+    NSLog(@"最终高度: %.2f", finalHeight);
+    // 调整 frame
+    [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(finalHeight);
+    }];
+//    [self.collectionView reloadData];
 }
 
 #pragma mark - Actions
@@ -292,7 +310,7 @@
         NSString* txt = @"0 粉丝";
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont boldSystemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:18];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -314,7 +332,7 @@
         NSString* txt = @"0 关注";
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont boldSystemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:18];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -338,7 +356,7 @@
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         
         // 设置字体和颜色
-        UIFont *bigFont = [UIFont boldSystemFontOfSize:18];
+        UIFont *bigFont = [UIFont systemFontOfSize:18];
         UIColor *bigColor = [UIColor blackColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
@@ -380,6 +398,13 @@
         [_collectionView registerClass:[SLTagCollectionViewCell class] forCellWithReuseIdentifier:@"SLTagCollectionViewCell"];
     }
     return _collectionView;
+}
+
+- (SLTagsView *)tagsView {
+    if (!_tagsView) {
+        _tagsView = [[SLTagsView alloc] init];
+    }
+    return _tagsView;
 }
 
 - (UIView *)headerBGView {

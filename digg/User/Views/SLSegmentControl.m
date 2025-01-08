@@ -40,7 +40,7 @@
             [button setTitle:self.titles[i] forState:UIControlStateNormal];
             [button setTitleColor:UIColor.blackColor forState:UIControlStateSelected];
             [button setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
-//            button.titleLabel.font = i == self.selectedIndex ? [UIFont boldSystemFontOfSize:14] : [UIFont boldSystemFontOfSize:14];
+            button.titleLabel.font = i == self.selectedIndex ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
             [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:button];
             [self.buttons addObject:button];
@@ -73,7 +73,7 @@
 - (void)buttonTapped:(UIButton *)button {
     UIButton* lastSelectedBtn = self.buttons[self.selectedIndex];
     lastSelectedBtn.selected = NO;
-//    lastSelectedBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    lastSelectedBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     NSInteger index = [self.buttons indexOfObject:button];
     self.selectedIndex = index;
     [self updateIndicatorPosition];
@@ -86,7 +86,7 @@
 
 - (void)updateIndicatorPosition {
     UIButton* button = self.buttons[self.selectedIndex];
-//    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     button.selected = YES;
     [self.indicatorView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(button.mas_bottom);
