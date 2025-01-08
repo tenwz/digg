@@ -21,6 +21,9 @@
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #import "SLHomePageViewModel.h"
 #import "SLEditProfileViewController.h"
+#import "KxMenu.h"
+#import "SVProgressHUD.h"
+
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
 
@@ -66,15 +69,16 @@
 }
 
 - (void)updateUI {
-    if (_userId.length == 0) {
+    if (self.userId.length == 0) {
         [self.emptyView setHidden: NO];
     } else {
         [self.emptyView setHidden: YES];
         
+        [SVProgressHUD show];
         @weakobj(self);
-        [self.viewModel loadUserProfileWithProfileID:_userId resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
+        [self.viewModel loadUserProfileWithProfileID:self.userId resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
+            @strongobj(self)
             if (isSuccess) {
-                @strongobj(self);
                 if ([self.viewModel.entity.bgImage length] > 0) {
                     [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage]
                                  placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
@@ -102,6 +106,8 @@
                 [self.tableView reloadData];
                 
                 [self updateTableHeaderViewHeight];
+
+                [SVProgressHUD dismiss];
             }
         }];
     }
@@ -116,7 +122,7 @@
     CGRect frame = self.headerView.frame;
     frame.size.height = height;
     self.headerView.frame = frame;
-    
+
     self.tableView.tableHeaderView = self.headerView;
 }
 
@@ -176,6 +182,31 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)showMenu {
+    KxMenu.titleFont = [UIFont systemFontOfSize:18];
+    [KxMenu showMenuInView:self.view
+                  fromRect:_moreButton.frame
+                 menuItems:@[
+                    [KxMenuItem menuItem:@"退出登录"
+                        image:[UIImage imageNamed:@"logout_icon"]
+                       target:self
+                       action:@selector(logoutAction)],
+                ]];
+}
+
+- (void)logoutAction {
+    [SVProgressHUD show];
+    @weakobj(self)
+    [self.viewModel logout:^(BOOL success, NSError * _Nonnull error) {
+        [SVProgressHUD dismiss];
+        if (success) {
+            @strongobj(self)
+            self.userId = @"";
+            [self updateUI];
+        }
+    }];
+}
+
 #pragma mark - SLSegmentControlDelegate
 - (void)segmentControl:(SLSegmentControl *)segmentControl didSelectIndex:(NSInteger)index {
     [self.tableView reloadData];
@@ -187,10 +218,12 @@
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login", H5BaseUrl]];
     dvc.hidesBottomBarWhenPushed = YES;
     dvc.isLoginPage = YES;
-    __weak typeof(self) weakSelf = self;
+    @weakobj(self)
     dvc.loginSucessCallback = ^{
-        weakSelf.userId = [SLUser defaultUser].userEntity.userId;
-        [weakSelf updateUI];
+        @strongobj(self)
+        self.userId = [SLUser defaultUser].userEntity.userId;
+        NSLog(@"userid = %@", self.userId);
+        [self updateUI];
     };
     [self presentViewController:dvc animated:YES completion:nil];
 }
@@ -215,7 +248,6 @@
     CGFloat headerHeight = self.headerView.frame.size.height;
     CGFloat avatarSize = 60;
     CGFloat minAvatarSize = 30;
-    CGFloat avatarMargin = 14;
 
     CGFloat offsetY = scrollView.contentOffset.y;
     
@@ -238,7 +270,25 @@
 #pragma mark - SLProfileHeaderViewDelegate
 - (void)gotoEditPersonalInfo {
     SLEditProfileViewController* vc = [SLEditProfileViewController new];
+    vc.entity = self.viewModel.entity;
+    @weakobj(self)
+    vc.updateSucessCallback = ^{
+        @strongobj(self)
+        [self updateUI];
+    };
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)follow:(BOOL)cancel {
+    [SVProgressHUD show];
+    @weakobj(self)
+    [self.viewModel followWithUserID:self.userId cancel:cancel resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
+        if (isSuccess) {
+            @strongobj(self)
+            self.viewModel.entity.hasFollow = cancel;
+            self.headerView.entity = self.viewModel.entity;
+        }
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -381,6 +431,7 @@
     if (!_headerImageView) {
         _headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_header_bg"]];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [_headerImageView setUserInteractionEnabled:YES];
     }
     return _headerImageView;
 }
@@ -398,6 +449,7 @@
     if (!_moreButton) {
         _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_moreButton setImage:[UIImage imageNamed:@"profile_more_btn"] forState:UIControlStateNormal];
+        [_moreButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
     }
     return _moreButton;
 }

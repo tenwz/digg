@@ -199,6 +199,12 @@
     }
 }
 
+- (void)focusBtnClick {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(follow:)]) {
+        [self.delegate follow:!self.entity.hasFollow];
+    }
+}
+
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.entity.labels.count;
@@ -254,6 +260,7 @@
         [_focusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _focusButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_focusButton setHidden: NO];
+        [_focusButton addTarget:self action:@selector(focusBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _focusButton;
 }

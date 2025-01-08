@@ -8,9 +8,11 @@
 #import "SLEditProfileViewController.h"
 #import "SLGeneralMacro.h"
 #import "Masonry.h"
+#import "SLProfilePageViewModel.h"
+#import "SVProgressHUD.h"
+#import <SDWebImage/SDWebImage.h>
 
-
-@interface SLEditProfileViewController () <UITextFieldDelegate>
+@interface SLEditProfileViewController () <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIButton *leftBackButton;
 @property (nonatomic, strong) UIButton *saveBackButton;
@@ -26,6 +28,11 @@
 @property (nonatomic, strong) UILabel *briefLabel;
 @property (nonatomic, strong) UITextView *briefTextView;
 
+@property (nonatomic, strong) SLProfilePageViewModel *viewModel;
+@property (nonatomic, assign) NSInteger avatarOrBg;
+@property (nonatomic, strong) UIImage* avatarImage;
+@property (nonatomic, strong) UIImage* bgImage;
+
 @end
 
 @implementation SLEditProfileViewController
@@ -34,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = UIColor.whiteColor;
-    
+    self.avatarOrBg = -1;
     [self setupUI];
 }
 
@@ -112,21 +119,140 @@
     }];
 }
 
+- (void)setEntity:(SLProfileEntity *)entity {
+    _entity = entity;
+    
+    if (entity.bgImage) {
+        [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:entity.bgImage]];
+    }
+    if (entity.avatar) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:entity.avatar]];
+    }
+    self.nameTextField.text = entity.userName;
+    self.briefTextView.text = entity.desc;
+}
+
+- (void)showActionSheet {
+    // 创建 Action Sheet
+    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil
+                                                                         message:nil
+                                                                  preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    // 打开相册的选项
+    UIAlertAction *photoLibraryAction = [UIAlertAction actionWithTitle:@"Photo Library"
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * _Nonnull action) {
+        [self openPhotoLibrary];
+    }];
+    [photoLibraryAction setValue:[UIImage systemImageNamed:@"photo"] forKey:@"image"];
+    
+    // 拍照的选项
+    UIAlertAction *takePhotoAction = [UIAlertAction actionWithTitle:@"Take Photo"
+                                                              style:UIAlertActionStyleDefault
+                                                            handler:^(UIAlertAction * _Nonnull action) {
+        [self takePhoto];
+    }];
+    [takePhotoAction setValue:[UIImage systemImageNamed:@"camera"] forKey:@"image"];
+    
+    // 取消选项
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    
+    // 添加动作到 Action Sheet
+    [actionSheet addAction:photoLibraryAction];
+    [actionSheet addAction:takePhotoAction];
+    [actionSheet addAction:cancelAction];
+    
+    // 显示 Action Sheet
+    [self presentViewController:actionSheet animated:YES completion:nil];
+}
+
 #pragma mark - Actions
 - (void)backPage {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)saveInfo {
-    //TODO:
+    [SVProgressHUD show];
+    @weakobj(self)
+    NSData* avatar = nil;
+    NSData* bg = nil;
+    if (self.avatarImage) {
+        avatar = UIImageJPEGRepresentation(self.avatarImage, 0.6);
+    }
+    if (self.bgImage) {
+        bg = UIImageJPEGRepresentation(self.bgImage, 0.6);
+    }
+    [self.viewModel updateProfileWithUserID:self.entity.userId nickName:self.nameTextField.text desc:self.briefTextView.text avatar:avatar bg:bg resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
+        [SVProgressHUD dismiss];
+        if (isSuccess) {
+            @strongobj(self)
+            if (self.updateSucessCallback) {
+                self.updateSucessCallback();
+            }
+            [self dismissViewControllerAnimated:true completion:nil];
+        }
+    }];
 }
 
 - (void)chageBgImage {
-    //actionsheet
+    self.avatarOrBg = 0;
+    [self showActionSheet];
 }
 
 - (void)chageAvatarImage {
-    //actionsheet
+    self.avatarOrBg = 1;
+    [self showActionSheet];
+}
+
+#pragma mark - 打开相册
+- (void)openPhotoLibrary {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        imagePicker.delegate = self;
+        imagePicker.allowsEditing = YES; // 是否允许编辑
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    } else {
+        NSLog(@"Photo Library not available.");
+    }
+}
+
+#pragma mark - 拍照
+- (void)takePhoto {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        imagePicker.delegate = self;
+        imagePicker.allowsEditing = YES; // 是否允许编辑
+        [self presentViewController:imagePicker animated:YES completion:nil];
+    } else {
+        NSLog(@"Camera not available.");
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *selectedImage = info[UIImagePickerControllerEditedImage]; // 获取编辑后的图片
+    if (!selectedImage) {
+        selectedImage = info[UIImagePickerControllerOriginalImage]; // 获取原始图片
+    }
+    if (self.avatarOrBg == 0) {
+        self.headerImageView.image = selectedImage;
+        self.bgImage = selectedImage;
+    } else if (self.avatarOrBg == 1) {
+        self.avatarImageView.image = selectedImage;
+        self.avatarImage = selectedImage;
+    }
+    // 在此处理选中的图片
+    NSLog(@"Selected image: %@", selectedImage);
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -171,7 +297,8 @@
 
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
-        _headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_header_bg"]];
+        _headerImageView = [[UIImageView alloc] init];
+        _headerImageView.backgroundColor = UIColor.lightGrayColor;
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         _headerImageView.clipsToBounds = YES;
         [_headerImageView setUserInteractionEnabled: YES];
@@ -183,7 +310,8 @@
 
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
-        _avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar_default_img"]];
+        _avatarImageView = [[UIImageView alloc] init];
+        _avatarImageView.backgroundColor = UIColor.lightGrayColor;
         _avatarImageView.layer.cornerRadius = 40;
         _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.layer.borderColor = UIColor.whiteColor.CGColor;
@@ -252,6 +380,13 @@
         [_addAvatarImageView addGestureRecognizer:tap];
     }
     return _addAvatarImageView;
+}
+
+- (SLProfilePageViewModel *)viewModel {
+    if (!_viewModel) {
+        _viewModel = [[SLProfilePageViewModel alloc] init];
+    }
+    return _viewModel;
 }
 
 @end

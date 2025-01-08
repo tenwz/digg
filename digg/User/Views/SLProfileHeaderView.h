@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 - (void)gotoEditPersonalInfo;
+- (void)follow:(BOOL)cancel;
 
 @end
 

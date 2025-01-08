@@ -6,10 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SLProfileEntity.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SLEditProfileViewController : UIViewController
+
+@property (nonatomic, copy) void(^updateSucessCallback) ();
+@property (nonatomic, strong) SLProfileEntity *entity;
 
 @end
 

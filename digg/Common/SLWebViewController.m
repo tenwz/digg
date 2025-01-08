@@ -121,15 +121,16 @@
     
     [self.bridge registerHandler:@"userLogin" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"userLogin called with: %@", data);
-        if (self.loginSucessCallback) {
-            self.loginSucessCallback();
-        }
+
         NSString *userId = [NSString stringWithFormat:@"%@",[data objectForKey:@"userId"]];
         NSString *token = [NSString stringWithFormat:@"%@",[data objectForKey:@"token"]];
         SLUserEntity *entity = [[SLUserEntity alloc] init];
         entity.token = token;
         entity.userId = userId;
         [[SLUser defaultUser] saveUserInfo:entity];
+        if (self.loginSucessCallback) {
+            self.loginSucessCallback();
+        }
         responseCallback(data);
         
         [self backTo:NO];

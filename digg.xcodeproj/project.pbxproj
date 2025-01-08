@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340F64012D2D55130046FC97 /* SLEditProfileViewController.m */; };
+		344EFA042D2E5111001E5FAF /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EFA022D2E5111001E5FAF /* KxMenu.m */; };
 		3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EBC12D1D3C2700A55258 /* SLNavigationController.m */; };
 		3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFD72D2A634200A55258 /* SLProfileViewController.m */; };
 		3486EFDC2D2A6A4100A55258 /* SLProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */; };
@@ -97,6 +98,8 @@
 /* Begin PBXFileReference section */
 		340F64002D2D55130046FC97 /* SLEditProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLEditProfileViewController.h; sourceTree = "<group>"; };
 		340F64012D2D55130046FC97 /* SLEditProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLEditProfileViewController.m; sourceTree = "<group>"; };
+		344EFA012D2E5111001E5FAF /* KxMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
+		344EFA022D2E5111001E5FAF /* KxMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		3486EBC02D1D3C2700A55258 /* SLNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLNavigationController.h; sourceTree = "<group>"; };
 		3486EBC12D1D3C2700A55258 /* SLNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLNavigationController.m; sourceTree = "<group>"; };
 		3486EFD62D2A634200A55258 /* SLProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileViewController.h; sourceTree = "<group>"; };
@@ -260,6 +263,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		344EFA032D2E5111001E5FAF /* MenuPopup */ = {
+			isa = PBXGroup;
+			children = (
+				344EFA012D2E5111001E5FAF /* KxMenu.h */,
+				344EFA022D2E5111001E5FAF /* KxMenu.m */,
+			);
+			path = MenuPopup;
+			sourceTree = "<group>";
+		};
 		3486EFD92D2A69F800A55258 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -533,6 +545,7 @@
 		E7769EBD2CB798E700AE84F4 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				344EFA032D2E5111001E5FAF /* MenuPopup */,
 				E76A45E52CBFB981008B2746 /* ViewControllers */,
 				E76A45BD2CB8C090008B2746 /* Categories */,
 				E76A45B62CB8C064008B2746 /* Views */,
@@ -857,6 +870,7 @@
 				E76A45CE2CB93827008B2746 /* CaocaoRefreshHeader.m in Sources */,
 				E7769FD82CB7CF1F00AE84F4 /* HomeMenuView.m in Sources */,
 				E7769FDE2CB7D31F00AE84F4 /* BaseCollectionViewModel.m in Sources */,
+				344EFA042D2E5111001E5FAF /* KxMenu.m in Sources */,
 				E7769EA62CB181A800AE84F4 /* SLTabbarController.m in Sources */,
 				E7A3B6E92CC0AB6F00BB7304 /* UIImage+CommonKit.m in Sources */,
 				E7C137E32CF31F2A00C5053A /* SLHomeWebViewController.m in Sources */,
