@@ -82,8 +82,7 @@
             @strongobj(self)
             if (isSuccess) {
                 if ([self.viewModel.entity.bgImage length] > 0) {
-                    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage]
-                                 placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
+                    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage] placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
                 }
                 self.nameLabel.text = self.viewModel.entity.userName;
                 self.briefLabel.text = self.viewModel.entity.desc;
@@ -122,7 +121,8 @@
     CGRect frame = self.headerView.frame;
     frame.size.height = height;
     self.headerView.frame = frame;
-
+    self.headerImageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, height);
+    self.blurEffectView.frame = self.headerImageView.bounds;
     self.tableView.tableHeaderView = self.headerView;
 }
 
@@ -179,7 +179,8 @@
     
     [self.view addSubview:self.emptyView];
     [self.emptyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.view);
         make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
     }];
 }
@@ -490,6 +491,10 @@
                              };
     
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
+- (CGFloat)verticalOffsetForEmptyDataSet:(UIScrollView *)scrollView {
+    return 98.0/2.0;
 }
 
 #pragma makr - UI Elements

@@ -12,7 +12,7 @@
 #import "SDWebImage.h"
 #import "SLTagsView.h"
 
-@interface SLProfileHeaderView() <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface SLProfileHeaderView()
 
 @property (nonatomic, strong) UIView* headerBGView;
 @property (nonatomic, strong) UIView* contentView;
@@ -26,7 +26,6 @@
 @property (nonatomic, strong) UILabel *collectLabel;
 
 @property (nonatomic, strong) UILabel* tagLabel;
-@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) SLTagsView *tagsView;
 
 @end
@@ -39,9 +38,7 @@
         self.backgroundColor = UIColor.clearColor;
         
         [self addSubview:self.headerBGView];
-        self.contentView.clipsToBounds = NO;
-        self.contentView.layer.cornerRadius = 16.0;
-        self.contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+
         [self addSubview:self.contentView];
 
         [self.contentView addSubview:self.avatarImageView];
@@ -62,13 +59,13 @@
 
         [self.contentView addSubview:self.tagLabel];
 
-//        [self.contentView addSubview:self.collectionView];
         [self.contentView addSubview:self.tagsView];
     }
     return self;
 }
 
 #pragma mark - Update
+
 - (void)updateConstraints {
     
     [self.headerBGView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -118,25 +115,46 @@
         make.left.equalTo(self.attentionLabel.mas_right).offset(20);
         make.height.equalTo(self.followLabel);
     }];
-    [self.tagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.followLabel.mas_bottom).offset(16);
-        make.left.equalTo(self.contentView).offset(16);
-        make.right.equalTo(self.contentView).offset(-16);
-    }];
-//    [self.collectionView mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
-//        make.left.equalTo(self.contentView).offset(16);
-//        make.right.equalTo(self.contentView).offset(-16);
-//        make.height.mas_equalTo(31);
-//        make.bottom.equalTo(self.contentView);
-//    }];
-    [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
-        make.left.equalTo(self.contentView).offset(16);
-        make.right.equalTo(self.contentView).offset(-16);
-        make.height.mas_equalTo(31);
-        make.bottom.equalTo(self.contentView);
-    }];
+
+    if (self.entity.labels.count == 0) {
+        [self.tagLabel setHidden:YES];
+        [self.tagsView setHidden:YES];
+        [self.tagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.followLabel.mas_bottom).offset(16);
+            make.left.equalTo(self.contentView).offset(16);
+            make.right.equalTo(self.contentView).offset(-16);
+            make.height.mas_equalTo(0);
+        }];
+        [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
+            make.left.equalTo(self.contentView).offset(16);
+            make.right.equalTo(self.contentView).offset(-16);
+            make.bottom.equalTo(self.contentView);
+            make.height.mas_equalTo(0);
+        }];
+    } else {
+        CGFloat height = [self.tagLabel sizeThatFits:CGSizeZero].height;
+        [self.tagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.followLabel.mas_bottom).offset(16);
+            make.left.equalTo(self.contentView).offset(16);
+            make.right.equalTo(self.contentView).offset(-16);
+            make.height.mas_equalTo(height);
+        }];
+        [self.tagLabel setHidden:NO];
+        [self.tagsView setHidden:NO];
+        [self.tagsView setTags:self.entity.labels maxWidth:self.contentView.bounds.size.width - 32];
+        
+        CGFloat finalHeight = [self.tagsView calculatedHeight];
+        NSLog(@"最终高度: %.2f", finalHeight);
+        // 调整 frame
+        [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.tagLabel.mas_bottom).offset(12);
+            make.left.equalTo(self.contentView).offset(16);
+            make.right.equalTo(self.contentView).offset(-16);
+            make.bottom.equalTo(self.contentView);
+            make.height.mas_equalTo(finalHeight);
+        }];
+    }
     
     [super updateConstraints];
 }
@@ -199,15 +217,7 @@
     [attributedString2 addAttribute:NSForegroundColorAttributeName value:smallColor range:range2];
     self.collectLabel.attributedText = attributedString2;
     
-    [self.tagsView setTags:entity.labels maxWidth:self.contentView.bounds.size.width - 32];
-    
-    CGFloat finalHeight = [self.tagsView calculatedHeight];
-    NSLog(@"最终高度: %.2f", finalHeight);
-    // 调整 frame
-    [self.tagsView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(finalHeight);
-    }];
-//    [self.collectionView reloadData];
+    [self updateConstraints];
 }
 
 #pragma mark - Actions
@@ -221,20 +231,6 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(follow:)]) {
         [self.delegate follow:!self.entity.hasFollow];
     }
-}
-
-#pragma mark - UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.entity.labels.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    SLTagCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SLTagCollectionViewCell" forIndexPath:indexPath];
-    cell.label = self.entity.labels[indexPath.item];
-    return cell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 #pragma mark - UI Elements
@@ -382,24 +378,6 @@
     return _tagLabel;
 }
 
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.estimatedItemSize = CGSizeMake(93, 31);
-        layout.minimumInteritemSpacing = 12;
-        layout.minimumLineSpacing = 12;
-        
-        // 创建 UICollectionView
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        _collectionView.showsHorizontalScrollIndicator = NO;
-        [_collectionView registerClass:[SLTagCollectionViewCell class] forCellWithReuseIdentifier:@"SLTagCollectionViewCell"];
-    }
-    return _collectionView;
-}
-
 - (SLTagsView *)tagsView {
     if (!_tagsView) {
         _tagsView = [[SLTagsView alloc] init];
@@ -419,6 +397,9 @@
     if (!_contentView) {
         _contentView = [UIView new];
         _contentView.backgroundColor = UIColor.whiteColor;
+        _contentView.clipsToBounds = NO;
+        _contentView.layer.cornerRadius = 16.0;
+        _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     }
     return _contentView;
 }
