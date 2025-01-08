@@ -77,7 +77,6 @@
     } else {
         [self.emptyView setHidden: YES];
         
-        [SVProgressHUD show];
         @weakobj(self);
         [self.viewModel loadUserProfileWithProfileID:self.userId resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
             @strongobj(self)
@@ -109,8 +108,6 @@
                 [self.tableView reloadData];
                 
                 [self updateTableHeaderViewHeight];
-
-                [SVProgressHUD dismiss];
             }
         }];
     }
@@ -267,6 +264,9 @@
     
     // 计算缩放比例
     CGFloat scaleFactor = MAX(avatarFinalSize / avatarInitialSize, 1 - offsetY / 100);
+    if (scaleFactor > 1.0) {
+        scaleFactor = 1.0;
+    }
     
     // 应用缩放和位置变化
     self.headerView.avatarImageView.transform = CGAffineTransformMakeScale(scaleFactor, scaleFactor);
@@ -340,10 +340,10 @@
     sectionView.backgroundColor = UIColor.whiteColor;
     [sectionView addSubview:self.segmentControl];
     [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(sectionView);
+        make.top.equalTo(sectionView).offset(7);
         make.left.equalTo(sectionView).offset(40);
         make.right.equalTo(sectionView).offset(-40);
-        make.height.mas_equalTo(50);
+        make.height.mas_equalTo(40);
     }];
     
     [sectionView addSubview:self.line];

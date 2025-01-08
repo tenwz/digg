@@ -165,10 +165,9 @@
     
     [self.likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(34);
-//        make.top.equalTo(self.contentLabel.mas_bottom).offset(18);
-        make.top.equalTo(self.contentLabel.mas_bottom).offset(16);
+        make.top.equalTo(self.contentLabel.mas_bottom).offset(8);
         make.left.equalTo(self.contentView).offset(offset);
-        make.bottom.equalTo(self.lineView).offset(-16);
+        make.bottom.equalTo(self.lineView).offset(-8);
     }];
     
     [self.dot1Label mas_makeConstraints:^(MASConstraintMaker *make) {

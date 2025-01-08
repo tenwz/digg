@@ -24,10 +24,6 @@
     if (self) {
         self.buttons = [NSMutableArray array];
         self.selectedIndex = 0;
-        
-        // 添加手势识别器
-//        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
-//        [self addGestureRecognizer:panGesture];
     }
     return self;
 }
@@ -44,7 +40,7 @@
             [button setTitle:self.titles[i] forState:UIControlStateNormal];
             [button setTitleColor:UIColor.blackColor forState:UIControlStateSelected];
             [button setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
-            button.titleLabel.font = i == self.selectedIndex ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
+//            button.titleLabel.font = i == self.selectedIndex ? [UIFont boldSystemFontOfSize:14] : [UIFont boldSystemFontOfSize:14];
             [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:button];
             [self.buttons addObject:button];
@@ -74,22 +70,10 @@
     _titles = titles;
 }
 
-//- (void)handlePanGesture:(UIPanGestureRecognizer *)gestureRecognizer {
-//    CGPoint translation = [gestureRecognizer translationInView:self];
-//    CGFloat newIndex = self.selectedIndex + translation.x / self.frame.size.width;
-//    newIndex = MAX(0, MIN(newIndex, self.titles.count - 1));
-//    self.selectedIndex = round(newIndex);
-//    [self updateIndicatorPosition];
-//    
-//    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-//        // 手势结束时，发送通知或调用代理方法
-//    }
-//}
-
 - (void)buttonTapped:(UIButton *)button {
     UIButton* lastSelectedBtn = self.buttons[self.selectedIndex];
     lastSelectedBtn.selected = NO;
-    lastSelectedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    lastSelectedBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     NSInteger index = [self.buttons indexOfObject:button];
     self.selectedIndex = index;
     [self updateIndicatorPosition];
@@ -102,10 +86,10 @@
 
 - (void)updateIndicatorPosition {
     UIButton* button = self.buttons[self.selectedIndex];
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+//    button.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     button.selected = YES;
     [self.indicatorView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(button.mas_bottom);
+        make.top.equalTo(button.mas_bottom);
         make.height.mas_equalTo(3);
         make.centerX.equalTo(button);
         make.width.mas_equalTo(28);
