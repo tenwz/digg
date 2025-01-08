@@ -20,11 +20,14 @@
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *userDescription;
 @property (nonatomic, copy) NSString *userAvatar;
+@property (nonatomic, copy) NSString *avatar; //feedlist
 @property (nonatomic, assign) BOOL liked;
 @property (nonatomic, assign) BOOL disliked;
 @property (nonatomic, assign) NSInteger likeCnt;
 @property (nonatomic, assign) NSInteger commentsCnt;
 @property (nonatomic, assign) NSInteger dislikeCnt;
 @property (nonatomic, copy) NSString *label;
+@property (nonatomic, copy) NSString *actionName;
+
 @end
 

@@ -23,11 +23,14 @@
 #import "SLEditProfileViewController.h"
 #import "KxMenu.h"
 #import "SVProgressHUD.h"
+#import "SLProfileDynamicTableViewCell.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
 
 @property (nonatomic, strong) UIImageView* headerImageView;
+@property (nonatomic, strong) UIVisualEffectView *blurEffectView;
+
 @property (nonatomic, strong) UIButton* leftBackButton;
 @property (nonatomic, strong) UIButton* moreButton;
 @property (nonatomic, strong) UILabel* nameLabel;
@@ -130,6 +133,13 @@
 - (void)setupUI {
     self.headerImageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 300);
     [self.view addSubview:self.headerImageView];
+    
+    UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    self.blurEffectView.frame = self.headerImageView.bounds;
+    self.blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.blurEffectView.alpha = 0;
+    [self.headerImageView addSubview:self.blurEffectView];
     
     [self.headerImageView addSubview:self.leftBackButton];
     [self.leftBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,7 +253,7 @@
     CGFloat alpha = MAX(0, MIN(1, contentOffset.y / 100));
     self.nameLabel.alpha = alpha;
     self.briefLabel.alpha = alpha;
-    
+    self.blurEffectView.alpha = alpha;
     // 设置头像的变换
     CGFloat headerHeight = self.headerView.frame.size.height;
     CGFloat avatarSize = 60;
@@ -311,11 +321,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.segmentControl.selectedIndex == 0) {
-        return self.viewModel.entity.submitList.count;
+        return self.viewModel.entity.feedList.count;
     } else if (self.segmentControl.selectedIndex == 1) {
         return self.viewModel.entity.likeList.count;
     } else if (self.segmentControl.selectedIndex == 2) {
-        return self.viewModel.entity.feedList.count;
+        return self.viewModel.entity.submitList.count;
     } else {
         return 0;
     }
@@ -346,67 +356,123 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLHomePageNewsTableViewCell" forIndexPath:indexPath];
-    if (cell) {
-        SLArticleTodayEntity *entity;
-        if (self.segmentControl.selectedIndex == 0) {
-            entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
-        } else if (self.segmentControl.selectedIndex == 1) {
-            entity = [self.viewModel.entity.likeList objectAtIndex:indexPath.row];
-        } else if (self.segmentControl.selectedIndex == 2) {
-            entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
+    if (self.segmentControl.selectedIndex == 0) {
+        SLProfileDynamicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLProfileDynamicTableViewCell" forIndexPath:indexPath];
+        if (cell) {
+            SLArticleTodayEntity *entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
+            [cell updateWithEntity:entity];
+            @weakobj(self);
+            cell.likeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            
+            cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            
+            cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                [self jumpToH5WithUrl:entity.url andShowProgress:YES];
+            };
+            
+            cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
         }
-        [cell updateWithEntity:entity];
-        @weakobj(self);
-        cell.likeClick = ^(SLArticleTodayEntity *entity) {
-            @strongobj(self);
-            if (![SLUser defaultUser].isLogin) {
-                [self gotoLoginPage];
-                return;
+        return cell;
+    } else {
+        SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLHomePageNewsTableViewCell" forIndexPath:indexPath];
+        if (cell) {
+            SLArticleTodayEntity *entity;
+            if (self.segmentControl.selectedIndex == 1) {
+                entity = [self.viewModel.entity.likeList objectAtIndex:indexPath.row];
+            } else if (self.segmentControl.selectedIndex == 2) {
+                entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
             }
-            [self.homeViewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                
-            }];
-        };
-        
-        cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
-            @strongobj(self);
-            if (![SLUser defaultUser].isLogin) {
-                [self gotoLoginPage];
-                return;
-            }
-            [self.homeViewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                
-            }];
-        };
-        
-        cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
-            @strongobj(self);
-            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
-        };
-        
-        cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
-            @strongobj(self);
-            if (![SLUser defaultUser].isLogin) {
-                [self gotoLoginPage];
-                return;
-            }
-            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                            
-            }];
-        };
-        cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
-            @strongobj(self);
-            if (![SLUser defaultUser].isLogin) {
-                [self gotoLoginPage];
-                return;
-            }
-            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                            
-            }];
-        };
+            [cell updateWithEntity:entity];
+            @weakobj(self);
+            cell.likeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            
+            cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            
+            cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                [self jumpToH5WithUrl:entity.url andShowProgress:YES];
+            };
+            
+            cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+            cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
+                @strongobj(self);
+                if (![SLUser defaultUser].isLogin) {
+                    [self gotoLoginPage];
+                    return;
+                }
+                [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                    
+                }];
+            };
+        }
+        return cell;
     }
-    return cell;
+    return [UITableViewCell new];
 }
 
 - (UIImage *)imageForEmptyDataSet:(UIScrollView *)scrollView
@@ -509,6 +575,7 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:@"SLHomePageNewsTableViewCell"];
+        [_tableView registerClass:[SLProfileDynamicTableViewCell class] forCellReuseIdentifier:@"SLProfileDynamicTableViewCell"];
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;

@@ -17,6 +17,7 @@
 		3486EFE52D2B721900A55258 /* SLEmptyWithLoginButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFE42D2B721900A55258 /* SLEmptyWithLoginButtonView.m */; };
 		3486EFE82D2B807A00A55258 /* SLProfilePageViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */; };
 		3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */; };
+		34933F842D2E780E009F781A /* SLProfileDynamicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34933F832D2E780E009F781A /* SLProfileDynamicTableViewCell.m */; };
 		703F132D482FE46A6379243D /* libPods-digg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E828F1163A81AA53E358E2FB /* libPods-digg.a */; };
 		E76A45B52CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B42CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m */; };
 		E76A45B92CB8C06F008B2746 /* CaocaoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B82CB8C06F008B2746 /* CaocaoButton.m */; };
@@ -116,6 +117,8 @@
 		3486EFE72D2B807A00A55258 /* SLProfilePageViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfilePageViewModel.m; sourceTree = "<group>"; };
 		3486EFE92D2B80EB00A55258 /* SLProfileEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileEntity.h; sourceTree = "<group>"; };
 		3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileEntity.m; sourceTree = "<group>"; };
+		34933F822D2E780E009F781A /* SLProfileDynamicTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileDynamicTableViewCell.h; sourceTree = "<group>"; };
+		34933F832D2E780E009F781A /* SLProfileDynamicTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileDynamicTableViewCell.m; sourceTree = "<group>"; };
 		44262EF495A884D327C8F69E /* Pods-digg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.debug.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.debug.xcconfig"; sourceTree = "<group>"; };
 		C0C36A29D1E20E9D246DAEB5 /* Pods-digg.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.release.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.release.xcconfig"; sourceTree = "<group>"; };
 		E76A45B32CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLHomePageLatestNewsTableViewCell.h; sourceTree = "<group>"; };
@@ -283,6 +286,8 @@
 				3486EFE12D2A9E3C00A55258 /* SLSegmentControl.m */,
 				3486EFE32D2B721900A55258 /* SLEmptyWithLoginButtonView.h */,
 				3486EFE42D2B721900A55258 /* SLEmptyWithLoginButtonView.m */,
+				34933F822D2E780E009F781A /* SLProfileDynamicTableViewCell.h */,
+				34933F832D2E780E009F781A /* SLProfileDynamicTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -883,6 +888,7 @@
 				3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */,
 				E76A45BC2CB8C08D008B2746 /* UIView+CommonKit.m in Sources */,
 				E7C1393C2CF33C8800C5053A /* SLHomeTagView.m in Sources */,
+				34933F842D2E780E009F781A /* SLProfileDynamicTableViewCell.m in Sources */,
 				E7769FBE2CB7CF1F00AE84F4 /* ContentModel.m in Sources */,
 				E7769EB92CB264AB00AE84F4 /* SLUserLoginPrivacyView.m in Sources */,
 				E76A45D12CB965F6008B2746 /* SLFollowingListItemCell.m in Sources */,
