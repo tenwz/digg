@@ -108,7 +108,7 @@
 - (void)likeWith:(NSString *)articleId
    resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *urlString = [NSString stringWithFormat:@"%@/like",ApiBaseUrl];
+    NSString *urlString = [NSString stringWithFormat:@"%@/like",APPBaseUrl];
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -126,10 +126,9 @@
 - (void)dislikeWith:(NSString *)articleId
    resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *urlString = [NSString stringWithFormat:@"%@/dislike",ApiBaseUrl];
+    NSString *urlString = [NSString stringWithFormat:@"%@/dislike",APPBaseUrl];
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
-//    @weakobj(self);
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (handler) {
             //判断是否点赞成功
@@ -144,10 +143,9 @@
 
 - (void)cancelLikeWith:(NSString *)articleId resultHandler:(void (^)(BOOL, NSError *))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSString *urlString = [NSString stringWithFormat:@"%@/cancel",ApiBaseUrl];
+    NSString *urlString = [NSString stringWithFormat:@"%@/cancel",APPBaseUrl];
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
-    @weakobj(self);
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (handler) {
             //判断是否点赞成功
