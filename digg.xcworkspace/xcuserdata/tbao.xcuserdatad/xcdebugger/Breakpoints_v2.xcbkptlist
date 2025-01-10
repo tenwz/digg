@@ -23,15 +23,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5EB9CCA3-6347-4FF0-9339-0290E02EABCC"
+            uuid = "778B651E-6290-4FD7-AD49-B381FB12CACF"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "digg/User/SLProfilePageViewModel.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "-followWithUserID:cancel:resultHandler:"
             landmarkType = "7">
          </BreakpointContent>

@@ -9,6 +9,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "SLGeneralMacro.h"
 #import <YYModel/YYModel.h>
+#import "SLUser.h"
 
 @implementation SLHomePageViewModel
 
@@ -109,6 +110,14 @@
    resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *urlString = [NSString stringWithFormat:@"%@/like",APPBaseUrl];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
+    [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", nil];
+
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -127,6 +136,14 @@
    resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *urlString = [NSString stringWithFormat:@"%@/dislike",APPBaseUrl];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
+    [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", nil];
+
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -144,6 +161,14 @@
 - (void)cancelLikeWith:(NSString *)articleId resultHandler:(void (^)(BOOL, NSError *))handler{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *urlString = [NSString stringWithFormat:@"%@/cancel",APPBaseUrl];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
+    [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", nil];
+
     NSMutableDictionary *mutDic = [NSMutableDictionary dictionary];
     [mutDic setObject:articleId forKey:@"articleId"];
     [manager POST:urlString parameters:mutDic.copy headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
