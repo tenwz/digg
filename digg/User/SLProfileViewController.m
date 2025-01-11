@@ -64,6 +64,7 @@
     [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
         @strongobj(self)
         if (isLogin) {
+            self.userId = [SLUser defaultUser].userEntity.userId;
             [self updateUI];
         } else {
             [self.emptyView setHidden: NO];
