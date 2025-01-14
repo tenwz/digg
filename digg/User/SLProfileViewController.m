@@ -24,6 +24,7 @@
 #import "KxMenu.h"
 #import "SVProgressHUD.h"
 #import "SLProfileDynamicTableViewCell.h"
+#import "SLTagListContainerViewController.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
@@ -64,7 +65,9 @@
     [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
         @strongobj(self)
         if (isLogin) {
-            self.userId = [SLUser defaultUser].userEntity.userId;
+            if ([self.userId length] == 0) {
+                self.userId = [SLUser defaultUser].userEntity.userId;
+            }
             [self updateUI];
         } else {
             [self.emptyView setHidden: NO];
@@ -87,7 +90,7 @@
                 }
                 self.nameLabel.text = self.viewModel.entity.userName;
                 self.briefLabel.text = self.viewModel.entity.desc;
-                if (self.viewModel.entity.isSelf) {
+                if (self.viewModel.entity.isSelf && !self.fromWeb) {
                     [self.leftBackButton setHidden:YES];
                     [self.moreButton setHidden:NO];
                     [self.nameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -470,6 +473,15 @@
                 [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
                     
                 }];
+            };
+            cell.labelClick = ^(SLArticleTodayEntity *entity) {
+                if (entity.label.length > 0) {
+                    @strongobj(self);
+                    SLTagListContainerViewController* vc = [SLTagListContainerViewController new];
+                    vc.hidesBottomBarWhenPushed = YES;
+                    vc.label = entity.label;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             };
         }
         return cell;

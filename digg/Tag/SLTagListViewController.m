@@ -1,38 +1,30 @@
 //
-//  SLHomePageNewsViewController.m
+//  SLTagListViewController.m
 //  digg
 //
-//  Created by hey on 2024/9/26.
+//  Created by Tim Bao on 2025/1/12.
 //
 
-#import "SLHomePageNewsViewController.h"
-
-#import <Masonry/Masonry.h>
+#import "SLTagListViewController.h"
+#import "SLTagListContainerViewModel.h"
+#import "SLProfileDynamicTableViewCell.h"
+#import "Masonry.h"
 #import "CaocaoRefresh.h"
 #import "SLGeneralMacro.h"
-
-#import "SLHomePageNewsTableViewCell.h"
-#import "SLHomePageLatestNewsTableViewCell.h"
-#import "SLHomePageQATableViewCell.h"
-#import "SLHomePageProductionTableViewCell.h"
-#import "SLTagListContainerViewController.h"
-#import "SLWebViewController.h"
+#import "SLHomePageViewModel.h"
 #import "SLUser.h"
+#import "SLWebViewController.h"
 
-# define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
-# define kSLHomePageLatestNewsTableViewCellID @"SLHomePageLatestNewsTableViewCell"
-# define kSLHomePageQATableViewCellID @"SLHomePageQATableViewCell"
-# define kSLHomePageProductionTableViewCellID @"SLHomePageProductionTableViewCell"
+@interface SLTagListViewController () <UITableViewDelegate,UITableViewDataSource>
 
-@interface SLHomePageNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
-
-@property (nonatomic, strong) SLHomePageViewModel *viewModel;
+@property (nonatomic, strong) SLTagListContainerViewModel *viewModel;
+@property (nonatomic, strong) SLHomePageViewModel *homeViewModel;
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
-@implementation SLHomePageNewsViewController
+@implementation SLTagListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -47,12 +39,11 @@
     [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
 }
 
-- (void)changeBgColor{
+- (void)changeBgColor {
     self.tableView.backgroundColor = [UIColor clearColor];
-
 }
 
-- (void)dataLoadActionCallback{
+- (void)dataLoadActionCallback {
     //刷新
     [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
 }
@@ -62,7 +53,7 @@
     return self.view;
 }
 
-- (void)addRefresh{
+- (void)addRefresh {
     @weakobj(self);
     self.tableView.mj_header = [CaocaoRefreshHeader headerWithRefreshingBlock:^{
         @strongobj(self);
@@ -79,9 +70,9 @@
     [super setView:view];
 }
 
-- (void)loadMessagesList:(CaocaoCarMessageListRefreshType)type{
+- (void)loadMessagesList:(CaocaoCarMessageListRefreshType)type {
     @weakobj(self);
-    [self.viewModel loadMessageListWithRefreshType:type withPageStyle:self.pageStyle resultHandler:^(BOOL isSuccess, NSError *error) {
+    [self.viewModel loadMessageListWithRefreshType:type withPageStyle:self.index withLabel:self.label resultHandler:^(BOOL isSuccess, NSError *error) {
         @strongobj(self);
         if (isSuccess) {
             if ([self.viewModel.dataArray count] == 0) {
@@ -97,22 +88,6 @@
     }];
 }
 
-- (void)jumpToLogin {
-    SLWebViewController *dvc = [[SLWebViewController alloc] init];
-    [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
-    dvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController presentViewController:dvc animated:YES completion:^{     
-    }];
-}
-
-- (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
-    SLWebViewController *dvc = [[SLWebViewController alloc] init];
-    dvc.isShowProgress = show;
-    [dvc startLoadRequestWithUrl:url];
-    dvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:dvc animated:YES];
-}
-
 - (void)endRefresh
 {
     if (self.viewModel.hasToEnd) {
@@ -124,13 +99,34 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-    NSString *url = [NSString stringWithFormat:@"%@/post/%@",H5BaseUrl,entity.articleId];
+#pragma mark - SLEmptyWithLoginButtonViewDelegate
+- (void)gotoLoginPage {
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login", H5BaseUrl]];
+    dvc.hidesBottomBarWhenPushed = YES;
+    dvc.isLoginPage = YES;
+//    @weakobj(self)
+//    dvc.loginSucessCallback = ^{
+//        @strongobj(self)
+//    };
+    [self presentViewController:dvc animated:YES completion:nil];
+}
+
+- (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    dvc.isShowProgress = show;
+    [dvc startLoadRequestWithUrl:url];
+    dvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SLArticleTodayEntity *entity = self.viewModel.dataArray[indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"%@/post/%@", H5BaseUrl, entity.articleId];
     [self jumpToH5WithUrl:url andShowProgress:NO];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.viewModel.dataArray count];
 }
 
@@ -139,7 +135,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
+    SLProfileDynamicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLProfileDynamicTableViewCell" forIndexPath:indexPath];
     if (cell) {
         SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
         [cell updateWithEntity:entity];
@@ -147,10 +143,10 @@
         cell.likeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
             if (![SLUser defaultUser].isLogin) {
-                [self jumpToLogin];
+                [self gotoLoginPage];
                 return;
             }
-            [self.viewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+            [self.homeViewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
                 
             }];
         };
@@ -158,10 +154,10 @@
         cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
             if (![SLUser defaultUser].isLogin) {
-                [self jumpToLogin];
+                [self gotoLoginPage];
                 return;
             }
-            [self.viewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+            [self.homeViewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
                 
             }];
         };
@@ -174,36 +170,28 @@
         cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
             if (![SLUser defaultUser].isLogin) {
-                [self jumpToLogin];
+                [self gotoLoginPage];
                 return;
             }
-            [self.viewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                            
+            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
             }];
         };
         cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
             if (![SLUser defaultUser].isLogin) {
-                [self jumpToLogin];
+                [self gotoLoginPage];
                 return;
             }
-            [self.viewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
-                            
+            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
             }];
-        };
-        cell.labelClick = ^(SLArticleTodayEntity *entity) {
-            if (entity.label.length > 0) {
-                @strongobj(self);
-                SLTagListContainerViewController* vc = [SLTagListContainerViewController new];
-                vc.label = entity.label;
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
         };
     }
     return cell;
 }
 
+#pragma mark - UI Elements
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
@@ -211,10 +199,7 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
-        [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
+        [_tableView registerClass:[SLProfileDynamicTableViewCell class] forCellReuseIdentifier:@"SLProfileDynamicTableViewCell"];
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;
@@ -225,12 +210,18 @@
 }
 
 
-- (SLHomePageViewModel *)viewModel {
+- (SLTagListContainerViewModel *)viewModel {
     if (!_viewModel) {
-        _viewModel = [[SLHomePageViewModel alloc] init];
+        _viewModel = [[SLTagListContainerViewModel alloc] init];
     }
     return _viewModel;
 }
 
+- (SLHomePageViewModel *)homeViewModel {
+    if (!_homeViewModel) {
+        _homeViewModel = [[SLHomePageViewModel alloc] init];
+    }
+    return _homeViewModel;
+}
 
 @end

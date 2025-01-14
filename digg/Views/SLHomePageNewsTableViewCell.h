@@ -22,4 +22,6 @@
 
 @property (nonatomic, copy) void(^checkDetailClick)(SLArticleTodayEntity *entity);
 
+@property (nonatomic, copy) void(^labelClick)(SLArticleTodayEntity *entity);
+
 @end

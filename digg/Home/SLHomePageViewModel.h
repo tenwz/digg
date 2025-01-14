@@ -9,6 +9,7 @@
 #import "SLArticleTodayEntity.h"
 #import "SLCommentFeedEntity.h"
 #import "EnvConfigHeader.h"
+#import "SLGeneralMacro.h"
 
 typedef NS_ENUM(NSUInteger, HomePageStyle) {
     HomePageStyleToday = 0, //今天
@@ -22,10 +23,10 @@ typedef NS_ENUM(NSUInteger, HomePageStyle) {
     
 };
 
-typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
-    CaocaoCarMessageListRefreshTypeRefresh = 0,
-    CaocaoCarMessageListRefreshTypeLoadMore,
-};
+//typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
+//    CaocaoCarMessageListRefreshTypeRefresh = 0,
+//    CaocaoCarMessageListRefreshTypeLoadMore,
+//};
 
 @interface SLHomePageViewModel : NSObject
 @property (nonatomic, strong) NSMutableArray *dataArray;

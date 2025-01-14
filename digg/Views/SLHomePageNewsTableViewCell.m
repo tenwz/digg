@@ -273,6 +273,12 @@
     }
 }
 
+- (void)tagClick {
+    if (self.labelClick) {
+        self.labelClick(self.entity);
+    }
+}
+
 #pragma mark - Property
 - (UILabel *)titleLabel {
     if(!_titleLabel) {
@@ -392,6 +398,8 @@
 - (SLHomeTagView *)tagView {
     if (!_tagView) {
         _tagView = [[SLHomeTagView alloc] init];
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tagClick)];
+        [_tagView addGestureRecognizer:tap];
     }
     return _tagView;
 }

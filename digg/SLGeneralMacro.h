@@ -8,6 +8,12 @@
 #ifndef SLGeneralMacro_h
 #define SLGeneralMacro_h
 
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
+    CaocaoCarMessageListRefreshTypeRefresh = 0,
+    CaocaoCarMessageListRefreshTypeLoadMore,
+};
 
 //是否是iphone
 #define kIsiPhone (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)

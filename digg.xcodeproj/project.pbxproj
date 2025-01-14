@@ -19,6 +19,9 @@
 		3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFEA2D2B80EB00A55258 /* SLProfileEntity.m */; };
 		34933F842D2E780E009F781A /* SLProfileDynamicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34933F832D2E780E009F781A /* SLProfileDynamicTableViewCell.m */; };
 		34933F872D2E9951009F781A /* SLTagsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34933F862D2E9951009F781A /* SLTagsView.m */; };
+		34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */; };
+		34D2E9822D33C8370067CC05 /* SLTagListContainerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */; };
+		34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */; };
 		703F132D482FE46A6379243D /* libPods-digg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E828F1163A81AA53E358E2FB /* libPods-digg.a */; };
 		E76A45B52CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B42CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m */; };
 		E76A45B92CB8C06F008B2746 /* CaocaoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B82CB8C06F008B2746 /* CaocaoButton.m */; };
@@ -122,6 +125,12 @@
 		34933F832D2E780E009F781A /* SLProfileDynamicTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLProfileDynamicTableViewCell.m; sourceTree = "<group>"; };
 		34933F852D2E9951009F781A /* SLTagsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagsView.h; sourceTree = "<group>"; };
 		34933F862D2E9951009F781A /* SLTagsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagsView.m; sourceTree = "<group>"; };
+		34D2E97D2D33C4A90067CC05 /* SLTagListContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListContainerViewController.h; sourceTree = "<group>"; };
+		34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewController.m; sourceTree = "<group>"; };
+		34D2E9802D33C8370067CC05 /* SLTagListContainerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListContainerViewModel.h; sourceTree = "<group>"; };
+		34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewModel.m; sourceTree = "<group>"; };
+		34D2E9832D33CF3D0067CC05 /* SLTagListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListViewController.h; sourceTree = "<group>"; };
+		34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListViewController.m; sourceTree = "<group>"; };
 		44262EF495A884D327C8F69E /* Pods-digg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.debug.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.debug.xcconfig"; sourceTree = "<group>"; };
 		C0C36A29D1E20E9D246DAEB5 /* Pods-digg.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.release.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.release.xcconfig"; sourceTree = "<group>"; };
 		E76A45B32CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLHomePageLatestNewsTableViewCell.h; sourceTree = "<group>"; };
@@ -296,6 +305,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		34D2E97C2D33C47C0067CC05 /* Tag */ = {
+			isa = PBXGroup;
+			children = (
+				34D2E97D2D33C4A90067CC05 /* SLTagListContainerViewController.h */,
+				34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */,
+				34D2E9802D33C8370067CC05 /* SLTagListContainerViewModel.h */,
+				34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */,
+				34D2E9832D33CF3D0067CC05 /* SLTagListViewController.h */,
+				34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */,
+			);
+			path = Tag;
+			sourceTree = "<group>";
+		};
 		640F3E5572CD9D019BCD7399 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -431,6 +453,7 @@
 		E7769E582CA2E63A00AE84F4 /* digg */ = {
 			isa = PBXGroup;
 			children = (
+				34D2E97C2D33C47C0067CC05 /* Tag */,
 				E7769FBD2CB7CF1F00AE84F4 /* NHome */,
 				E7769EBD2CB798E700AE84F4 /* Common */,
 				E7769E592CA2E63A00AE84F4 /* AppDelegate.h */,
@@ -887,6 +910,7 @@
 				3486EFDF2D2A959500A55258 /* SLTagCollectionViewCell.m in Sources */,
 				E76A45EB2CBFB9AB008B2746 /* CaocaoLoadDataDefaultView.m in Sources */,
 				E7769EC02CB798F800AE84F4 /* SLWebViewController.m in Sources */,
+				34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */,
 				E7769EBC2CB265C300AE84F4 /* CaocaoClickableAttributedTextLabel.m in Sources */,
 				3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */,
 				E76A45BC2CB8C08D008B2746 /* UIView+CommonKit.m in Sources */,
@@ -905,6 +929,7 @@
 				3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */,
 				3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */,
 				E7769EB12CB1A37300AE84F4 /* SLMineViewController.m in Sources */,
+				34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */,
 				E7769E5B2CA2E63A00AE84F4 /* AppDelegate.m in Sources */,
 				340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */,
 				E76A45E42CBCA955008B2746 /* SLArticleNewsEntity.m in Sources */,
@@ -916,6 +941,7 @@
 				E7C139372CF325BC00C5053A /* SLUserEntity.m in Sources */,
 				3486EFE52D2B721900A55258 /* SLEmptyWithLoginButtonView.m in Sources */,
 				E7769FD02CB7CF1F00AE84F4 /* HomeMenuCollectionViewCell.m in Sources */,
+				34D2E9822D33C8370067CC05 /* SLTagListContainerViewModel.m in Sources */,
 				E76A45DC2CBB590E008B2746 /* SLMineUserInfoTableViewCell.m in Sources */,
 				E7769FD72CB7CF1F00AE84F4 /* CollectionViewModel.m in Sources */,
 				E7C405742CC0EF13004D90CD /* SLHomePageViewModel.m in Sources */,

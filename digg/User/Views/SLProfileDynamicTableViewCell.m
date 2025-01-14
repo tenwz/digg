@@ -72,14 +72,18 @@
     self.entity = entiy;
     if (entiy.avatar) {
         [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:entiy.avatar]];
+    } else if (entiy.userAvatar) {
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:entiy.userAvatar]];
     }
     self.nickNameLabel.text = entiy.username;
-    //格式化时间
-    NSDate *detailDate = [NSDate dateWithTimeIntervalSince1970:entiy.gmtCreate/1000];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSString *dateStr = [dateFormatter stringFromDate: detailDate];
-    self.timeLabel.text = [NSString stringWithFormat:@"%@ · %@", dateStr, entiy.actionName];
+    if ([entiy.actionName length] > 0) {
+        //格式化时间
+        NSDate *detailDate = [NSDate dateWithTimeIntervalSince1970:entiy.gmtCreate/1000];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+        NSString *dateStr = [dateFormatter stringFromDate: detailDate];
+        self.timeLabel.text = [NSString stringWithFormat:@"%@ · %@", dateStr, entiy.actionName];
+    }
 
     CGFloat lineSpacing = 6;
     NSString *titleStr = entiy.title;

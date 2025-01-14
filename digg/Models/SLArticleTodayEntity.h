@@ -14,7 +14,7 @@
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSString *source;
 @property (nonatomic, copy) NSString *content;
-@property (nonatomic, copy) NSString *userid;
+@property (nonatomic, copy) NSString *userId;
 @property (nonatomic, assign) NSTimeInterval gmtCreate;
 @property (nonatomic, assign) NSTimeInterval gmtModified;
 @property (nonatomic, copy) NSString *username;

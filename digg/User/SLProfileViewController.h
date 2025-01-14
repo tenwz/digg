@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SLProfileViewController : UIViewController
 
 @property (nonatomic, strong) NSString* userId;
+@property (nonatomic, assign) BOOL fromWeb;
 
 @end
 

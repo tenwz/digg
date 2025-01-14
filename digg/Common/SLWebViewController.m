@@ -15,6 +15,7 @@
 #import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 #import "SLGeneralMacro.h"
 #import "SLUser.h"
+#import "SLProfileViewController.h"
 
 @interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
@@ -186,9 +187,20 @@
 //        [self.navigationController popViewControllerAnimated:YES];
     }];
     
-//    [self.bridge callHandler:@"JS Echo" data:nil responseCallback:^(id responseData) {
-//        NSLog(@"ObjC received response: %@", responseData);
-//    }];
+    [self.bridge registerHandler:@"openUserPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        if ([data isKindOfClass:[NSDictionary class]]) {
+            @strongobj(self);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *dic = (NSDictionary *)data;
+                NSString *uid = [[dic objectForKey:@"uid"] stringValue];
+                SLProfileViewController *dvc = [[SLProfileViewController alloc] init];
+                dvc.userId = uid;
+                dvc.fromWeb = YES;
+                [self.navigationController pushViewController:dvc animated:YES];
+            });
+        }
+        responseCallback(data);
+    }];
 }
 - (void)setupDefailUA{
     if (self.isSetUA) {
