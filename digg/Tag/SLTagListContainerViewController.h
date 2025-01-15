@@ -6,10 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CaocaoRootViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface SLTagListContainerViewController : UIViewController
+@interface SLTagListContainerViewController : CaocaoRootViewController
 
 @property (nonatomic, strong) NSString* label;
 

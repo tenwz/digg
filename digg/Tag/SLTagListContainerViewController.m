@@ -13,6 +13,15 @@
 #import <JXCategoryView/JXCategoryListContainerView.h>
 #import "SLTagListViewController.h"
 
+#import "SLTagListContainerViewModel.h"
+#import "SLProfileDynamicTableViewCell.h"
+#import "Masonry.h"
+#import "CaocaoRefresh.h"
+#import "SLGeneralMacro.h"
+#import "SLHomePageViewModel.h"
+#import "SLUser.h"
+#import "SLWebViewController.h"
+
 @interface UILabel (LineCheck)
 
 - (BOOL)isTextExceedingLines:(NSInteger)maxLines;
@@ -41,8 +50,9 @@
 
 @end
 
-@interface SLTagListContainerViewController () <JXCategoryViewDelegate, JXCategoryListContainerViewDelegate>
+@interface SLTagListContainerViewController () <JXCategoryViewDelegate, JXCategoryListContainerViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UIView* navigationView;
 @property (nonatomic, strong) UIButton *leftBackButton;
 @property (nonatomic, strong) UIButton *moreButton;
 @property (nonatomic, strong) UILabel* titleLabel;
@@ -51,10 +61,15 @@
 
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) JXCategoryTitleView *categoryView;
-@property (nonatomic, strong) JXCategoryListContainerView *listContainerView;
-@property (nonatomic, strong) JXCategoryNumberView *myCategoryView;
+//@property (nonatomic, strong) JXCategoryListContainerView *listContainerView;
+@property (nonatomic, strong) JXCategoryTitleView *myCategoryView;
 
 @property (nonatomic, strong) SLTagListContainerViewModel *viewModel;
+
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) SLHomePageViewModel *homeViewModel;
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -63,69 +78,101 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = Color16(0xF2F2F2);
     
-    [self setupUI];
     self.titleLabel.text = self.label;
+    [self setupUI];
+    [self addRefresh];
     [self requestData];
 }
 
 #pragma mark - Methods
 - (void)setupUI {
-    [self.view addSubview:self.leftBackButton];
+    [self.view addSubview:self.navigationView];
+    [self.navigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(self.view);
+        make.height.mas_equalTo(NAVBAR_HEIGHT + 5);
+    }];
+    
+    [self.navigationView addSubview:self.leftBackButton];
     [self.leftBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(16);
-        make.top.equalTo(self.view).offset(49);
+        make.left.equalTo(self.navigationView).offset(16);
+        make.top.equalTo(self.navigationView).offset(5 + STATUSBAR_HEIGHT);
         make.size.mas_equalTo(CGSizeMake(32, 32));
     }];
     
-    [self.view addSubview:self.titleLabel];
+    self.headerView.frame = CGRectMake(0, NAVBAR_HEIGHT, self.view.bounds.size.width, 130);
+    [self.headerView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.leftBackButton.mas_bottom).offset(25);
-        make.left.equalTo(self.leftBackButton);
-        make.right.equalTo(self.view).offset(-16);
+        make.top.equalTo(self.headerView).offset(15);
+        make.left.equalTo(self.headerView).offset(16);
+        make.right.equalTo(self.headerView).offset(-16);
     }];
     
-    [self.view addSubview:self.briefLabel];
+    [self.headerView addSubview:self.briefLabel];
     [self.briefLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
         make.left.right.equalTo(self.titleLabel);
     }];
     
-    [self.view addSubview:self.moreButton];
+    [self.headerView addSubview:self.moreButton];
     [self.moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.briefLabel.mas_bottom).offset(8);
         make.left.equalTo(self.titleLabel);
+        make.bottom.equalTo(self.headerView).offset(-25);
     }];
     
-    [self.view addSubview:self.contentView];
-    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.moreButton.mas_bottom).offset(23);
-        make.left.right.bottom.equalTo(self.view);
-    }];
+//    [self.view addSubview:self.contentView];
+//    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.headerView.mas_bottom).offset(23);
+//        make.left.right.bottom.equalTo(self.view);
+//    }];
     
     self.titles = @[@"编辑精选", @"最新", @"最热"];
     self.myCategoryView.titles = self.titles;
-    CGFloat categoryViewHeight = 44;
-    [self.contentView addSubview:self.categoryView];
-    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView);
-        make.right.equalTo(self.contentView);
-        make.top.equalTo(self.contentView).offset(12);
-        make.height.mas_equalTo(categoryViewHeight);
-    }];
-    [self.contentView addSubview:self.listContainerView];
-    [self.listContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView);
-        make.right.equalTo(self.contentView);
-        make.top.equalTo(self.categoryView.mas_bottom).offset(10);
-        make.bottom.equalTo(self.contentView);
-    }];
+//    CGFloat categoryViewHeight = 44;
+//    [self.contentView addSubview:self.categoryView];
+//    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.contentView);
+//        make.right.equalTo(self.contentView);
+//        make.top.equalTo(self.contentView).offset(12);
+//        make.height.mas_equalTo(categoryViewHeight);
+//    }];
+//    [self.contentView addSubview:self.listContainerView];
+//    [self.listContainerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.contentView);
+//        make.right.equalTo(self.contentView);
+//        make.top.equalTo(self.categoryView.mas_bottom).offset(10);
+//        make.bottom.equalTo(self.contentView);
+//    }];
 
     JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
     lineView.indicatorColor = Color16(0xFF1852);
     lineView.indicatorWidth = 28;
     self.myCategoryView.indicators = @[lineView];
+    
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(self.navigationView.mas_bottom);
+        make.bottom.equalTo(self.view);
+    }];
+    
+    [self updateTableHeaderViewHeight];
+}
+
+- (void)updateTableHeaderViewHeight {
+    [self.headerView updateConstraintsIfNeeded];
+    [self.headerView setNeedsLayout];
+    [self.headerView layoutIfNeeded];
+    
+    CGFloat height = [self.headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
+    CGRect frame = self.headerView.frame;
+    frame.size.height = height;
+    self.headerView.frame = frame;
+    self.tableView.tableHeaderView = self.headerView;
 }
 
 - (void)requestData {
@@ -139,6 +186,7 @@
         @strongobj(self)
         if (isSuccess) {
             self.briefLabel.text = self.viewModel.content;
+            [self updateTableHeaderViewHeight];
             if ([self.briefLabel isTextExceedingLines: 2]) {
                 [self.moreButton setHidden:NO];
             } else {
@@ -149,7 +197,7 @@
 }
 
 - (void)requestTabList {
-    
+    [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
 }
 
 - (JXCategoryTitleView *)myCategoryView {
@@ -163,26 +211,28 @@
 #pragma mark - JXCategoryViewDelegate
 // 点击选中或者滚动选中都会调用该方法。适用于只关心选中事件，不关心具体是点击还是滚动选中的。
 - (void)categoryView:(JXCategoryBaseView *)categoryView didSelectedItemAtIndex:(NSInteger)index {
+    [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
 }
 
 // 滚动选中的情况才会调用该方法
 - (void)categoryView:(JXCategoryBaseView *)categoryView didScrollSelectedItemAtIndex:(NSInteger)index {
+    [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
 }
 
-#pragma mark - JXCategoryListContainerViewDelegate
-// 返回列表的数量
-- (NSInteger)numberOfListsInlistContainerView:(JXCategoryListContainerView *)listContainerView {
-    return self.titles.count;
-}
-
-// 返回各个列表菜单下的实例，该实例需要遵守并实现 <JXCategoryListContentViewDelegate> 协议
-- (id<JXCategoryListContentViewDelegate>)listContainerView:(JXCategoryListContainerView *)listContainerView initListForIndex:(NSInteger)index {
-    
-    SLTagListViewController *vc = [[SLTagListViewController alloc] init];
-    vc.index = index;
-    vc.label = self.label;
-    return vc;
-}
+//#pragma mark - JXCategoryListContainerViewDelegate
+//// 返回列表的数量
+//- (NSInteger)numberOfListsInlistContainerView:(JXCategoryListContainerView *)listContainerView {
+//    return self.titles.count;
+//}
+//
+//// 返回各个列表菜单下的实例，该实例需要遵守并实现 <JXCategoryListContentViewDelegate> 协议
+//- (id<JXCategoryListContentViewDelegate>)listContainerView:(JXCategoryListContainerView *)listContainerView initListForIndex:(NSInteger)index {
+//    
+//    SLTagListViewController *vc = [[SLTagListViewController alloc] init];
+//    vc.index = index;
+//    vc.label = self.label;
+//    return vc;
+//}
 
 #pragma mark - Actions
 - (void)backPage {
@@ -195,6 +245,17 @@
 }
 
 #pragma mark - UI Elements
+- (UIView *)headerView {
+    if (!_headerView) {
+        _headerView = [UIView new];
+        _headerView.backgroundColor = UIColor.clearColor;
+        _headerView.clipsToBounds = NO;
+        _headerView.layer.cornerRadius = 16.0;
+        _headerView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    }
+    return _headerView;
+}
+
 - (UIButton *)leftBackButton {
     if (!_leftBackButton) {
         _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -247,6 +308,14 @@
     return _contentView;
 }
 
+- (UIView *)navigationView {
+    if (!_navigationView) {
+        _navigationView = [UIView new];
+        _navigationView.backgroundColor = Color16(0xF2F2F2);
+    }
+    return _navigationView;
+}
+
 // 分页菜单视图
 - (JXCategoryBaseView *)categoryView {
     if (!_categoryView) {
@@ -259,26 +328,222 @@
         _categoryView.titleSelectedColor = [UIColor blackColor];
         _categoryView.titleColor = Color16(0x7B7B7B);
         // !!!: 将列表容器视图关联到 categoryView
-        _categoryView.listContainer = self.listContainerView;
+//        _categoryView.listContainer = self.listContainerView;
         _categoryView.cellSpacing = 24;
         _categoryView.averageCellSpacingEnabled = NO;
     }
     return _categoryView;
 }
 
-// 列表容器视图
-- (JXCategoryListContainerView *)listContainerView {
-    if (!_listContainerView) {
-        _listContainerView = [[JXCategoryListContainerView alloc] initWithType:JXCategoryListContainerType_ScrollView delegate:self];
-    }
-    return _listContainerView;
+//// 列表容器视图
+//- (JXCategoryListContainerView *)listContainerView {
+//    if (!_listContainerView) {
+//        _listContainerView = [[JXCategoryListContainerView alloc] initWithType:JXCategoryListContainerType_ScrollView delegate:self];
+//    }
+//    return _listContainerView;
+//}
+//
+//- (SLTagListContainerViewModel *)viewModel {
+//    if (!_viewModel) {
+//        _viewModel = [[SLTagListContainerViewModel alloc] init];
+//    }
+//    return _viewModel;
+//}
+
+// ---- 
+
+- (void)addRefresh {
+    @weakobj(self);
+    self.tableView.mj_header = [CaocaoRefreshHeader headerWithRefreshingBlock:^{
+        @strongobj(self);
+        [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
+    }];
+    
+    self.tableView.mj_footer = [CaocaoRefreshFooter footerWithRefreshingBlock:^{
+        @strongobj(self);
+        [self loadMessagesList:CaocaoCarMessageListRefreshTypeLoadMore];
+    }];
 }
+
+- (void)setView:(UIView *)view{
+    [super setView:view];
+}
+
+- (void)loadMessagesList:(CaocaoCarMessageListRefreshType)type {
+    @weakobj(self);
+    [self.viewModel loadMessageListWithRefreshType:type withPageStyle:self.myCategoryView.selectedIndex withLabel:self.label resultHandler:^(BOOL isSuccess, NSError *error) {
+        @strongobj(self);
+        if (isSuccess) {
+            if ([self.viewModel.dataArray count] == 0) {
+                self.dataState = CaocaoDataLoadStateEmpty;
+            } else {
+                self.dataState = CaocaoDataLoadStateNormal;
+            }
+        } else {
+            self.dataState = CaocaoDataLoadStateError;
+        }
+        [self.tableView reloadData];
+        [self endRefresh];
+    }];
+}
+
+- (void)endRefresh
+{
+    if (self.viewModel.hasToEnd) {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    } else {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+    }
+}
+
+#pragma mark - SLEmptyWithLoginButtonViewDelegate
+- (void)gotoLoginPage {
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login", H5BaseUrl]];
+    dvc.hidesBottomBarWhenPushed = YES;
+    dvc.isLoginPage = YES;
+//    @weakobj(self)
+//    dvc.loginSucessCallback = ^{
+//        @strongobj(self)
+//    };
+    [self presentViewController:dvc animated:YES completion:nil];
+}
+
+- (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
+    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    dvc.isShowProgress = show;
+    [dvc startLoadRequestWithUrl:url];
+    dvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SLArticleTodayEntity *entity = self.viewModel.dataArray[indexPath.row];
+    NSString *url = [NSString stringWithFormat:@"%@/post/%@", H5BaseUrl, entity.articleId];
+    [self jumpToH5WithUrl:url andShowProgress:NO];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.viewModel.dataArray count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return UITableViewAutomaticDimension;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    SLProfileDynamicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLProfileDynamicTableViewCell" forIndexPath:indexPath];
+    if (cell) {
+        SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
+        [cell updateWithEntity:entity];
+        @weakobj(self);
+        cell.likeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self gotoLoginPage];
+                return;
+            }
+            [self.homeViewModel likeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+        
+        cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self gotoLoginPage];
+                return;
+            }
+            [self.homeViewModel dislikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+        
+        cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
+        };
+        
+        cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self gotoLoginPage];
+                return;
+            }
+            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+        cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self gotoLoginPage];
+                return;
+            }
+            [self.homeViewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                
+            }];
+        };
+    }
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 58;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    CGFloat categoryViewHeight = 58;
+    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, categoryViewHeight)];
+    sectionView.backgroundColor = UIColor.whiteColor;
+    sectionView.clipsToBounds = NO;
+    sectionView.layer.cornerRadius = 16.0;
+    sectionView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    [sectionView addSubview:self.categoryView];
+    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(sectionView).offset(14);
+        make.left.right.equalTo(sectionView);
+        make.bottom.equalTo(sectionView).offset(-14);
+    }];
+    return sectionView;
+}
+
+#pragma mark - UI Elements
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] init];
+        _tableView.clipsToBounds = YES;
+        _tableView.layer.cornerRadius = 16.0;
+        _tableView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+        _tableView.backgroundColor = UIColor.clearColor;
+        _tableView.dataSource = self;
+        _tableView.delegate = self;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[SLProfileDynamicTableViewCell class] forCellReuseIdentifier:@"SLProfileDynamicTableViewCell"];
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        if (@available(iOS 15.0, *)) {
+            _tableView.sectionHeaderTopPadding = 0;
+        }
+        _tableView.estimatedRowHeight = 100;
+    }
+    return _tableView;
+}
+
 
 - (SLTagListContainerViewModel *)viewModel {
     if (!_viewModel) {
         _viewModel = [[SLTagListContainerViewModel alloc] init];
     }
     return _viewModel;
+}
+
+- (SLHomePageViewModel *)homeViewModel {
+    if (!_homeViewModel) {
+        _homeViewModel = [[SLHomePageViewModel alloc] init];
+    }
+    return _homeViewModel;
 }
 
 @end
