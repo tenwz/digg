@@ -15,6 +15,7 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - DZNEmptyDataSet (1.8.1)
+  - IQKeyboardManager (6.5.11)
   - JXCategoryView (1.6.1)
   - Kingfisher (6.3.1)
   - Masonry (1.1.0)
@@ -39,6 +40,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking
   - DZNEmptyDataSet
+  - IQKeyboardManager
   - JXCategoryView
   - Kingfisher
   - Masonry
@@ -58,6 +60,7 @@ SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
     - AFNetworking
     - DZNEmptyDataSet
+    - IQKeyboardManager
     - JXCategoryView
     - Kingfisher
     - Masonry
@@ -85,6 +88,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  IQKeyboardManager: ef43ce1ba1e5aaf4adf222c0a46f39761f246879
   JXCategoryView: 7b1ee69ede4843c581688afe84d0f047723262f2
   Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
@@ -101,6 +105,6 @@ SPEC CHECKSUMS:
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
 
-PODFILE CHECKSUM: f4daa3a897b43939d06ec856bebd11e44097be3d
+PODFILE CHECKSUM: be94022355e8ac0f968af66a2a71cd307fcc45b0
 
 COCOAPODS: 1.16.2

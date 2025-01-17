@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "SLTabbarController.h"
 #import "SLUser.h"
+#import "IQKeyboardManager.h"
 
 @interface AppDelegate ()<UIApplicationDelegate>
 
@@ -18,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[IQKeyboardManager sharedManager] setEnable:YES];
+    
     [[SLUser defaultUser] loadUserInfoFromLocal];
     SLTabbarController *rootVC = [[SLTabbarController alloc] init];
     
