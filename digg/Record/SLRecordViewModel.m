@@ -15,27 +15,28 @@
 
 @implementation SLRecordViewModel
 
-- (void)subimtRecord:(NSString *)title content:(NSString *)content htmlContent:(NSString *)htmlContent labels:(NSArray *)labels resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler {
+- (void)subimtRecord:(NSString *)title link:(NSString *)url content:(NSString *)content htmlContent:(NSString *)htmlContent labels:(NSArray *)labels resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     NSString *urlString = [NSString stringWithFormat:@"%@/article/submit", APPBaseUrl];
     NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
     [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
     
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", nil];
-    
+
     NSMutableDictionary* parameters = [NSMutableDictionary new];
     parameters[@"title"] = title;
+    parameters[@"url"] = url;
     parameters[@"content"] = content;
     parameters[@"htmlContent"] = htmlContent;
     parameters[@"labels"] = labels;
     [manager POST:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (handler) {
-            if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                handler(YES, nil);
-            } else {
-                handler(NO, nil);
-            }
+            
+            NSData* data = (NSData*)responseObject;
+            NSString *articleId = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            handler(YES, articleId);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (handler) {
@@ -44,7 +45,7 @@
     }];
 }
 
-- (void)updateImage:(NSData *)imageData progress:(void(^)(CGFloat total, CGFloat current))progressHandler resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler {
+- (void)updateImage:(NSData *)imageData progress:(void(^)(CGFloat total, CGFloat current))progressHandler resultHandler:(void(^)(BOOL isSuccess, NSString *url))handler {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *urlString = [NSString stringWithFormat:@"%@/upImg", APPBaseUrl];
     NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
@@ -57,7 +58,7 @@
             // 添加 bg 文件
             if (imageData) {
                 [formData appendPartWithFileData:imageData
-                                            name:@"richTextImage"
+                                            name:@"file"
                                         fileName:@"richTextImage.jpg"
                                         mimeType:@"image/jpeg"];
             }
@@ -69,11 +70,13 @@
             }
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             if (handler) {
-                handler(YES, nil);
+                NSData* data = (NSData*)responseObject;
+                NSString *url = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                handler(YES, url);
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             if (handler) {
-                handler(NO, error);
+                handler(NO, @"");
             }
     }];
 }

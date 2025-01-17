@@ -7,6 +7,7 @@
 
 #import "SLRecordViewController.h"
 #import "SLGeneralMacro.h"
+#import "EnvConfigHeader.h"
 #import "Masonry.h"
 #import "SLHomeTagView.h"
 #import "SLRecordViewTagInputCollectionViewCell.h"
@@ -14,6 +15,7 @@
 #import "SLCustomFlowLayout.h"
 #import "SLRecordViewModel.h"
 #import "SVProgressHUD.h"
+#import "SLWebViewController.h"
 
 #import "digg-Swift.h"
 
@@ -120,7 +122,7 @@
         make.top.equalTo(self.line2View.mas_bottom);
         make.left.equalTo(self.contentView).offset(16);
         make.right.equalTo(self.contentView).offset(-16);
-        make.height.mas_equalTo(250);
+        make.height.mas_equalTo(300);
     }];
     [self.contentView addSubview:self.line3View];
     [self.line3View mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,6 +172,44 @@
     self.textView.text = @"";
     [self.tags removeAllObjects];
     [self.collectionView reloadData];
+    
+    [self.tagView setHidden:YES];
+    [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(20);
+        make.left.equalTo(self.contentView).offset(20);
+        make.right.equalTo(self.contentView).offset(-20);
+        make.height.mas_equalTo(60);
+    }];
+}
+
+- (void)showTagView {
+    if (self.tags.count > 0) {
+        [self.tagView setHidden:NO];
+        [self.tagView updateWithLabel:self.tags.firstObject];
+        [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(20);
+            make.left.equalTo(self.tagView.mas_right).offset(5);
+            make.right.equalTo(self.contentView).offset(-20);
+            make.height.mas_equalTo(60);
+        }];
+    } else {
+        [self.tagView setHidden:YES];
+        [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(20);
+            make.left.equalTo(self.contentView).offset(20);
+            make.right.equalTo(self.contentView).offset(-20);
+            make.height.mas_equalTo(60);
+        }];
+    }
+}
+
+- (void)gotoH5Page:(NSString *)articleId {
+    NSString *url = [NSString stringWithFormat:@"%@/post/%@", H5BaseUrl, articleId];
+    SLWebViewController *vc = [[SLWebViewController alloc] init];
+    vc.isShowProgress = NO;
+    [vc startLoadRequestWithUrl:url];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Actions
@@ -183,16 +223,17 @@
         [SVProgressHUD showErrorWithStatus:@"请添加标题"];
         return;
     }
+    NSString* url = [self.linkField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
     [SVProgressHUD show];
     @weakobj(self)
-     [self.viewModel subimtRecord:title content:self.textView.text htmlContent:self.textView.code2html labels:self.tags resultHandler:^(BOOL isSuccess, NSError * _Nonnull error) {
+    [self.viewModel subimtRecord:title link:url content:self.textView.text htmlContent:self.textView.code2html labels:self.tags resultHandler:^(BOOL isSuccess, NSString * articleId) {
         @strongobj(self)
-         [SVProgressHUD dismiss];
-         if (isSuccess) {
-             [self clearAll];
-         }
+        [SVProgressHUD dismiss];
+        if (isSuccess) {
+            [self gotoH5Page:articleId];
+            [self clearAll];
+        }
     }];
-    
 }
 
 #pragma mark - UICollectionView DataSource & Delegate
@@ -218,6 +259,7 @@
         cell.removeTag = ^(NSString * _Nonnull tagName, NSInteger index) {
             @strongobj(self)
             [self.tags removeObjectAtIndex:index];
+            [self showTagView];
             [self.collectionView reloadData];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.collectionView reloadData];
@@ -260,6 +302,7 @@
     }
     textField.text = @"";
     [self.collectionView reloadData]; // 刷新数据
+    [self showTagView];
     return YES;
 }
 

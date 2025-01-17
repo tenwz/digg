@@ -19,7 +19,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [[IQKeyboardManager sharedManager] setEnable:YES];
+    [[IQKeyboardManager sharedManager] setEnable:NO];
     
     [[SLUser defaultUser] loadUserInfoFromLocal];
     SLTabbarController *rootVC = [[SLTabbarController alloc] init];

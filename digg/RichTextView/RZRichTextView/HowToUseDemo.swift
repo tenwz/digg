@@ -116,17 +116,19 @@ public extension RZRichTextViewModel {
                     }
                 case .upload(let info): // 上传 以及点击重新上传时，将会执行
                     // FIXME: 此处自行实现上传功能，通过info获取里边的image、asset、filePath， 上传的进度需要设置到info.uploadStatus
-                    UploadTaskTest.uploadFile(id: info, testVM: info) { [weak info] progress in
+                    UploadTaskTest.uploadFile(id: info, testVM: info) { [weak info] progress, url in
                         if progress < 1 {
                             info?.uploadStatus.accept(.uploading(progress: progress))
                         } else {
                             info?.uploadStatus.accept(.complete(success: true, info: "上传完成"))
                             switch info?.type ?? .image {
-                            case .image: info?.src = "/Users/rztime/Downloads/123.jpeg"
-                            case .audio: info?.src = "/Users/rztime/Downloads/123.m4a"
+                            case .image:
+                                info?.src = url
+                            case .audio:
+                                info?.src = ""
                             case .video:
-                                info?.src = "/Users/rztime/Downloads/123.mp4"
-                                info?.poster = "/Users/rztime/Downloads/123.jpeg"
+                                info?.src = ""
+                                info?.poster = ""
                             }
                         }
                     }
@@ -201,27 +203,33 @@ public extension RZRichTextViewModel {
 /// 模拟上传
 class UploadTaskTest {
     ///  模拟上传，testVM主要用于释放timer
-    class func uploadFile(id: Any, testVM: NSObject, progress:((_ progress: CGFloat) -> Void)?) {
+    class func uploadFile(id: Any, testVM: NSObject, progress:((_ progress: CGFloat, _ url: String) -> Void)?) {
         
         if let info = testVM as? RZAttachmentInfo {
             if let image = info.image, let imageData = image.jpegData(compressionQuality: 0.6) {
                 let viewModel = SLRecordViewModel()
                 viewModel.updateImage(imageData) { total, complete in
                     let p = complete / total
-                    progress?(p)
-                } resultHandler: { success, error in
-                    
+                    DispatchQueue.main.async {
+                        progress?(p, "")
+                    }
+                } resultHandler: { success, url in
+                    if success {
+                        DispatchQueue.main.async {
+                            progress?(1, url)
+                        }
+                    }
                 }
             }
         }
-        
-        var p: CGFloat = 0
-        Timer.qtimer(interval: 0.5, target: testVM, repeats: true, mode: RunLoop.Mode.common) { timer in
-            p += 0.1
-            progress?(p)
-            if p >= 1 {
-                timer.invalidate()
-            }
-        }
+//        
+//        var p: CGFloat = 0
+//        Timer.qtimer(interval: 0.5, target: testVM, repeats: true, mode: RunLoop.Mode.common) { timer in
+//            p += 0.1
+//            progress?(p)
+//            if p >= 1 {
+//                timer.invalidate()
+//            }
+//        }
     }
 }

@@ -105,7 +105,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    NSLog(@"--> %@", self.bashOutlineView);
+
     self.borderLayer.bounds = self.bashOutlineView.bounds;
     self.borderLayer.position = CGPointMake(CGRectGetMidX(self.bashOutlineView.bounds), CGRectGetMidY(self.bashOutlineView.bounds));
     self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.borderLayer.bounds cornerRadius:12.5].CGPath;
