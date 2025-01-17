@@ -120,7 +120,7 @@
     if (list) {
         //②之前已经初始化了对应的list，就直接返回缓存的list，无需再次初始化
         return list;
-    }else {
+    } else {
         UIViewController *dvc;
         if (index == 0) {
             SLHomePageNewsViewController *listVC = [[SLHomePageNewsViewController alloc] init];
@@ -128,13 +128,18 @@
             //①自己缓存已经初始化的列表
             _listCache[targetTitle] = listVC;
             dvc = listVC;
-        }else if (index == 1){
-            SLHomeWebViewController *vc = [[SLHomeWebViewController alloc] init];
-//            发现
-            NSString *url = [NSString stringWithFormat:@"%@/home/recent",H5BaseUrl];
-            [vc startLoadRequestWithUrl:url];
-            dvc = vc;
-        }else if (index == 2){
+        }else if (index == 1) {
+            SLHomePageNewsViewController *listVC = [[SLHomePageNewsViewController alloc] init];
+            listVC.pageStyle = index;
+            //①自己缓存已经初始化的列表
+            _listCache[targetTitle] = listVC;
+            dvc = listVC;
+//            SLHomeWebViewController *vc = [[SLHomeWebViewController alloc] init];
+////            发现
+//            NSString *url = [NSString stringWithFormat:@"%@/home/recent",H5BaseUrl];
+//            [vc startLoadRequestWithUrl:url];
+//            dvc = vc;
+        }else if (index == 2) {
             SLHomeWebViewController *vc = [[SLHomeWebViewController alloc] init];
 //            发现
             NSString *url = [NSString stringWithFormat:@"%@/home/forYou",H5BaseUrl];

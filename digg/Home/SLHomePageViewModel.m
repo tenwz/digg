@@ -56,13 +56,12 @@
 - (NSString *)handleReqApiPath:(HomePageStyle)pageStyle{
     NSString *urlString;
     NSString *baseUrl = ApiBaseUrl;
-    urlString = [NSString stringWithFormat:@"%@/api/article/today?pageNo=%ld&pageSize=%ld",baseUrl,self.curPage,self.pageSize];
+    if (pageStyle == HomePageStyleToday) {
+        urlString = [NSString stringWithFormat:@"%@/api/article/today?pageNo=%ld&pageSize=%ld", baseUrl, self.curPage, self.pageSize];
+    } else if (pageStyle == HomePageStyleDiscover) {
+        urlString = [NSString stringWithFormat:@"%@/api/article/news?pageNo=%ld&pageSize=%ld", baseUrl, self.curPage, self.pageSize];
+    }
 
-//    if (pageStyle == HomePageSyleQuestion) {
-//        urlString = [NSString stringWithFormat:@"%@/api/comment/commentFeed?pageNo=%ld&pageSize=%ld",baseUrl,self.curPage,self.pageSize];
-//    }else{
-//        urlString = [NSString stringWithFormat:@"%@/api/article/today?pageNo=%ld&pageSize=%ld",baseUrl,self.curPage,self.pageSize];
-//    }
     return urlString;
 }
 
