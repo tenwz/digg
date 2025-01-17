@@ -13,7 +13,7 @@
 
 typedef NS_ENUM(NSUInteger, HomePageStyle) {
     HomePageStyleToday = 0, //今天
-    HomePageStyleDiscover = 1,
+    HomePageStyleDiscover = 1, //发现
     HomePageStyleForyou = 2
 //    HomePageSyleLatest,    //最新
 //    HomePageSyleProduct,   //作品

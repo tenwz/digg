@@ -16,6 +16,7 @@
 #import "SLRecordViewModel.h"
 #import "SVProgressHUD.h"
 #import "SLWebViewController.h"
+#import "SLCustomTextField.h"
 
 #import "digg-Swift.h"
 
@@ -28,7 +29,7 @@
 @property (nonatomic, strong) UIView* contentView;
 @property (nonatomic, strong) SLHomeTagView *tagView;
 @property (nonatomic, strong) UITextField *titleField; // 标题输入框
-@property (nonatomic, strong) UITextField *linkField;  // 链接输入框
+@property (nonatomic, strong) SLCustomTextField *linkField;  // 链接输入框
 @property (nonatomic, strong) RZRichTextView *textView;    // 多行文本输入框
 @property (nonatomic, strong) UIView *line1View;
 @property (nonatomic, strong) UIView *line2View;
@@ -87,7 +88,7 @@
     [self.contentView addSubview:self.tagView];
     [self.contentView addSubview:self.titleField];
     [self.titleField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(20);
+        make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(20);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(60);
@@ -105,14 +106,14 @@
     }];
     [self.contentView addSubview:self.linkField];
     [self.linkField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.line1View.mas_bottom);
+        make.top.equalTo(self.line1View.mas_bottom).offset(15);
         make.left.equalTo(self.contentView).offset(20);
         make.right.equalTo(self.contentView).offset(-20);
-        make.height.mas_equalTo(60);
+        make.height.mas_equalTo(30);
     }];
     [self.contentView addSubview:self.line2View];
     [self.line2View mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.linkField.mas_bottom);
+        make.top.equalTo(self.linkField.mas_bottom).offset(15);
         make.left.equalTo(self.contentView).offset(20);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(0.5);
@@ -143,7 +144,14 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    self.linkField.customFrame = self.linkField.frame;
     [self.collectionView reloadData];
+}
+
+- (void)updateLinkTextFieldFrame:(CGFloat)height {
+    [self.linkField mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(height);
+    }];
 }
 
 #pragma mark - Clear Button
@@ -175,7 +183,7 @@
     
     [self.tagView setHidden:YES];
     [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(20);
+        make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView).offset(20);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(60);
@@ -187,7 +195,7 @@
         [self.tagView setHidden:NO];
         [self.tagView updateWithLabel:self.tags.firstObject];
         [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(20);
+            make.top.equalTo(self.contentView);
             make.left.equalTo(self.tagView.mas_right).offset(5);
             make.right.equalTo(self.contentView).offset(-20);
             make.height.mas_equalTo(60);
@@ -195,7 +203,7 @@
     } else {
         [self.tagView setHidden:YES];
         [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(20);
+            make.top.equalTo(self.contentView);
             make.left.equalTo(self.contentView).offset(20);
             make.right.equalTo(self.contentView).offset(-20);
             make.height.mas_equalTo(60);
@@ -218,12 +226,12 @@
 //}
 
 - (void)commitBtnClick {
-    NSString* title = [self.titleField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+    NSString* title = [self.titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (title.length == 0) {
         [SVProgressHUD showErrorWithStatus:@"请添加标题"];
         return;
     }
-    NSString* url = [self.linkField.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+    NSString* url = [self.linkField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     [SVProgressHUD show];
     @weakobj(self)
     [self.viewModel subimtRecord:title link:url content:self.textView.text htmlContent:self.textView.code2html labels:self.tags resultHandler:^(BOOL isSuccess, NSString * articleId) {
@@ -358,23 +366,29 @@
         _titleField = [[UITextField alloc] init];
         _titleField.placeholder = @"添加标题";
         _titleField.borderStyle = UITextBorderStyleNone;
-        _titleField.font = [UIFont systemFontOfSize:24];
-        _titleField.rightView = [self createClearButtonForTextField:self.titleField];
+        _titleField.font = [UIFont systemFontOfSize:20];
+        _titleField.clearButtonMode = UITextFieldViewModeAlways;
+//        _titleField.rightView = [self createClearButtonForTextField:self.titleField];
         _titleField.rightViewMode = UITextFieldViewModeWhileEditing;
         _titleField.textColor = UIColor.blackColor;
     }
     return _titleField;
 }
 
-- (UITextField *)linkField {
+- (SLCustomTextField *)linkField {
     if (!_linkField) {
-        _linkField = [[UITextField alloc] init];
-        _linkField.placeholder = @"链接";
-        _linkField.borderStyle = UITextBorderStyleNone;
-        _linkField.font = [UIFont systemFontOfSize:16];
-        _linkField.rightView = [self createClearButtonForTextField:self.linkField];
-        _linkField.rightViewMode = UITextFieldViewModeWhileEditing;
-        _linkField.textColor = UIColor.blackColor;
+        _linkField = [[SLCustomTextField alloc] initWithFrame:CGRectZero placeholder:@"链接" clear:YES leftView:NULL fontSize:16];
+        __weak typeof(self) weakSelf = self;
+        _linkField.updateFrame = ^(CGFloat height) {
+            [weakSelf updateLinkTextFieldFrame:height];
+        };
+//        _linkField.textColor = UIColor.blueColor;
+//        _linkField.placeholder = @"链接";
+//        _linkField.borderStyle = UITextBorderStyleNone;
+//        _linkField.font = [UIFont systemFontOfSize:16];
+////        _linkField.rightView = [self createClearButtonForTextField:self.linkField];
+//        _linkField.rightViewMode = UITextFieldViewModeWhileEditing;
+//        _linkField.clearButtonMode = UITextFieldViewModeAlways;
     }
     return _linkField;
 }
