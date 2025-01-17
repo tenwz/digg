@@ -22,6 +22,48 @@
 		34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */; };
 		34D2E9822D33C8370067CC05 /* SLTagListContainerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */; };
 		34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */; };
+		34D2EB992D3941DE0067CC05 /* TZImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34D2EB832D3941DE0067CC05 /* TZImagePickerController.bundle */; };
+		34D2EB9A2D3941DE0067CC05 /* TZImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB812D3941DE0067CC05 /* TZImageManager.m */; };
+		34D2EB9B2D3941DE0067CC05 /* TZAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB772D3941DE0067CC05 /* TZAssetCell.m */; };
+		34D2EB9C2D3941DE0067CC05 /* TZVideoCropController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB902D3941DE0067CC05 /* TZVideoCropController.m */; };
+		34D2EB9D2D3941DE0067CC05 /* TZPhotoPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB882D3941DE0067CC05 /* TZPhotoPickerController.m */; };
+		34D2EB9E2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB7B2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.m */; };
+		34D2EB9F2D3941DE0067CC05 /* TZImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB842D3941DE0067CC05 /* TZImagePickerController.m */; };
+		34D2EBA02D3941DE0067CC05 /* UIView+TZLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB962D3941DE0067CC05 /* UIView+TZLayout.m */; };
+		34D2EBA12D3941DE0067CC05 /* TZPhotoPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB8A2D3941DE0067CC05 /* TZPhotoPreviewCell.m */; };
+		34D2EBA22D3941DE0067CC05 /* TZVideoPlayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB942D3941DE0067CC05 /* TZVideoPlayerController.m */; };
+		34D2EBA32D3941DE0067CC05 /* TZAssetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB792D3941DE0067CC05 /* TZAssetModel.m */; };
+		34D2EBA42D3941DE0067CC05 /* TZImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB862D3941DE0067CC05 /* TZImageRequestOperation.m */; };
+		34D2EBA52D3941DE0067CC05 /* TZLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB722D3941DE0067CC05 /* TZLocationManager.m */; };
+		34D2EBA62D3941DE0067CC05 /* TZVideoEditedPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB922D3941DE0067CC05 /* TZVideoEditedPreviewController.m */; };
+		34D2EBA72D3941DE0067CC05 /* TZPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB8C2D3941DE0067CC05 /* TZPhotoPreviewController.m */; };
+		34D2EBA82D3941DE0067CC05 /* NSBundle+TZImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB752D3941DE0067CC05 /* NSBundle+TZImagePicker.m */; };
+		34D2EBA92D3941DE0067CC05 /* TZImageCropManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB7F2D3941DE0067CC05 /* TZImageCropManager.m */; };
+		34D2EBAA2D3941DE0067CC05 /* TZGifPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB7D2D3941DE0067CC05 /* TZGifPhotoPreviewController.m */; };
+		34D2EBAB2D3941DE0067CC05 /* TZProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB8E2D3941DE0067CC05 /* TZProgressView.m */; };
+		34D2EBC02D3942880067CC05 /* RZRichTextView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34D2EBAC2D3942880067CC05 /* RZRichTextView.bundle */; };
+		34D2EBC12D3942880067CC05 /* RZRichTextBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBBA2D3942880067CC05 /* RZRichTextBase.swift */; };
+		34D2EBC22D3942880067CC05 /* AttributedStringRich.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBAE2D3942880067CC05 /* AttributedStringRich.swift */; };
+		34D2EBC32D3942880067CC05 /* RZRichTextViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBBD2D3942880067CC05 /* RZRichTextViewModel.swift */; };
+		34D2EBC42D3942880067CC05 /* RZLinkInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB62D3942880067CC05 /* RZLinkInputViewController.swift */; };
+		34D2EBC52D3942880067CC05 /* RZInputAccessoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB42D3942880067CC05 /* RZInputAccessoryItem.swift */; };
+		34D2EBC62D3942880067CC05 /* RZAttachmentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB02D3942880067CC05 /* RZAttachmentInfo.swift */; };
+		34D2EBC72D3942880067CC05 /* RZInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB52D3942880067CC05 /* RZInputAccessoryView.swift */; };
+		34D2EBC82D3942880067CC05 /* RZCss.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB22D3942880067CC05 /* RZCss.swift */; };
+		34D2EBC92D3942880067CC05 /* RZRichTextViewConfigure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBBC2D3942880067CC05 /* RZRichTextViewConfigure.swift */; };
+		34D2EBCA2D3942880067CC05 /* RZRichTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBBB2D3942880067CC05 /* RZRichTextView.swift */; };
+		34D2EBCB2D3942880067CC05 /* RZRichTableStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB92D3942880067CC05 /* RZRichTableStyleView.swift */; };
+		34D2EBCC2D3942880067CC05 /* RZAttachmentInfoLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB12D3942880067CC05 /* RZAttachmentInfoLayerView.swift */; };
+		34D2EBCD2D3942880067CC05 /* RZRichParagraphStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB82D3942880067CC05 /* RZRichParagraphStyleView.swift */; };
+		34D2EBCE2D3942880067CC05 /* LabelRZRich.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBAF2D3942880067CC05 /* LabelRZRich.swift */; };
+		34D2EBCF2D3942880067CC05 /* RZRichFontStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB72D3942880067CC05 /* RZRichFontStyleView.swift */; };
+		34D2EBD02D3942880067CC05 /* RZHtml.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBB32D3942880067CC05 /* RZHtml.swift */; };
+		34D2EBD62D3943660067CC05 /* SLRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBD52D3943660067CC05 /* SLRecordViewController.m */; };
+		34D2EBD82D394A8B0067CC05 /* HowToUseDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBD72D394A8B0067CC05 /* HowToUseDemo.swift */; };
+		34D2EBDE2D3A01410067CC05 /* SLRecordViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBDD2D3A01410067CC05 /* SLRecordViewModel.m */; };
+		34D2EBE12D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBE02D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.m */; };
+		34D2EBE42D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBE32D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m */; };
+		34D2EBE72D3A2D340067CC05 /* SLCustomFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EBE62D3A2D340067CC05 /* SLCustomFlowLayout.m */; };
 		703F132D482FE46A6379243D /* libPods-digg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E828F1163A81AA53E358E2FB /* libPods-digg.a */; };
 		E76A45B52CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B42CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.m */; };
 		E76A45B92CB8C06F008B2746 /* CaocaoButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E76A45B82CB8C06F008B2746 /* CaocaoButton.m */; };
@@ -131,6 +173,72 @@
 		34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewModel.m; sourceTree = "<group>"; };
 		34D2E9832D33CF3D0067CC05 /* SLTagListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListViewController.h; sourceTree = "<group>"; };
 		34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListViewController.m; sourceTree = "<group>"; };
+		34D2EB712D3941DE0067CC05 /* TZLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZLocationManager.h; sourceTree = "<group>"; };
+		34D2EB722D3941DE0067CC05 /* TZLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZLocationManager.m; sourceTree = "<group>"; };
+		34D2EB742D3941DE0067CC05 /* NSBundle+TZImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+TZImagePicker.h"; sourceTree = "<group>"; };
+		34D2EB752D3941DE0067CC05 /* NSBundle+TZImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+TZImagePicker.m"; sourceTree = "<group>"; };
+		34D2EB762D3941DE0067CC05 /* TZAssetCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZAssetCell.h; sourceTree = "<group>"; };
+		34D2EB772D3941DE0067CC05 /* TZAssetCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZAssetCell.m; sourceTree = "<group>"; };
+		34D2EB782D3941DE0067CC05 /* TZAssetModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZAssetModel.h; sourceTree = "<group>"; };
+		34D2EB792D3941DE0067CC05 /* TZAssetModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZAssetModel.m; sourceTree = "<group>"; };
+		34D2EB7A2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZAuthLimitedFooterTipView.h; sourceTree = "<group>"; };
+		34D2EB7B2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZAuthLimitedFooterTipView.m; sourceTree = "<group>"; };
+		34D2EB7C2D3941DE0067CC05 /* TZGifPhotoPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZGifPhotoPreviewController.h; sourceTree = "<group>"; };
+		34D2EB7D2D3941DE0067CC05 /* TZGifPhotoPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZGifPhotoPreviewController.m; sourceTree = "<group>"; };
+		34D2EB7E2D3941DE0067CC05 /* TZImageCropManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZImageCropManager.h; sourceTree = "<group>"; };
+		34D2EB7F2D3941DE0067CC05 /* TZImageCropManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZImageCropManager.m; sourceTree = "<group>"; };
+		34D2EB802D3941DE0067CC05 /* TZImageManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZImageManager.h; sourceTree = "<group>"; };
+		34D2EB812D3941DE0067CC05 /* TZImageManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZImageManager.m; sourceTree = "<group>"; };
+		34D2EB822D3941DE0067CC05 /* TZImagePickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZImagePickerController.h; sourceTree = "<group>"; };
+		34D2EB832D3941DE0067CC05 /* TZImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TZImagePickerController.bundle; sourceTree = "<group>"; };
+		34D2EB842D3941DE0067CC05 /* TZImagePickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZImagePickerController.m; sourceTree = "<group>"; };
+		34D2EB852D3941DE0067CC05 /* TZImageRequestOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZImageRequestOperation.h; sourceTree = "<group>"; };
+		34D2EB862D3941DE0067CC05 /* TZImageRequestOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZImageRequestOperation.m; sourceTree = "<group>"; };
+		34D2EB872D3941DE0067CC05 /* TZPhotoPickerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZPhotoPickerController.h; sourceTree = "<group>"; };
+		34D2EB882D3941DE0067CC05 /* TZPhotoPickerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPickerController.m; sourceTree = "<group>"; };
+		34D2EB892D3941DE0067CC05 /* TZPhotoPreviewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZPhotoPreviewCell.h; sourceTree = "<group>"; };
+		34D2EB8A2D3941DE0067CC05 /* TZPhotoPreviewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPreviewCell.m; sourceTree = "<group>"; };
+		34D2EB8B2D3941DE0067CC05 /* TZPhotoPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZPhotoPreviewController.h; sourceTree = "<group>"; };
+		34D2EB8C2D3941DE0067CC05 /* TZPhotoPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZPhotoPreviewController.m; sourceTree = "<group>"; };
+		34D2EB8D2D3941DE0067CC05 /* TZProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZProgressView.h; sourceTree = "<group>"; };
+		34D2EB8E2D3941DE0067CC05 /* TZProgressView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZProgressView.m; sourceTree = "<group>"; };
+		34D2EB8F2D3941DE0067CC05 /* TZVideoCropController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZVideoCropController.h; sourceTree = "<group>"; };
+		34D2EB902D3941DE0067CC05 /* TZVideoCropController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZVideoCropController.m; sourceTree = "<group>"; };
+		34D2EB912D3941DE0067CC05 /* TZVideoEditedPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZVideoEditedPreviewController.h; sourceTree = "<group>"; };
+		34D2EB922D3941DE0067CC05 /* TZVideoEditedPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZVideoEditedPreviewController.m; sourceTree = "<group>"; };
+		34D2EB932D3941DE0067CC05 /* TZVideoPlayerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZVideoPlayerController.h; sourceTree = "<group>"; };
+		34D2EB942D3941DE0067CC05 /* TZVideoPlayerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZVideoPlayerController.m; sourceTree = "<group>"; };
+		34D2EB952D3941DE0067CC05 /* UIView+TZLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+TZLayout.h"; sourceTree = "<group>"; };
+		34D2EB962D3941DE0067CC05 /* UIView+TZLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+TZLayout.m"; sourceTree = "<group>"; };
+		34D2EBAC2D3942880067CC05 /* RZRichTextView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RZRichTextView.bundle; sourceTree = "<group>"; };
+		34D2EBAE2D3942880067CC05 /* AttributedStringRich.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringRich.swift; sourceTree = "<group>"; };
+		34D2EBAF2D3942880067CC05 /* LabelRZRich.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelRZRich.swift; sourceTree = "<group>"; };
+		34D2EBB02D3942880067CC05 /* RZAttachmentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZAttachmentInfo.swift; sourceTree = "<group>"; };
+		34D2EBB12D3942880067CC05 /* RZAttachmentInfoLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZAttachmentInfoLayerView.swift; sourceTree = "<group>"; };
+		34D2EBB22D3942880067CC05 /* RZCss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZCss.swift; sourceTree = "<group>"; };
+		34D2EBB32D3942880067CC05 /* RZHtml.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZHtml.swift; sourceTree = "<group>"; };
+		34D2EBB42D3942880067CC05 /* RZInputAccessoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZInputAccessoryItem.swift; sourceTree = "<group>"; };
+		34D2EBB52D3942880067CC05 /* RZInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZInputAccessoryView.swift; sourceTree = "<group>"; };
+		34D2EBB62D3942880067CC05 /* RZLinkInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZLinkInputViewController.swift; sourceTree = "<group>"; };
+		34D2EBB72D3942880067CC05 /* RZRichFontStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichFontStyleView.swift; sourceTree = "<group>"; };
+		34D2EBB82D3942880067CC05 /* RZRichParagraphStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichParagraphStyleView.swift; sourceTree = "<group>"; };
+		34D2EBB92D3942880067CC05 /* RZRichTableStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichTableStyleView.swift; sourceTree = "<group>"; };
+		34D2EBBA2D3942880067CC05 /* RZRichTextBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichTextBase.swift; sourceTree = "<group>"; };
+		34D2EBBB2D3942880067CC05 /* RZRichTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichTextView.swift; sourceTree = "<group>"; };
+		34D2EBBC2D3942880067CC05 /* RZRichTextViewConfigure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichTextViewConfigure.swift; sourceTree = "<group>"; };
+		34D2EBBD2D3942880067CC05 /* RZRichTextViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RZRichTextViewModel.swift; sourceTree = "<group>"; };
+		34D2EBD42D3943660067CC05 /* SLRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLRecordViewController.h; sourceTree = "<group>"; };
+		34D2EBD52D3943660067CC05 /* SLRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLRecordViewController.m; sourceTree = "<group>"; };
+		34D2EBD72D394A8B0067CC05 /* HowToUseDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseDemo.swift; sourceTree = "<group>"; };
+		34D2EBDB2D394C760067CC05 /* digg-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "digg-Bridging-Header.h"; sourceTree = "<group>"; };
+		34D2EBDC2D3A01410067CC05 /* SLRecordViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLRecordViewModel.h; sourceTree = "<group>"; };
+		34D2EBDD2D3A01410067CC05 /* SLRecordViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLRecordViewModel.m; sourceTree = "<group>"; };
+		34D2EBDF2D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLRecordViewTagInputCollectionViewCell.h; sourceTree = "<group>"; };
+		34D2EBE02D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLRecordViewTagInputCollectionViewCell.m; sourceTree = "<group>"; };
+		34D2EBE22D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLRecordViewTagCollectionViewCell.h; sourceTree = "<group>"; };
+		34D2EBE32D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLRecordViewTagCollectionViewCell.m; sourceTree = "<group>"; };
+		34D2EBE52D3A2D340067CC05 /* SLCustomFlowLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLCustomFlowLayout.h; sourceTree = "<group>"; };
+		34D2EBE62D3A2D340067CC05 /* SLCustomFlowLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLCustomFlowLayout.m; sourceTree = "<group>"; };
 		44262EF495A884D327C8F69E /* Pods-digg.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.debug.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.debug.xcconfig"; sourceTree = "<group>"; };
 		C0C36A29D1E20E9D246DAEB5 /* Pods-digg.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-digg.release.xcconfig"; path = "Target Support Files/Pods-digg/Pods-digg.release.xcconfig"; sourceTree = "<group>"; };
 		E76A45B32CB8BCB8008B2746 /* SLHomePageLatestNewsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLHomePageLatestNewsTableViewCell.h; sourceTree = "<group>"; };
@@ -318,6 +426,134 @@
 			path = Tag;
 			sourceTree = "<group>";
 		};
+		34D2E9AB2D393B1E0067CC05 /* RichTextView */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EBBF2D3942880067CC05 /* RZRichTextView */,
+				34D2EB982D3941DE0067CC05 /* TZImagePickerController */,
+			);
+			path = RichTextView;
+			sourceTree = "<group>";
+		};
+		34D2EB732D3941DE0067CC05 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EB712D3941DE0067CC05 /* TZLocationManager.h */,
+				34D2EB722D3941DE0067CC05 /* TZLocationManager.m */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		34D2EB972D3941DE0067CC05 /* TZImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EB742D3941DE0067CC05 /* NSBundle+TZImagePicker.h */,
+				34D2EB752D3941DE0067CC05 /* NSBundle+TZImagePicker.m */,
+				34D2EB762D3941DE0067CC05 /* TZAssetCell.h */,
+				34D2EB772D3941DE0067CC05 /* TZAssetCell.m */,
+				34D2EB782D3941DE0067CC05 /* TZAssetModel.h */,
+				34D2EB792D3941DE0067CC05 /* TZAssetModel.m */,
+				34D2EB7A2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.h */,
+				34D2EB7B2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.m */,
+				34D2EB7C2D3941DE0067CC05 /* TZGifPhotoPreviewController.h */,
+				34D2EB7D2D3941DE0067CC05 /* TZGifPhotoPreviewController.m */,
+				34D2EB7E2D3941DE0067CC05 /* TZImageCropManager.h */,
+				34D2EB7F2D3941DE0067CC05 /* TZImageCropManager.m */,
+				34D2EB802D3941DE0067CC05 /* TZImageManager.h */,
+				34D2EB812D3941DE0067CC05 /* TZImageManager.m */,
+				34D2EB822D3941DE0067CC05 /* TZImagePickerController.h */,
+				34D2EB832D3941DE0067CC05 /* TZImagePickerController.bundle */,
+				34D2EB842D3941DE0067CC05 /* TZImagePickerController.m */,
+				34D2EB852D3941DE0067CC05 /* TZImageRequestOperation.h */,
+				34D2EB862D3941DE0067CC05 /* TZImageRequestOperation.m */,
+				34D2EB872D3941DE0067CC05 /* TZPhotoPickerController.h */,
+				34D2EB882D3941DE0067CC05 /* TZPhotoPickerController.m */,
+				34D2EB892D3941DE0067CC05 /* TZPhotoPreviewCell.h */,
+				34D2EB8A2D3941DE0067CC05 /* TZPhotoPreviewCell.m */,
+				34D2EB8B2D3941DE0067CC05 /* TZPhotoPreviewController.h */,
+				34D2EB8C2D3941DE0067CC05 /* TZPhotoPreviewController.m */,
+				34D2EB8D2D3941DE0067CC05 /* TZProgressView.h */,
+				34D2EB8E2D3941DE0067CC05 /* TZProgressView.m */,
+				34D2EB8F2D3941DE0067CC05 /* TZVideoCropController.h */,
+				34D2EB902D3941DE0067CC05 /* TZVideoCropController.m */,
+				34D2EB912D3941DE0067CC05 /* TZVideoEditedPreviewController.h */,
+				34D2EB922D3941DE0067CC05 /* TZVideoEditedPreviewController.m */,
+				34D2EB932D3941DE0067CC05 /* TZVideoPlayerController.h */,
+				34D2EB942D3941DE0067CC05 /* TZVideoPlayerController.m */,
+				34D2EB952D3941DE0067CC05 /* UIView+TZLayout.h */,
+				34D2EB962D3941DE0067CC05 /* UIView+TZLayout.m */,
+			);
+			path = TZImagePickerController;
+			sourceTree = "<group>";
+		};
+		34D2EB982D3941DE0067CC05 /* TZImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EB732D3941DE0067CC05 /* Location */,
+				34D2EB972D3941DE0067CC05 /* TZImagePickerController */,
+			);
+			path = TZImagePickerController;
+			sourceTree = "<group>";
+		};
+		34D2EBAD2D3942880067CC05 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EBAC2D3942880067CC05 /* RZRichTextView.bundle */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		34D2EBBE2D3942880067CC05 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EBAE2D3942880067CC05 /* AttributedStringRich.swift */,
+				34D2EBAF2D3942880067CC05 /* LabelRZRich.swift */,
+				34D2EBB02D3942880067CC05 /* RZAttachmentInfo.swift */,
+				34D2EBB12D3942880067CC05 /* RZAttachmentInfoLayerView.swift */,
+				34D2EBB22D3942880067CC05 /* RZCss.swift */,
+				34D2EBB32D3942880067CC05 /* RZHtml.swift */,
+				34D2EBB42D3942880067CC05 /* RZInputAccessoryItem.swift */,
+				34D2EBB52D3942880067CC05 /* RZInputAccessoryView.swift */,
+				34D2EBB62D3942880067CC05 /* RZLinkInputViewController.swift */,
+				34D2EBB72D3942880067CC05 /* RZRichFontStyleView.swift */,
+				34D2EBB82D3942880067CC05 /* RZRichParagraphStyleView.swift */,
+				34D2EBB92D3942880067CC05 /* RZRichTableStyleView.swift */,
+				34D2EBBA2D3942880067CC05 /* RZRichTextBase.swift */,
+				34D2EBBB2D3942880067CC05 /* RZRichTextView.swift */,
+				34D2EBBC2D3942880067CC05 /* RZRichTextViewConfigure.swift */,
+				34D2EBBD2D3942880067CC05 /* RZRichTextViewModel.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		34D2EBBF2D3942880067CC05 /* RZRichTextView */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EBD72D394A8B0067CC05 /* HowToUseDemo.swift */,
+				34D2EBAD2D3942880067CC05 /* Assets */,
+				34D2EBBE2D3942880067CC05 /* Classes */,
+				34D2EBDB2D394C760067CC05 /* digg-Bridging-Header.h */,
+			);
+			path = RZRichTextView;
+			sourceTree = "<group>";
+		};
+		34D2EBD12D3943000067CC05 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				34D2EBD42D3943660067CC05 /* SLRecordViewController.h */,
+				34D2EBD52D3943660067CC05 /* SLRecordViewController.m */,
+				34D2EBDC2D3A01410067CC05 /* SLRecordViewModel.h */,
+				34D2EBDD2D3A01410067CC05 /* SLRecordViewModel.m */,
+				34D2EBDF2D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.h */,
+				34D2EBE02D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.m */,
+				34D2EBE22D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.h */,
+				34D2EBE32D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m */,
+				34D2EBE52D3A2D340067CC05 /* SLCustomFlowLayout.h */,
+				34D2EBE62D3A2D340067CC05 /* SLCustomFlowLayout.m */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
 		640F3E5572CD9D019BCD7399 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,6 +689,8 @@
 		E7769E582CA2E63A00AE84F4 /* digg */ = {
 			isa = PBXGroup;
 			children = (
+				34D2EBD12D3943000067CC05 /* Record */,
+				34D2E9AB2D393B1E0067CC05 /* RichTextView */,
 				34D2E97C2D33C47C0067CC05 /* Tag */,
 				E7769FBD2CB7CF1F00AE84F4 /* NHome */,
 				E7769EBD2CB798E700AE84F4 /* Common */,
@@ -825,6 +1063,8 @@
 				E7769FD92CB7CF1F00AE84F4 /* HomeMenuView.xib in Resources */,
 				E7769E662CA2E63B00AE84F4 /* Assets.xcassets in Resources */,
 				E7769E692CA2E63B00AE84F4 /* Base in Resources */,
+				34D2EBC02D3942880067CC05 /* RZRichTextView.bundle in Resources */,
+				34D2EB992D3941DE0067CC05 /* TZImagePickerController.bundle in Resources */,
 				E7769FD12CB7CF1F00AE84F4 /* HomeMenuCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -896,6 +1136,7 @@
 				E7769E612CA2E63A00AE84F4 /* ViewController.m in Sources */,
 				E7769E9B2CA4F9BC00AE84F4 /* SLHomePageNewsViewController.m in Sources */,
 				E76A45CC2CB93827008B2746 /* CaocaoRefreshCircleView.m in Sources */,
+				34D2EBE12D3A04CC0067CC05 /* SLRecordViewTagInputCollectionViewCell.m in Sources */,
 				E76A45CD2CB93827008B2746 /* CaocaoRefreshFooter.m in Sources */,
 				E76A45E12CBCA827008B2746 /* SLArticleTodayEntity.m in Sources */,
 				E76A45CE2CB93827008B2746 /* CaocaoRefreshHeader.m in Sources */,
@@ -903,7 +1144,43 @@
 				E7769FDE2CB7D31F00AE84F4 /* BaseCollectionViewModel.m in Sources */,
 				344EFA042D2E5111001E5FAF /* KxMenu.m in Sources */,
 				E7769EA62CB181A800AE84F4 /* SLTabbarController.m in Sources */,
+				34D2EBC12D3942880067CC05 /* RZRichTextBase.swift in Sources */,
+				34D2EBC22D3942880067CC05 /* AttributedStringRich.swift in Sources */,
+				34D2EBC32D3942880067CC05 /* RZRichTextViewModel.swift in Sources */,
+				34D2EBC42D3942880067CC05 /* RZLinkInputViewController.swift in Sources */,
+				34D2EBC52D3942880067CC05 /* RZInputAccessoryItem.swift in Sources */,
+				34D2EBC62D3942880067CC05 /* RZAttachmentInfo.swift in Sources */,
+				34D2EBC72D3942880067CC05 /* RZInputAccessoryView.swift in Sources */,
+				34D2EBC82D3942880067CC05 /* RZCss.swift in Sources */,
+				34D2EBC92D3942880067CC05 /* RZRichTextViewConfigure.swift in Sources */,
+				34D2EBCA2D3942880067CC05 /* RZRichTextView.swift in Sources */,
+				34D2EBCB2D3942880067CC05 /* RZRichTableStyleView.swift in Sources */,
+				34D2EBCC2D3942880067CC05 /* RZAttachmentInfoLayerView.swift in Sources */,
+				34D2EBCD2D3942880067CC05 /* RZRichParagraphStyleView.swift in Sources */,
+				34D2EBCE2D3942880067CC05 /* LabelRZRich.swift in Sources */,
+				34D2EBCF2D3942880067CC05 /* RZRichFontStyleView.swift in Sources */,
+				34D2EBD02D3942880067CC05 /* RZHtml.swift in Sources */,
 				E7A3B6E92CC0AB6F00BB7304 /* UIImage+CommonKit.m in Sources */,
+				34D2EB9A2D3941DE0067CC05 /* TZImageManager.m in Sources */,
+				34D2EB9B2D3941DE0067CC05 /* TZAssetCell.m in Sources */,
+				34D2EB9C2D3941DE0067CC05 /* TZVideoCropController.m in Sources */,
+				34D2EB9D2D3941DE0067CC05 /* TZPhotoPickerController.m in Sources */,
+				34D2EB9E2D3941DE0067CC05 /* TZAuthLimitedFooterTipView.m in Sources */,
+				34D2EB9F2D3941DE0067CC05 /* TZImagePickerController.m in Sources */,
+				34D2EBA02D3941DE0067CC05 /* UIView+TZLayout.m in Sources */,
+				34D2EBA12D3941DE0067CC05 /* TZPhotoPreviewCell.m in Sources */,
+				34D2EBA22D3941DE0067CC05 /* TZVideoPlayerController.m in Sources */,
+				34D2EBD82D394A8B0067CC05 /* HowToUseDemo.swift in Sources */,
+				34D2EBA32D3941DE0067CC05 /* TZAssetModel.m in Sources */,
+				34D2EBA42D3941DE0067CC05 /* TZImageRequestOperation.m in Sources */,
+				34D2EBA52D3941DE0067CC05 /* TZLocationManager.m in Sources */,
+				34D2EBA62D3941DE0067CC05 /* TZVideoEditedPreviewController.m in Sources */,
+				34D2EBA72D3941DE0067CC05 /* TZPhotoPreviewController.m in Sources */,
+				34D2EBA82D3941DE0067CC05 /* NSBundle+TZImagePicker.m in Sources */,
+				34D2EBA92D3941DE0067CC05 /* TZImageCropManager.m in Sources */,
+				34D2EBAA2D3941DE0067CC05 /* TZGifPhotoPreviewController.m in Sources */,
+				34D2EBAB2D3941DE0067CC05 /* TZProgressView.m in Sources */,
+				34D2EBE42D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m in Sources */,
 				E7C137E32CF31F2A00C5053A /* SLHomeWebViewController.m in Sources */,
 				E7C405792CC26970004D90CD /* SLCommentFeedEntity.m in Sources */,
 				E7769EB52CB1A72400AE84F4 /* SLLoginViewController.m in Sources */,
@@ -911,6 +1188,7 @@
 				E76A45EB2CBFB9AB008B2746 /* CaocaoLoadDataDefaultView.m in Sources */,
 				E7769EC02CB798F800AE84F4 /* SLWebViewController.m in Sources */,
 				34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */,
+				34D2EBDE2D3A01410067CC05 /* SLRecordViewModel.m in Sources */,
 				E7769EBC2CB265C300AE84F4 /* CaocaoClickableAttributedTextLabel.m in Sources */,
 				3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */,
 				E76A45BC2CB8C08D008B2746 /* UIView+CommonKit.m in Sources */,
@@ -920,6 +1198,7 @@
 				E7769EB92CB264AB00AE84F4 /* SLUserLoginPrivacyView.m in Sources */,
 				E76A45D12CB965F6008B2746 /* SLFollowingListItemCell.m in Sources */,
 				E76A45B92CB8C06F008B2746 /* CaocaoButton.m in Sources */,
+				34D2EBE72D3A2D340067CC05 /* SLCustomFlowLayout.m in Sources */,
 				E7769FE12CB7FC2F00AE84F4 /* SLHomeCategoryModel.m in Sources */,
 				E76A45E82CBFB994008B2746 /* CaocaoRootViewController.m in Sources */,
 				E7769EAD2CB1A2DF00AE84F4 /* SLFollowingListViewController.m in Sources */,
@@ -936,6 +1215,7 @@
 				E7769FC12CB7CF1F00AE84F4 /* CDViewController.m in Sources */,
 				E7769EA12CA4F9F700AE84F4 /* SLHomePageNewsTableViewCell.m in Sources */,
 				E7C139342CF325A600C5053A /* SLUser.m in Sources */,
+				34D2EBD62D3943660067CC05 /* SLRecordViewController.m in Sources */,
 				E7769E6C2CA2E63B00AE84F4 /* main.m in Sources */,
 				3486EFE82D2B807A00A55258 /* SLProfilePageViewModel.m in Sources */,
 				E7C139372CF325BC00C5053A /* SLUserEntity.m in Sources */,
@@ -1154,8 +1434,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "digg/RichTextView/RZRichTextView/digg-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 6.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1192,7 +1473,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 6.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "digg/RichTextView/RZRichTextView/digg-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

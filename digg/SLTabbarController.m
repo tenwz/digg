@@ -11,6 +11,7 @@
 #import "SLFollowingListViewController.h"
 #import "SLMineViewController.h"
 #import "HomeViewController.h"
+#import "SLRecordViewController.h"
 
 #import "SLLoginViewController.h"
 #import "SLPublishViewController.h"
@@ -29,7 +30,8 @@
 @property (nonatomic, strong) SLNavigationController *noticeNavi;
 @property (nonatomic, strong) SLWebViewController *noticeVC;
 @property (nonatomic, strong) SLNavigationController *recordNavi;
-@property (nonatomic, strong) SLWebViewController *recordVC;
+//@property (nonatomic, strong) SLWebViewController *recordVC;
+@property (nonatomic, strong) SLRecordViewController *recordVC;
 @property (nonatomic, strong) SLNavigationController *mineNavi;
 @property (nonatomic, strong) WKWebView *wkWebView;
 @end
@@ -92,8 +94,8 @@
     noticeNavi.viewControllers = @[self.noticeVC];
     self.noticeVC.navigationController.navigationBar.hidden = YES;
 
-    self.recordVC = [[SLWebViewController alloc] init];
-    [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
+    self.recordVC = [[SLRecordViewController alloc] init];
+//    [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
     SLNavigationController *recordNavi = [self createRootNavi];
     self.recordNavi = recordNavi;
     recordNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"记录" image:[UIImage imageNamed:@"record_unsel"] selectedImage:[UIImage imageNamed:@"record_selected"]];
@@ -118,7 +120,9 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
     
-    if ([viewController isEqual:self.homeNavi] || [viewController isEqual:self.mineNavi]) {
+    if ([viewController isEqual:self.homeNavi]
+        || [viewController isEqual:self.mineNavi]
+        || [viewController isEqual:self.recordNavi]) {
         return YES;
     } else {
         if (![SLUser defaultUser].isLogin) {
@@ -127,8 +131,6 @@
         }
         if ([viewController isEqual:self.noticeNavi]) {
             [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-        } else if ([viewController isEqual:self.recordNavi]) {
-            [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
         }
     }
     return YES;
