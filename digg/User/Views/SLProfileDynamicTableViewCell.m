@@ -85,17 +85,18 @@
         self.timeLabel.text = [NSString stringWithFormat:@"%@ · %@", dateStr, entiy.actionName];
     }
 
+    self.titleLabel.text = entiy.title;
     CGFloat lineSpacing = 6;
-    NSString *titleStr = entiy.title;
-    NSMutableParagraphStyle *titleParagraphStyle = [NSMutableParagraphStyle new];
-    titleParagraphStyle.lineSpacing = lineSpacing;
-    NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
-    [titleAttributes setObject:[UIFont boldSystemFontOfSize:16] forKey:NSFontAttributeName];
-    [titleAttributes setObject:Color16(0x222222) forKey:NSForegroundColorAttributeName];
-    [titleAttributes setObject:titleParagraphStyle forKey:NSParagraphStyleAttributeName];
-    if (titleStr != nil) {
-        self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleStr attributes:titleAttributes];
-    }
+//    NSString *titleStr = entiy.title;
+//    NSMutableParagraphStyle *titleParagraphStyle = [NSMutableParagraphStyle new];
+//    titleParagraphStyle.lineSpacing = lineSpacing;
+//    NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
+//    [titleAttributes setObject:[UIFont boldSystemFontOfSize:16] forKey:NSFontAttributeName];
+//    [titleAttributes setObject:Color16(0x222222) forKey:NSForegroundColorAttributeName];
+//    [titleAttributes setObject:titleParagraphStyle forKey:NSParagraphStyleAttributeName];
+//    if (titleStr != nil) {
+//        self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleStr attributes:titleAttributes];
+//    }
     
     NSString *contentStr = entiy.content;
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -311,6 +312,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:16];
         _titleLabel.textColor = Color16(0x222222);
+        _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _titleLabel;
 }
