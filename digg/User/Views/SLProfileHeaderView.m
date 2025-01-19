@@ -11,6 +11,8 @@
 #import "SLTagCollectionViewCell.h"
 #import "SDWebImage.h"
 #import "SLTagsView.h"
+#import "digg-Swift.h"
+
 
 @interface SLProfileHeaderView()
 
@@ -60,6 +62,8 @@
         [self.contentView addSubview:self.tagLabel];
 
         [self.contentView addSubview:self.tagsView];
+        
+        self.isSkeletonable = YES;
     }
     return self;
 }
@@ -161,7 +165,7 @@
 
 - (void)setEntity:(SLProfileEntity *)entity {
     _entity = entity;
-    
+
     [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:entity.avatar]
                  placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
     
@@ -236,13 +240,16 @@
 #pragma mark - UI Elements
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
-        _avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"avatar_default_img"]];
+        _avatarImageView = [[UIImageView alloc] init]; //WithImage:[UIImage imageNamed:@"avatar_default_img"]
+        _avatarImageView.backgroundColor = UIColor.whiteColor;
         _avatarImageView.layer.cornerRadius = 30;
         _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.layer.borderColor = UIColor.whiteColor.CGColor;
         _avatarImageView.layer.borderWidth = 1;
         _avatarImageView.clipsToBounds = YES;
         _avatarImageView.layer.zPosition = 1; // 提高层级
+        
+        _avatarImageView.isSkeletonable = YES;
     }
     return _avatarImageView;
 }
@@ -259,6 +266,8 @@
         _editorButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_editorButton setHidden: YES];
         [_editorButton addTarget:self action:@selector(gotoEdit) forControlEvents:UIControlEventTouchUpInside];
+        
+        _editorButton.isSkeletonable = YES;
     }
     return _editorButton;
 }
@@ -285,6 +294,8 @@
         _nameLabel.text = @"";
         _nameLabel.textColor = UIColor.blackColor;
         _nameLabel.font = [UIFont boldSystemFontOfSize:18];
+        
+        _nameLabel.isSkeletonable = YES;
     }
     return _nameLabel;
 }
@@ -296,6 +307,8 @@
         _briefLabel.textColor = Color16(0x222222);
         _briefLabel.font = [UIFont systemFontOfSize:12];
         _briefLabel.numberOfLines = 0;
+        
+        _briefLabel.isSkeletonable = YES;
     }
     return _briefLabel;
 }
@@ -318,6 +331,8 @@
         [attributedString addAttribute:NSFontAttributeName value:smallFont range:range];
         [attributedString addAttribute:NSForegroundColorAttributeName value:smallColor range:range];
         _followLabel.attributedText = attributedString;
+        
+        _followLabel.isSkeletonable = YES;
     }
     return _followLabel;
 }
@@ -340,6 +355,8 @@
         [attributedString addAttribute:NSFontAttributeName value:smallFont range:range];
         [attributedString addAttribute:NSForegroundColorAttributeName value:smallColor range:range];
         _attentionLabel.attributedText = attributedString;
+        
+        _attentionLabel.isSkeletonable = YES;
     }
     return _attentionLabel;
 }
@@ -364,6 +381,8 @@
         [attributedString addAttribute:NSFontAttributeName value:smallFont range:range];
         [attributedString addAttribute:NSForegroundColorAttributeName value:smallColor range:range];
         _collectLabel.attributedText = attributedString;
+        
+        _collectLabel.isSkeletonable = YES;
     }
     return _collectLabel;
 }
@@ -374,6 +393,8 @@
         _tagLabel.text = @"我的标签";
         _tagLabel.textColor = UIColor.blackColor;
         _tagLabel.font = [UIFont boldSystemFontOfSize:14];
+        
+        _tagLabel.isSkeletonable = YES;
     }
     return _tagLabel;
 }

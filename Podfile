@@ -32,7 +32,7 @@ target 'digg' do
    pod 'YYText'
    pod 'DZNEmptyDataSet'
    pod 'SVProgressHUD'
-   
+
    pod 'IQKeyboardManager'
    pod 'Kingfisher'
    pod 'RZColorfulSwift'

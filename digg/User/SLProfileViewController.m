@@ -25,6 +25,7 @@
 #import "SVProgressHUD.h"
 #import "SLProfileDynamicTableViewCell.h"
 #import "SLTagListContainerViewController.h"
+#import "digg-Swift.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
@@ -57,13 +58,18 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
     [self setupUI];
+    self.view.isSkeletonable = YES;
+    self.tableView.backgroundColor = UIColor.whiteColor;
+    [self.view showSkeleton];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     @weakobj(self)
     [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
         @strongobj(self)
+        self.tableView.backgroundColor = UIColor.clearColor;
+        [self.view hideSkeleton];
         if (isLogin) {
             if ([self.userId length] == 0) {
                 self.userId = [SLUser defaultUser].userEntity.userId;
@@ -516,6 +522,7 @@
         _headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_header_bg"]];
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         [_headerImageView setUserInteractionEnabled:YES];
+        _headerImageView.isSkeletonable = YES;
     }
     return _headerImageView;
 }
@@ -525,6 +532,7 @@
         _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftBackButton setImage:[UIImage imageNamed:@"profile_left_btn"] forState:UIControlStateNormal];
         [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
+        _leftBackButton.isSkeletonable = YES;
     }
     return _leftBackButton;
 }
@@ -534,6 +542,7 @@
         _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_moreButton setImage:[UIImage imageNamed:@"profile_more_btn"] forState:UIControlStateNormal];
         [_moreButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
+        _moreButton.isSkeletonable = YES;
     }
     return _moreButton;
 }
@@ -573,6 +582,7 @@
         _segmentControl = [[SLSegmentControl alloc] initWithFrame:CGRectZero];
         _segmentControl.titles = @[@"动态", @"赞同", @"收藏"];
         _segmentControl.delegate = self; // 设置代理为当前控制器
+        _segmentControl.isSkeletonable = YES;
     }
     return _segmentControl;
 }
@@ -588,7 +598,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
-        _tableView.backgroundColor = UIColor.whiteColor;
+        _tableView.backgroundColor = UIColor.clearColor;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -603,6 +613,8 @@
         
         _tableView.emptyDataSetSource = self;
         _tableView.emptyDataSetDelegate = self;
+
+        _tableView.isSkeletonable = YES;
     }
     return _tableView;
 }
