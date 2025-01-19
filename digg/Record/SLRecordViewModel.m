@@ -15,7 +15,7 @@
 
 @implementation SLRecordViewModel
 
-- (void)subimtRecord:(NSString *)title link:(NSString *)url content:(NSString *)content htmlContent:(NSString *)htmlContent labels:(NSArray *)labels resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler {
+- (void)subimtRecord:(NSString *)title link:(NSString *)url content:(NSString *)content htmlContent:(NSString *)htmlContent labels:(NSArray *)labels resultHandler:(void(^)(BOOL isSuccess, NSString *articleId))handler {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     NSString *urlString = [NSString stringWithFormat:@"%@/article/submit", APPBaseUrl];
@@ -40,7 +40,38 @@
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (handler) {
-            handler(NO, error);
+            handler(NO, error.description);
+        }
+    }];
+}
+
+- (void)updateRecord:(NSString *)title link:(NSString *)url content:(NSString *)content htmlContent:(NSString *)htmlContent labels:(NSArray *)labels articleId:(NSString *)articleId resultHandler:(void(^)(BOOL isSuccess, NSString* articleId))handler {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    NSString *urlString = [NSString stringWithFormat:@"%@/article/update", APPBaseUrl];
+    NSString *cookieStr = [NSString stringWithFormat:@"bp-token=%@", [SLUser defaultUser].userEntity.token];
+    [manager.requestSerializer setValue:cookieStr forHTTPHeaderField:@"Cookie"];
+    
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", @"text/json", @"text/javascript", @"text/html", nil];
+
+    NSMutableDictionary* parameters = [NSMutableDictionary new];
+    parameters[@"articleId"] = articleId;
+    parameters[@"title"] = title;
+    parameters[@"url"] = url;
+    parameters[@"content"] = content;
+    parameters[@"htmlContent"] = htmlContent;
+    parameters[@"labels"] = labels;
+    [manager POST:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (handler) {
+            
+            NSData* data = (NSData*)responseObject;
+            NSString *articleId = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            handler(YES, articleId);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (handler) {
+            handler(NO, error.description);
         }
     }];
 }

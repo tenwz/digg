@@ -16,6 +16,7 @@
 #import "SLGeneralMacro.h"
 #import "SLUser.h"
 #import "SLProfileViewController.h"
+#import "SLRecordViewController.h"
 
 @interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
@@ -196,6 +197,31 @@
                 SLProfileViewController *dvc = [[SLProfileViewController alloc] init];
                 dvc.userId = uid;
                 dvc.fromWeb = YES;
+                [self.navigationController pushViewController:dvc animated:YES];
+            });
+        }
+        responseCallback(data);
+    }];
+    
+    [self.bridge registerHandler:@"openRecord" handler:^(id data, WVJBResponseCallback responseCallback) {
+        if ([data isKindOfClass:[NSDictionary class]]) {
+            @strongobj(self);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSDictionary *dic = (NSDictionary *)data;
+                NSString *articleId = [NSString stringWithFormat:@"%@", [dic objectForKey:@"articleId"]];
+                NSString *titleText = [NSString stringWithFormat:@"%@", [dic objectForKey:@"title"]];
+                NSString *url = [NSString stringWithFormat:@"%@", [dic objectForKey:@"url"]];
+                NSString *content = [NSString stringWithFormat:@"%@", [dic objectForKey:@"content"]];
+                NSString *htmlContent = [NSString stringWithFormat:@"%@", [dic objectForKey:@"richContent"]];
+                NSArray *labels = [dic objectForKey:@"labels"];
+                SLRecordViewController *dvc = [[SLRecordViewController alloc] init];
+                dvc.articleId = articleId;
+                dvc.titleText = titleText;
+                dvc.url = url;
+                dvc.content = content;
+                dvc.htmlContent = htmlContent;
+                dvc.labels = labels;
+                dvc.isEdit = YES;
                 [self.navigationController pushViewController:dvc animated:YES];
             });
         }

@@ -23,7 +23,7 @@
 @interface SLRecordViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView* navigationView;
-//@property (nonatomic, strong) UIButton *leftBackButton;
+@property (nonatomic, strong) UIButton *leftBackButton;
 @property (nonatomic, strong) UIButton *commitButton;
 
 @property (nonatomic, strong) UIView* contentView;
@@ -41,6 +41,7 @@
 @property (nonatomic, assign) BOOL isEditing;                   // 是否处于编辑状态
 
 @property (nonatomic, strong) SLRecordViewModel *viewModel;
+@property (nonatomic, assign) BOOL isUpdateUrl;
 
 @end
 
@@ -51,9 +52,21 @@
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
     self.view.backgroundColor = UIColor.whiteColor;
-    
+    [self.leftBackButton setHidden:YES];
     self.tags = [NSMutableArray array];
     [self setupUI];
+    
+    self.isUpdateUrl = NO;
+    if (self.isEdit) {
+        [self.leftBackButton setHidden:NO];
+        [self.textView becomeFirstResponder];
+        self.titleField.text = self.titleText;
+        self.linkField.text = self.url;
+        [self.textView html2AttributedstringWithHtml:self.htmlContent];
+        [self.textView showPlaceHolder];
+        [self.tags addObjectsFromArray:self.labels];
+        [self.collectionView reloadData];
+    }
 }
 
 #pragma mark - Methods
@@ -64,12 +77,12 @@
         make.height.mas_equalTo(NAVBAR_HEIGHT + 5);
     }];
     
-//    [self.navigationView addSubview:self.leftBackButton];
-//    [self.leftBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.navigationView).offset(16);
-//        make.top.equalTo(self.navigationView).offset(5 + STATUSBAR_HEIGHT);
-//        make.height.mas_equalTo(32);
-//    }];
+    [self.navigationView addSubview:self.leftBackButton];
+    [self.leftBackButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.navigationView).offset(16);
+        make.top.equalTo(self.navigationView).offset(5 + STATUSBAR_HEIGHT);
+        make.height.mas_equalTo(32);
+    }];
     
     [self.navigationView addSubview:self.commitButton];
     [self.commitButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -144,7 +157,13 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.linkField.customFrame = self.linkField.frame;
+    if (self.linkField.frame.size.width > 0 && self.linkField.frame.size.height > 0) {
+        self.linkField.customFrame = self.linkField.frame;
+        if (self.isEdit && !self.isUpdateUrl) {
+            self.isUpdateUrl = YES;
+            [self.linkField textChangedHeight:self.url];
+        }
+    }
     [self.collectionView reloadData];
 }
 
@@ -221,9 +240,9 @@
 }
 
 #pragma mark - Actions
-//- (void)backPage {
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
+- (void)backPage {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (void)commitBtnClick {
     NSString* title = [self.titleField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -234,14 +253,25 @@
     NSString* url = [self.linkField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     [SVProgressHUD show];
     @weakobj(self)
-    [self.viewModel subimtRecord:title link:url content:self.textView.text htmlContent:self.textView.code2html labels:self.tags resultHandler:^(BOOL isSuccess, NSString * articleId) {
-        @strongobj(self)
-        [SVProgressHUD dismiss];
-        if (isSuccess) {
-            [self gotoH5Page:articleId];
-            [self clearAll];
-        }
-    }];
+    if (self.isEdit) {
+        [self.viewModel updateRecord:title link:url content:self.textView.text htmlContent:self.textView.code2html labels:self.tags articleId:self.articleId resultHandler:^(BOOL isSuccess, NSString * _Nonnull articleId) {
+            @strongobj(self)
+            [SVProgressHUD dismiss];
+            if (isSuccess) {
+                [self gotoH5Page:articleId];
+                [self clearAll];
+            }
+        }];
+    } else {
+        [self.viewModel subimtRecord:title link:url content:self.textView.text htmlContent:self.textView.code2html labels:self.tags resultHandler:^(BOOL isSuccess, NSString * articleId) {
+            @strongobj(self)
+            [SVProgressHUD dismiss];
+            if (isSuccess) {
+                [self gotoH5Page:articleId];
+                [self clearAll];
+            }
+        }];
+    }
 }
 
 #pragma mark - UICollectionView DataSource & Delegate
@@ -323,15 +353,15 @@
     return _navigationView;
 }
 
-//- (UIButton *)leftBackButton {
-//    if (!_leftBackButton) {
-//        _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_leftBackButton setTitle:@"取消" forState:UIControlStateNormal];
-//        [_leftBackButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-//        [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _leftBackButton;
-//}
+- (UIButton *)leftBackButton {
+    if (!_leftBackButton) {
+        _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_leftBackButton setTitle:@"取消" forState:UIControlStateNormal];
+        [_leftBackButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _leftBackButton;
+}
 
 - (UIButton *)commitButton {
     if (!_commitButton) {

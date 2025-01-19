@@ -81,7 +81,11 @@
 - (void)textFieldDidChange:(id)sender {
     UITextField *textField = (UITextField *)sender;
 
-    CGSize size = [self labelText:[NSString stringWithFormat:@"%@|",textField.text] fondSize:_fontSize width:_label.frame.size.width];
+    [self textChangedHeight:textField.text];
+}
+
+- (void)textChangedHeight:(NSString *)text {
+    CGSize size = [self labelText:[NSString stringWithFormat:@"%@|", text] fondSize:_fontSize width:_label.frame.size.width];
     _label.frame = CGRectMake(_label.frame.origin.x, _label.frame.origin.y, _label.frame.size.width, size.height < _frame.size.height ? _frame.size.height : size.height);
     self.frame = CGRectMake(_frame.origin.x, _frame.origin.y, _frame.size.width, size.height < _frame.size.height ? _frame.size.height : size.height);
     
@@ -89,16 +93,16 @@
         self.updateFrame(size.height < _frame.size.height ? _frame.size.height : size.height);
     }
 
-    if (textField.text.length == 0) {
+    if (text.length == 0) {
         _label.text = @"";
         self.tintColor = [UIColor blueColor];
     } else {
         //添加一个假的光标
         self.tintColor = [UIColor clearColor];
-        NSString *text = [NSString stringWithFormat:@"%@|",textField.text];
-        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:text];
-        [attString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, text.length)];
-        [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:_fontSize] range:NSMakeRange(0, text.length - 1)];
+        NSString *textWithCursor = [NSString stringWithFormat:@"%@|", text];
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:textWithCursor];
+        [attString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, textWithCursor.length)];
+        [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:_fontSize] range:NSMakeRange(0, textWithCursor.length - 1)];
         _label.attributedText = attString;
     }
 }

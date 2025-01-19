@@ -63,7 +63,7 @@
     rect = self.messageBtn.frame;
     if (rect.size.width > 0) {
         [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
+            make.width.mas_equalTo(rect.size.width + 2);
         }];
     }
 }
