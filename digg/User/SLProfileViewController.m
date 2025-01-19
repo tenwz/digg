@@ -81,6 +81,11 @@
     }];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.tableView.backgroundColor = UIColor.clearColor;
+}
+
 - (void)updateUI {
     if (self.userId.length == 0) {
         [self.emptyView setHidden: NO];
