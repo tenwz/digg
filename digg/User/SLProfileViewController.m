@@ -83,7 +83,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.tableView.backgroundColor = UIColor.clearColor;
+    self.tableView.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)updateUI {
@@ -184,7 +184,11 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(98);
         make.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
+        if (self.fromWeb) {
+            make.bottom.equalTo(self.view);
+        } else {
+            make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
+        }
     }];
     self.tableView.tableHeaderView = self.headerView;
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
