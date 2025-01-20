@@ -10,8 +10,6 @@
 
 @interface SLEmptyWithLoginButtonView()
 
-@property (nonatomic, strong) UIButton* loginBtn;
-
 @end
 
 @implementation SLEmptyWithLoginButtonView

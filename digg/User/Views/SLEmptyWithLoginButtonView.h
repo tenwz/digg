@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SLEmptyWithLoginButtonView : UIView
 
 @property (nonatomic, weak) id<SLEmptyWithLoginButtonViewDelegate> delegate;
+@property (nonatomic, strong) UIButton* loginBtn;
 
 @end
 

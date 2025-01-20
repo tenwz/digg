@@ -61,9 +61,7 @@
 
         [self.contentView addSubview:self.tagLabel];
 
-        [self.contentView addSubview:self.tagsView];
-        
-        self.isSkeletonable = YES;
+        [self.contentView addSubview:self.tagsView];        
     }
     return self;
 }
@@ -410,6 +408,7 @@
     if (!_headerBGView) {
         _headerBGView = [UIView new];
         _headerBGView.backgroundColor = UIColor.clearColor;
+        _headerBGView.isSkeletonable = NO;
     }
     return _headerBGView;
 }
