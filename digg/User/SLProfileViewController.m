@@ -27,11 +27,8 @@
 #import "SLTagListContainerViewController.h"
 #import "digg-Swift.h"
 
-#import <JXCategoryView/JXCategoryView.h>
-#import <JXCategoryView/JXCategoryListContainerView.h>
 
-
-@interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate, JXCategoryViewDelegate, JXCategoryListContainerViewDelegate>
+@interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
 
 @property (nonatomic, strong) UIImageView* headerImageView;
 @property (nonatomic, strong) UIVisualEffectView *blurEffectView;
@@ -42,15 +39,11 @@
 @property (nonatomic, strong) UILabel* briefLabel;
 @property (nonatomic, strong) SLProfileHeaderView* headerView;
 
-//@property (nonatomic, strong) SLSegmentControl* segmentControl;
-//@property (nonatomic, strong) UIView* line;
-
-@property (nonatomic, assign) NSInteger selectedIndex;
-@property (nonatomic, strong) NSArray *titles;
-@property (nonatomic, strong) JXCategoryTitleView *categoryView;
-@property (nonatomic, strong) JXCategoryTitleView *myCategoryView;
+@property (nonatomic, strong) SLSegmentControl* segmentControl;
+@property (nonatomic, strong) UIView* line;
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIView *hideView;
 
 @property (nonatomic, strong) SLEmptyWithLoginButtonView* emptyView;
 
@@ -65,10 +58,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
-    self.selectedIndex = 0;
     [self setupUI];
-    [self.emptyView.loginBtn setHidden:YES];
-    [self.emptyView setHidden: NO];
+    [self.hideView setHidden:NO];
 //    self.view.isSkeletonable = YES;
 //    self.tableView.backgroundColor = UIColor.whiteColor;
 //    [self.view showSkeleton];
@@ -80,14 +71,14 @@
     [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
         @strongobj(self)
         self.tableView.backgroundColor = UIColor.clearColor;
-        [self.view hideSkeleton];
+//        [self.view hideSkeleton];
         if (isLogin) {
             if ([self.userId length] == 0) {
                 self.userId = [SLUser defaultUser].userEntity.userId;
             }
             [self updateUI];
         } else {
-            [self.emptyView.loginBtn setHidden:NO];
+            [self.hideView setHidden:YES];
             [self.emptyView setHidden:NO];
         }
     }];
@@ -99,8 +90,8 @@
 }
 
 - (void)updateUI {
+    [self.hideView setHidden:YES];
     if (self.userId.length == 0) {
-        [self.emptyView.loginBtn setHidden:NO];
         [self.emptyView setHidden:NO];
     } else {
         [self.emptyView setHidden:YES];
@@ -193,14 +184,6 @@
         make.top.equalTo(self.nameLabel.mas_bottom).offset(2);
     }];
     
-    self.titles = @[@"动态", @"赞同", @"收藏"];
-    self.myCategoryView.titles = self.titles;
-    
-    JXCategoryIndicatorLineView *lineView = [[JXCategoryIndicatorLineView alloc] init];
-    lineView.indicatorColor = Color16(0xFF1852);
-    lineView.indicatorWidth = 28;
-    self.myCategoryView.indicators = @[lineView];
-    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(98);
@@ -222,6 +205,12 @@
         make.left.right.equalTo(self.view);
         make.top.equalTo(self.view);
         make.bottom.equalTo(self.mas_bottomLayoutGuideTop);
+    }];
+    [self.view addSubview:self.hideView];
+    [self.hideView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(self.view);
+        make.top.equalTo(self.tableView).offset(120);
+        make.bottom.equalTo(self.view);
     }];
 }
 
@@ -255,29 +244,8 @@
     }];
 }
 
-//#pragma mark - SLSegmentControlDelegate
-//- (void)segmentControl:(SLSegmentControl *)segmentControl didSelectIndex:(NSInteger)index {
-//    [self.tableView reloadData];
-//}
-
-- (JXCategoryTitleView *)myCategoryView {
-    return (JXCategoryTitleView *)self.categoryView;
-}
-
-- (JXCategoryTitleView *)preferredCategoryView {
-    return [[JXCategoryTitleView alloc] init];
-}
-
-#pragma mark - JXCategoryViewDelegate
-// 点击选中或者滚动选中都会调用该方法。适用于只关心选中事件，不关心具体是点击还是滚动选中的。
-- (void)categoryView:(JXCategoryBaseView *)categoryView didSelectedItemAtIndex:(NSInteger)index {
-    self.selectedIndex = index;
-    [self.tableView reloadData];
-}
-
-// 滚动选中的情况才会调用该方法
-- (void)categoryView:(JXCategoryBaseView *)categoryView didScrollSelectedItemAtIndex:(NSInteger)index {
-    self.selectedIndex = index;
+#pragma mark - SLSegmentControlDelegate
+- (void)segmentControl:(SLSegmentControl *)segmentControl didSelectIndex:(NSInteger)index {
     [self.tableView reloadData];
 }
 
@@ -366,11 +334,11 @@
 #pragma mark - UITableViewDataSource
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     SLArticleTodayEntity *entity;
-    if (self.selectedIndex == 0) {
+    if (self.segmentControl.selectedIndex == 0) {
         entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
-    } else if (self.selectedIndex == 1) {
+    } else if (self.segmentControl.selectedIndex == 1) {
         entity = [self.viewModel.entity.likeList objectAtIndex:indexPath.row];
-    } else if (self.selectedIndex == 2) {
+    } else if (self.segmentControl.selectedIndex == 2) {
         entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
     }
     NSString *url = [NSString stringWithFormat:@"%@/post/%@", H5BaseUrl, entity.articleId];
@@ -382,11 +350,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.selectedIndex == 0) {
+    if (self.segmentControl.selectedIndex == 0) {
         return self.viewModel.entity.feedList.count;
-    } else if (self.selectedIndex == 1) {
+    } else if (self.segmentControl.selectedIndex == 1) {
         return self.viewModel.entity.likeList.count;
-    } else if (self.selectedIndex == 2) {
+    } else if (self.segmentControl.selectedIndex == 2) {
         return self.viewModel.entity.submitList.count;
     } else {
         return 0;
@@ -398,38 +366,27 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 41)];
-//    sectionView.backgroundColor = UIColor.whiteColor;
-//    [sectionView addSubview:self.segmentControl];
-//    [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(sectionView);
-//        make.left.equalTo(sectionView).offset(50);
-//        make.right.equalTo(sectionView).offset(-50);
-//        make.height.mas_equalTo(40);
-//    }];
-//    
-//    [sectionView addSubview:self.line];
-//    [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.segmentControl.mas_bottom);
-//        make.left.right.equalTo(sectionView);
-//        make.height.mas_equalTo(1);
-//    }];
-//    return sectionView;
-    CGFloat categoryViewHeight = 58;
-    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, categoryViewHeight)];
-    sectionView.isSkeletonable = YES;
+    UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 41)];
     sectionView.backgroundColor = UIColor.whiteColor;
-    [sectionView addSubview:self.categoryView];
-    [self.categoryView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(sectionView).offset(14);
+    [sectionView addSubview:self.segmentControl];
+    [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(sectionView);
+        make.left.equalTo(sectionView).offset(50);
+        make.right.equalTo(sectionView).offset(-50);
+        make.height.mas_equalTo(40);
+    }];
+    
+    [sectionView addSubview:self.line];
+    [self.line mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.segmentControl.mas_bottom);
         make.left.right.equalTo(sectionView);
-        make.bottom.equalTo(sectionView).offset(-14);
+        make.height.mas_equalTo(1);
     }];
     return sectionView;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.selectedIndex == 0) {
+    if (self.segmentControl.selectedIndex == 0) {
         SLProfileDynamicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLProfileDynamicTableViewCell" forIndexPath:indexPath];
         if (cell) {
             SLArticleTodayEntity *entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
@@ -488,9 +445,9 @@
         SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SLHomePageNewsTableViewCell" forIndexPath:indexPath];
         if (cell) {
             SLArticleTodayEntity *entity;
-            if (self.selectedIndex == 1) {
+            if (self.segmentControl.selectedIndex == 1) {
                 entity = [self.viewModel.entity.likeList objectAtIndex:indexPath.row];
-            } else if (self.selectedIndex == 2) {
+            } else if (self.segmentControl.selectedIndex == 2) {
                 entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
             }
             [cell updateWithEntity:entity];
@@ -639,23 +596,23 @@
     return _headerView;
 }
 
-//- (SLSegmentControl *)segmentControl {
-//    if (!_segmentControl) {
-//        _segmentControl = [[SLSegmentControl alloc] initWithFrame:CGRectZero];
-//        _segmentControl.titles = @[@"动态", @"赞同", @"收藏"];
-//        _segmentControl.delegate = self; // 设置代理为当前控制器
-//        _segmentControl.isSkeletonable = YES;
-//    }
-//    return _segmentControl;
-//}
+- (SLSegmentControl *)segmentControl {
+    if (!_segmentControl) {
+        _segmentControl = [[SLSegmentControl alloc] initWithFrame:CGRectZero];
+        _segmentControl.titles = @[@"动态", @"赞同", @"收藏"];
+        _segmentControl.delegate = self; // 设置代理为当前控制器
+        _segmentControl.isSkeletonable = YES;
+    }
+    return _segmentControl;
+}
 
-//- (UIView *)line {
-//    if (!_line) {
-//        _line = [UIView new];
-//        _line.backgroundColor = Color16(0xEEEEEE);
-//    }
-//    return _line;
-//}
+- (UIView *)line {
+    if (!_line) {
+        _line = [UIView new];
+        _line.backgroundColor = Color16(0xEEEEEE);
+    }
+    return _line;
+}
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -671,7 +628,7 @@
             _tableView.sectionHeaderTopPadding = 0;
         }
         _tableView.estimatedRowHeight = 100;
-        _tableView.sectionHeaderHeight = 58;
+        _tableView.sectionHeaderHeight = 51;
         
         _tableView.emptyDataSetSource = self;
         _tableView.emptyDataSetDelegate = self;
@@ -705,23 +662,12 @@
     return _homeViewModel;
 }
 
-// 分页菜单视图
-- (JXCategoryBaseView *)categoryView {
-    if (!_categoryView) {
-        _categoryView = [self preferredCategoryView];
-        _categoryView.delegate = self;
-        _categoryView.titleColorGradientEnabled = YES;
-        _categoryView.titleLabelZoomEnabled = YES;
-        _categoryView.titleFont = [UIFont boldSystemFontOfSize:18];
-        _categoryView.titleLabelZoomScale = 1.125;
-        _categoryView.titleSelectedColor = [UIColor blackColor];
-        _categoryView.titleColor = Color16(0x7B7B7B);
-        // !!!: 将列表容器视图关联到 categoryView
-//        _categoryView.listContainer = self.listContainerView;
-        _categoryView.cellSpacing = 84;
-        _categoryView.averageCellSpacingEnabled = NO;
+- (UIView *)hideView {
+    if (!_hideView) {
+        _hideView = [[UIView alloc] initWithFrame:CGRectZero];
+        _hideView.backgroundColor = UIColor.whiteColor;
     }
-    return _categoryView;
+    return _hideView;
 }
 
 @end
