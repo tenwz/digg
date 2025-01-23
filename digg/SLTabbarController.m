@@ -12,6 +12,7 @@
 #import "SLMineViewController.h"
 #import "HomeViewController.h"
 #import "SLRecordViewController.h"
+#import "SLConcernedViewController.h"
 
 #import "SLLoginViewController.h"
 #import "SLPublishViewController.h"
@@ -28,7 +29,8 @@
 @interface SLTabbarController () <UITabBarControllerDelegate>
 @property (nonatomic, strong) SLNavigationController *homeNavi;
 @property (nonatomic, strong) SLNavigationController *noticeNavi;
-@property (nonatomic, strong) SLWebViewController *noticeVC;
+@property (nonatomic, strong) SLConcernedViewController *noticeVC;
+//@property (nonatomic, strong) SLWebViewController *noticeVC;
 @property (nonatomic, strong) SLNavigationController *recordNavi;
 //@property (nonatomic, strong) SLWebViewController *recordVC;
 @property (nonatomic, strong) SLRecordViewController *recordVC;
@@ -86,8 +88,8 @@
     homeNavi.viewControllers = @[homeVC];
     self.homeNavi = homeNavi;
 
-    self.noticeVC = [[SLWebViewController alloc] init];
-    [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
+    self.noticeVC = [[SLConcernedViewController alloc] init];
+//    [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
     SLNavigationController *noticeNavi = [self createRootNavi];
     self.noticeNavi = noticeNavi;
     noticeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:[UIImage imageNamed:@"notice_unsel"] selectedImage:[UIImage imageNamed:@"notice_selected"]];
@@ -129,9 +131,9 @@
             [self jumpToLogin];
             return NO;
         }
-        if ([viewController isEqual:self.noticeNavi]) {
-            [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-        }
+//        if ([viewController isEqual:self.noticeNavi]) {
+//            [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
+//        }
     }
     return YES;
 }

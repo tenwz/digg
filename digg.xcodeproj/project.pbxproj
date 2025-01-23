@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340F64012D2D55130046FC97 /* SLEditProfileViewController.m */; };
 		344EFA042D2E5111001E5FAF /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 344EFA022D2E5111001E5FAF /* KxMenu.m */; };
+		346485FE2D4284960084A3BF /* SLConcernedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 346485FD2D4284960084A3BF /* SLConcernedViewController.m */; };
+		346486012D4286050084A3BF /* SLConcernedViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 346486002D4286050084A3BF /* SLConcernedViewModel.m */; };
 		3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EBC12D1D3C2700A55258 /* SLNavigationController.m */; };
 		3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFD72D2A634200A55258 /* SLProfileViewController.m */; };
 		3486EFDC2D2A6A4100A55258 /* SLProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486EFDB2D2A6A4100A55258 /* SLProfileHeaderView.m */; };
@@ -209,6 +211,10 @@
 		340F64012D2D55130046FC97 /* SLEditProfileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLEditProfileViewController.m; sourceTree = "<group>"; };
 		344EFA012D2E5111001E5FAF /* KxMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
 		344EFA022D2E5111001E5FAF /* KxMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
+		346485FC2D4284960084A3BF /* SLConcernedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLConcernedViewController.h; sourceTree = "<group>"; };
+		346485FD2D4284960084A3BF /* SLConcernedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLConcernedViewController.m; sourceTree = "<group>"; };
+		346485FF2D4286050084A3BF /* SLConcernedViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLConcernedViewModel.h; sourceTree = "<group>"; };
+		346486002D4286050084A3BF /* SLConcernedViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLConcernedViewModel.m; sourceTree = "<group>"; };
 		3486EBC02D1D3C2700A55258 /* SLNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLNavigationController.h; sourceTree = "<group>"; };
 		3486EBC12D1D3C2700A55258 /* SLNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLNavigationController.m; sourceTree = "<group>"; };
 		3486EFD62D2A634200A55258 /* SLProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLProfileViewController.h; sourceTree = "<group>"; };
@@ -517,6 +523,17 @@
 				344EFA022D2E5111001E5FAF /* KxMenu.m */,
 			);
 			path = MenuPopup;
+			sourceTree = "<group>";
+		};
+		346485FB2D4283950084A3BF /* Concerned */ = {
+			isa = PBXGroup;
+			children = (
+				346485FC2D4284960084A3BF /* SLConcernedViewController.h */,
+				346485FD2D4284960084A3BF /* SLConcernedViewController.m */,
+				346485FF2D4286050084A3BF /* SLConcernedViewModel.h */,
+				346486002D4286050084A3BF /* SLConcernedViewModel.m */,
+			);
+			path = Concerned;
 			sourceTree = "<group>";
 		};
 		3486EFD92D2A69F800A55258 /* Views */ = {
@@ -1052,6 +1069,7 @@
 		E7769E582CA2E63A00AE84F4 /* digg */ = {
 			isa = PBXGroup;
 			children = (
+				346485FB2D4283950084A3BF /* Concerned */,
 				34D2EC4B2D3CB72D0067CC05 /* SkeletonView */,
 				34D2EBD12D3943000067CC05 /* Record */,
 				34D2E9AB2D393B1E0067CC05 /* RichTextView */,
@@ -1611,12 +1629,14 @@
 				E7C405792CC26970004D90CD /* SLCommentFeedEntity.m in Sources */,
 				E7769EB52CB1A72400AE84F4 /* SLLoginViewController.m in Sources */,
 				3486EFDF2D2A959500A55258 /* SLTagCollectionViewCell.m in Sources */,
+				346485FE2D4284960084A3BF /* SLConcernedViewController.m in Sources */,
 				E76A45EB2CBFB9AB008B2746 /* CaocaoLoadDataDefaultView.m in Sources */,
 				E7769EC02CB798F800AE84F4 /* SLWebViewController.m in Sources */,
 				34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */,
 				34D2EBDE2D3A01410067CC05 /* SLRecordViewModel.m in Sources */,
 				E7769EBC2CB265C300AE84F4 /* CaocaoClickableAttributedTextLabel.m in Sources */,
 				3486EFD82D2A634200A55258 /* SLProfileViewController.m in Sources */,
+				346486012D4286050084A3BF /* SLConcernedViewModel.m in Sources */,
 				E76A45BC2CB8C08D008B2746 /* UIView+CommonKit.m in Sources */,
 				E7C1393C2CF33C8800C5053A /* SLHomeTagView.m in Sources */,
 				34933F842D2E780E009F781A /* SLProfileDynamicTableViewCell.m in Sources */,
