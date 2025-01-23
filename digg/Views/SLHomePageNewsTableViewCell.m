@@ -53,19 +53,25 @@
     CGRect rect = self.likeBtn.frame;
     if (rect.size.width > 0) {
         [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
+            make.width.mas_equalTo(rect.size.width + 1);
         }];
     }
     rect = self.dislikeBtn.frame;
     if (rect.size.width > 0) {
         [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
+            make.width.mas_equalTo(rect.size.width + 1);
         }];
     }
     rect = self.messageBtn.frame;
     if (rect.size.width > 0) {
         [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
+            make.width.mas_equalTo(rect.size.width + 1);
+        }];
+    }
+    rect = self.checkBtn.frame;
+    if (rect.size.width > 0) {
+        [self.checkBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(rect.size.width + 1);
         }];
     }
 }
@@ -74,16 +80,6 @@
     self.entity = entiy;
     self.titleLabel.text = entiy.title;
     CGFloat lineSpacing = 6;
-//    NSString *titleStr = entiy.title;
-//    NSMutableParagraphStyle *titleParagraphStyle = [NSMutableParagraphStyle new];
-//    titleParagraphStyle.lineSpacing = lineSpacing;
-//    NSMutableDictionary *titleAttributes = [NSMutableDictionary dictionary];
-//    [titleAttributes setObject:[UIFont boldSystemFontOfSize:16] forKey:NSFontAttributeName];
-//    [titleAttributes setObject:Color16(0x222222) forKey:NSForegroundColorAttributeName];
-//    [titleAttributes setObject:titleParagraphStyle forKey:NSParagraphStyleAttributeName];
-//    if (titleStr != nil) {
-//        self.titleLabel.attributedText = [[NSAttributedString alloc] initWithString:titleStr attributes:titleAttributes];
-//    }
     
     NSString *contentStr = entiy.content;
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -94,6 +90,8 @@
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
     if (contentStr != nil) {
         self.contentLabel.attributedText = [[NSAttributedString alloc] initWithString:contentStr attributes:attributes];
+    } else {
+        self.contentLabel.attributedText = [[NSAttributedString alloc] initWithString:@"" attributes:attributes];
     }
 
     [self.likeBtn setTitle:[NSString stringWithFormat:@"%ld",entiy.likeCnt] forState:UIControlStateNormal];
@@ -163,9 +161,10 @@
         make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
         make.right.equalTo(self.contentView).offset(-offset);
     }];
-    
+    CGRect rect = self.likeBtn.frame;
     [self.likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(34);
+        make.width.mas_equalTo(rect.size.width + 1);
 //        make.top.equalTo(self.contentLabel.mas_bottom).offset(18);
         make.top.equalTo(self.contentLabel.mas_bottom).offset(9);
         make.left.equalTo(self.contentView).offset(offset);
@@ -178,10 +177,12 @@
         make.left.equalTo(self.likeBtn.mas_right).offset(12);
     }];
     
+    rect = self.dislikeBtn.frame;
     [self.dislikeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.dot1Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
         make.height.equalTo(self.likeBtn.mas_height);
+        make.width.mas_equalTo(rect.size.width + 1);
     }];
     
     [self.dot2Label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -189,11 +190,12 @@
         make.centerY.equalTo(self.dislikeBtn.mas_centerY);
         make.left.equalTo(self.dislikeBtn.mas_right).offset(12);
     }];
-   
+    rect = self.messageBtn.frame;
     [self.messageBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.dot2Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
         make.height.equalTo(self.likeBtn.mas_height);
+        make.width.mas_equalTo(rect.size.width + 1);
     }];
     
     [self.dot3Label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -201,10 +203,11 @@
         make.centerY.equalTo(self.messageBtn.mas_centerY);
         make.left.equalTo(self.messageBtn.mas_right).offset(12);
     }];
-    
+    rect = self.checkBtn.frame;
     [self.checkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.dot3Label.mas_right).offset(12);
         make.centerY.equalTo(self.likeBtn.mas_centerY);
+        make.width.mas_equalTo(rect.size.width + 1);
     }];
     
     [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {

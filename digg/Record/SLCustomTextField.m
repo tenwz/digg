@@ -67,10 +67,6 @@
 
 - (void)deleteBackward {
     [super deleteBackward];
-    
-    if (self.updateFrame) {
-        self.updateFrame(60);
-    }
 }
 
 /**

@@ -102,13 +102,13 @@
     [self.contentView addSubview:self.titleField];
     [self.titleField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
-        make.left.equalTo(self.contentView).offset(20);
+        make.left.equalTo(self.contentView).offset(22);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(60);
     }];
     [self.tagView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.titleField);
-        make.left.equalTo(self.contentView).offset(20);
+        make.left.equalTo(self.contentView).offset(23);
     }];
     [self.contentView addSubview:self.line1View];
     [self.line1View mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,7 +120,7 @@
     [self.contentView addSubview:self.linkField];
     [self.linkField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.line1View.mas_bottom).offset(15);
-        make.left.equalTo(self.contentView).offset(20);
+        make.left.equalTo(self.contentView).offset(23);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(30);
     }];
@@ -203,7 +203,7 @@
     [self.tagView setHidden:YES];
     [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
-        make.left.equalTo(self.contentView).offset(20);
+        make.left.equalTo(self.contentView).offset(23);
         make.right.equalTo(self.contentView).offset(-20);
         make.height.mas_equalTo(60);
     }];
@@ -223,7 +223,7 @@
         [self.tagView setHidden:YES];
         [self.titleField mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView);
-            make.left.equalTo(self.contentView).offset(20);
+            make.left.equalTo(self.contentView).offset(23);
             make.right.equalTo(self.contentView).offset(-20);
             make.height.mas_equalTo(60);
         }];
