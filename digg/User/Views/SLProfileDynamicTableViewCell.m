@@ -47,25 +47,27 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    CGRect rect = self.likeBtn.frame;
-    if (rect.size.width > 0) {
-        [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
-        }];
-    }
-    rect = self.dislikeBtn.frame;
-    if (rect.size.width > 0) {
-        [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width);
-        }];
-    }
-    rect = self.messageBtn.frame;
-    if (rect.size.width > 0) {
-        [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(rect.size.width + 2);
-        }];
-    }
+    [self.likeBtn layoutSubviews];
+    [self.dislikeBtn layoutSubviews];
+    [self.messageBtn layoutSubviews];
+//    CGRect rect = self.likeBtn.frame;
+//    if (rect.size.width > 0) {
+//        [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_equalTo(rect.size.width);
+//        }];
+//    }
+//    rect = self.dislikeBtn.frame;
+//    if (rect.size.width > 0) {
+//        [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_equalTo(rect.size.width);
+//        }];
+//    }
+//    rect = self.messageBtn.frame;
+//    if (rect.size.width > 0) {
+//        [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_equalTo(rect.size.width + 2);
+//        }];
+//    }
 }
 
 - (void)updateWithEntity:(SLArticleTodayEntity *)entiy{
