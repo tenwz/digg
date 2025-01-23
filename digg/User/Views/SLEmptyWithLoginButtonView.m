@@ -7,8 +7,13 @@
 
 #import "SLEmptyWithLoginButtonView.h"
 #import "Masonry.h"
+#import "SLGeneralMacro.h"
 
 @interface SLEmptyWithLoginButtonView()
+
+@property (nonatomic, strong) UIImageView* iconImageView;
+@property (nonatomic, strong) UILabel* titleLabel;
+@property (nonatomic, strong) UILabel* descLabel;
 
 @end
 
@@ -17,10 +22,28 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        [self addSubview:self.iconImageView];
+        [self.iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self);
+            make.top.equalTo(self).offset(243);
+            make.size.mas_equalTo(CGSizeMake(103, 97));
+        }];
+        [self addSubview:self.titleLabel];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self);
+            make.top.equalTo(self.iconImageView.mas_bottom).offset(45);
+        }];
+        [self addSubview:self.descLabel];
+        [self.descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.equalTo(self);
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
+        }];
+        
         [self addSubview:self.loginBtn];
         [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(100, 50));
+            make.centerX.equalTo(self);
+            make.bottom.equalTo(self).offset(-70);
+            make.size.mas_equalTo(CGSizeMake(190, 42));
         }];
     }
     return self;
@@ -37,15 +60,44 @@
     if (!_loginBtn) {
         _loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-        [_loginBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _loginBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
-        _loginBtn.layer.cornerRadius = 8;
+        [_loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _loginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        _loginBtn.layer.cornerRadius = 4;
         _loginBtn.layer.masksToBounds = YES;
-        _loginBtn.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.2].CGColor;
-        _loginBtn.layer.borderWidth = 1;
+        _loginBtn.backgroundColor = Color16(0xFF3468);
         [_loginBtn addTarget:self action:@selector(gotoLoginPage) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginBtn;
+}
+
+- (UIImageView *)iconImageView {
+    if (!_iconImageView) {
+        _iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"no_login_icon"]];
+        _iconImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _iconImageView;
+}
+
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
+        _titleLabel = [[UILabel alloc] init];
+        _titleLabel.text = @"你还没有登录";
+        _titleLabel.textColor = Color16(0x333333);
+        _titleLabel.font = [UIFont boldSystemFontOfSize:20];
+        _titleLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _titleLabel;
+}
+
+- (UILabel *)descLabel {
+    if (!_descLabel) {
+        _descLabel = [[UILabel alloc] init];
+        _descLabel.text = @"登录账号，查看你关注的精彩内容";
+        _descLabel.textColor = Color16(0x999999);
+        _descLabel.font = [UIFont systemFontOfSize:14];
+        _descLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _descLabel;
 }
 
 @end
