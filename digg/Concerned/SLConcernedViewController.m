@@ -32,7 +32,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
-    self.view.backgroundColor = Color16(0xF2F2F2);
+    self.view.backgroundColor = UIColor.whiteColor;
     
     [self setupUI];
     [self addRefresh];
@@ -45,7 +45,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
-        make.top.equalTo(self.view).offset(NAVBAR_HEIGHT);
+        make.top.equalTo(self.view).offset(STATUSBAR_HEIGHT);
         make.bottom.equalTo(self.view);
     }];
 }

@@ -35,7 +35,7 @@
     if (refreshType == CaocaoCarMessageListRefreshTypeRefresh) {
         self.curPage = 1;
     }
-    NSString *urlString = [NSString stringWithFormat:@"%@/api/feeds?pageNo=%ld&pageSize=%ld", APPBaseUrl, self.curPage, self.pageSize];
+    NSString *urlString = [NSString stringWithFormat:@"%@/feeds?pageNo=%ld&pageSize=%ld", APPBaseUrl, self.curPage, self.pageSize];
     @weakobj(self);
     [manager GET:urlString parameters:nil headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (handler) {
