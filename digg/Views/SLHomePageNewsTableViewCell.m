@@ -26,7 +26,6 @@
 @property (nonatomic, strong) SLHomeTagView *tagView;
 @property (nonatomic, strong) SLArticleTodayEntity *entity;
 @property (nonatomic, assign) BOOL isSelected;
-@property (nonatomic, strong) UIButton *moreBtn;
 
 @end
 
@@ -392,14 +391,6 @@
         [_tagView addGestureRecognizer:tap];
     }
     return _tagView;
-}
-
-- (UIButton *)moreBtn {
-    if (!_moreBtn) {
-        _moreBtn = [[UIButton alloc] init];
-        [_moreBtn setImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
-    }
-    return _moreBtn;
 }
 
 @end

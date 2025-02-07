@@ -30,7 +30,6 @@
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) SLArticleTodayEntity *entity;
 @property (nonatomic, assign) BOOL isSelected;
-@property (nonatomic, strong) UIButton *moreBtn;
 
 @end
 
@@ -422,14 +421,6 @@
         _lineView.backgroundColor = Color16(0xEEEEEE);
     }
     return _lineView;
-}
-
-- (UIButton *)moreBtn {
-    if (!_moreBtn) {
-        _moreBtn = [[UIButton alloc] init];
-        [_moreBtn setImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
-    }
-    return _moreBtn;
 }
 
 @end
