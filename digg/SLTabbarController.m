@@ -8,14 +8,9 @@
 #import "SLTabbarController.h"
 #import "SLNavigationController.h"
 #import "SLHomePageViewController.h"
-#import "SLFollowingListViewController.h"
-#import "SLMineViewController.h"
-#import "HomeViewController.h"
 #import "SLRecordViewController.h"
 #import "SLConcernedViewController.h"
 
-#import "SLLoginViewController.h"
-#import "SLPublishViewController.h"
 #import "SLHomeWebViewController.h"
 #import "EnvConfigHeader.h"
 #import "SLUser.h"
@@ -23,7 +18,6 @@
 
 #import <WebKit/WebKit.h>
 
-//todo：空白页是登录页面
 #import "SLProfileViewController.h"
 
 @interface SLTabbarController () <UITabBarControllerDelegate>

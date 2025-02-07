@@ -12,17 +12,11 @@
 #import "SLGeneralMacro.h"
 
 #import "SLHomePageNewsTableViewCell.h"
-#import "SLHomePageLatestNewsTableViewCell.h"
-#import "SLHomePageQATableViewCell.h"
-#import "SLHomePageProductionTableViewCell.h"
 #import "SLTagListContainerViewController.h"
 #import "SLWebViewController.h"
 #import "SLUser.h"
 
 # define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
-# define kSLHomePageLatestNewsTableViewCellID @"SLHomePageLatestNewsTableViewCell"
-# define kSLHomePageQATableViewCellID @"SLHomePageQATableViewCell"
-# define kSLHomePageProductionTableViewCellID @"SLHomePageProductionTableViewCell"
 
 @interface SLHomePageNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -212,9 +206,6 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
-        [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;
