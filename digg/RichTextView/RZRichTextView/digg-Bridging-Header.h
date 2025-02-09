@@ -10,5 +10,6 @@
 
 #import "TZImagePickerController.h"
 #import "SLRecordViewModel.h"
+#import "SLColorManager.h"
 
 #endif /* digg_Bridging_Header_h */

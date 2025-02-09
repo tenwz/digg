@@ -10,7 +10,7 @@
 #import <Masonry/Masonry.h>
 #import "CaocaoRefresh.h"
 #import "SLGeneralMacro.h"
-
+#import "SLColorManager.h"
 #import "SLHomePageNewsTableViewCell.h"
 #import "SLTagListContainerViewController.h"
 #import "SLWebViewController.h"
@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);

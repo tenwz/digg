@@ -26,6 +26,7 @@
 #import "SLProfileDynamicTableViewCell.h"
 #import "SLTagListContainerViewController.h"
 #import "digg-Swift.h"
+#import "SLColorManager.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
@@ -58,11 +59,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self setupUI];
     [self.hideView setHidden:NO];
-//    self.view.isSkeletonable = YES;
-//    self.tableView.backgroundColor = UIColor.whiteColor;
-//    [self.view showSkeleton];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -367,7 +366,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView* sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 41)];
-    sectionView.backgroundColor = UIColor.whiteColor;
+    sectionView.backgroundColor = [SLColorManager primaryBackgroundColor];
     [sectionView addSubview:self.segmentControl];
     [self.segmentControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(sectionView);
@@ -591,6 +590,7 @@
 - (SLProfileHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [[SLProfileHeaderView alloc] init];
+        _headerView.backgroundColor = [UIColor clearColor];
         _headerView.delegate = self;
     }
     return _headerView;
@@ -609,7 +609,7 @@
 - (UIView *)line {
     if (!_line) {
         _line = [UIView new];
-        _line.backgroundColor = Color16(0xEEEEEE);
+        _line.backgroundColor = [SLColorManager cellDivideLineColor];
     }
     return _line;
 }
@@ -617,7 +617,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
-        _tableView.backgroundColor = UIColor.clearColor;
+        _tableView.backgroundColor = [SLColorManager primaryBackgroundColor];
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -641,7 +641,7 @@
 - (SLEmptyWithLoginButtonView *)emptyView {
     if (!_emptyView) {
         _emptyView = [[SLEmptyWithLoginButtonView alloc] initWithFrame:CGRectZero];
-        _emptyView.backgroundColor = UIColor.whiteColor;
+        _emptyView.backgroundColor = [SLColorManager primaryBackgroundColor];
         _emptyView.delegate = self;
         [_emptyView setHidden:YES];
     }
@@ -665,7 +665,7 @@
 - (UIView *)hideView {
     if (!_hideView) {
         _hideView = [[UIView alloc] initWithFrame:CGRectZero];
-        _hideView.backgroundColor = UIColor.whiteColor;
+        _hideView.backgroundColor = [SLColorManager primaryBackgroundColor];
     }
     return _hideView;
 }

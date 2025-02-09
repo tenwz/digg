@@ -12,6 +12,7 @@
 #import "SDWebImage.h"
 #import "SLTagsView.h"
 #import "digg-Swift.h"
+#import "SLColorManager.h"
 
 
 @interface SLProfileHeaderView()
@@ -185,7 +186,7 @@
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
     // 设置字体和颜色
     UIFont *bigFont = [UIFont systemFontOfSize:12];
-    UIColor *bigColor = [UIColor blackColor];
+    UIColor *bigColor = [SLColorManager categorySelectedTextColor];
     UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
     UIColor *smallColor = Color16(0x999999);
     
@@ -239,10 +240,10 @@
 - (UIImageView *)avatarImageView {
     if (!_avatarImageView) {
         _avatarImageView = [[UIImageView alloc] init]; //WithImage:[UIImage imageNamed:@"avatar_default_img"]
-        _avatarImageView.backgroundColor = UIColor.whiteColor;
+        _avatarImageView.backgroundColor = [SLColorManager headerBorderColor];
         _avatarImageView.layer.cornerRadius = 30;
         _avatarImageView.layer.masksToBounds = YES;
-        _avatarImageView.layer.borderColor = UIColor.whiteColor.CGColor;
+        _avatarImageView.layer.borderColor = [SLColorManager headerBorderColor].CGColor;
         _avatarImageView.layer.borderWidth = 1;
         _avatarImageView.clipsToBounds = YES;
         _avatarImageView.layer.zPosition = 1; // 提高层级
@@ -257,10 +258,10 @@
         _editorButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _editorButton.layer.cornerRadius = 15;
         _editorButton.layer.masksToBounds = YES;
-        _editorButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.15].CGColor;
+        _editorButton.layer.borderColor = [[SLColorManager categorySelectedTextColor] colorWithAlphaComponent:0.15].CGColor;
         _editorButton.layer.borderWidth = 0.5;
         [_editorButton setTitle:@"编辑信息" forState:UIControlStateNormal];
-        [_editorButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_editorButton setTitleColor:[SLColorManager categorySelectedTextColor] forState:UIControlStateNormal];
         _editorButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_editorButton setHidden: YES];
         [_editorButton addTarget:self action:@selector(gotoEdit) forControlEvents:UIControlEventTouchUpInside];
@@ -275,10 +276,10 @@
         _focusButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _focusButton.layer.cornerRadius = 15;
         _focusButton.layer.masksToBounds = YES;
-        _focusButton.layer.borderColor = [[UIColor blackColor] colorWithAlphaComponent:0.15].CGColor;
+        _focusButton.layer.borderColor = [[SLColorManager categorySelectedTextColor] colorWithAlphaComponent:0.15].CGColor;
         _focusButton.layer.borderWidth = 0.5;
         [_focusButton setTitle:@"关注" forState:UIControlStateNormal];
-        [_focusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_focusButton setTitleColor:[SLColorManager categorySelectedTextColor] forState:UIControlStateNormal];
         _focusButton.titleLabel.font = [UIFont systemFontOfSize:12];
         [_focusButton setHidden: NO];
         [_focusButton addTarget:self action:@selector(focusBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -290,7 +291,7 @@
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.text = @"";
-        _nameLabel.textColor = UIColor.blackColor;
+        _nameLabel.textColor = [SLColorManager categorySelectedTextColor];
         _nameLabel.font = [UIFont boldSystemFontOfSize:18];
         
         _nameLabel.isSkeletonable = YES;
@@ -302,7 +303,7 @@
     if (!_briefLabel) {
         _briefLabel = [[UILabel alloc] init];
         _briefLabel.text = @"";
-        _briefLabel.textColor = Color16(0x222222);
+        _briefLabel.textColor = [SLColorManager cellTitleColor];
         _briefLabel.font = [UIFont systemFontOfSize:12];
         _briefLabel.numberOfLines = 0;
         
@@ -318,7 +319,7 @@
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
         UIFont *bigFont = [UIFont systemFontOfSize:12];
-        UIColor *bigColor = [UIColor blackColor];
+        UIColor *bigColor = [SLColorManager categorySelectedTextColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
         
@@ -342,7 +343,7 @@
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:txt];
         // 设置字体和颜色
         UIFont *bigFont = [UIFont systemFontOfSize:12];
-        UIColor *bigColor = [UIColor blackColor];
+        UIColor *bigColor = [SLColorManager categorySelectedTextColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
         
@@ -368,7 +369,7 @@
         
         // 设置字体和颜色
         UIFont *bigFont = [UIFont systemFontOfSize:12];
-        UIColor *bigColor = [UIColor blackColor];
+        UIColor *bigColor = [SLColorManager categorySelectedTextColor];
         UIFont *smallFont = [UIFont boldSystemFontOfSize:12];
         UIColor *smallColor = Color16(0x999999);
         
@@ -389,7 +390,7 @@
     if (!_tagLabel) {
         _tagLabel = [[UILabel alloc] init];
         _tagLabel.text = @"我的标签";
-        _tagLabel.textColor = UIColor.blackColor;
+        _tagLabel.textColor = [SLColorManager categorySelectedTextColor];
         _tagLabel.font = [UIFont boldSystemFontOfSize:14];
         
         _tagLabel.isSkeletonable = YES;
@@ -416,7 +417,7 @@
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
-        _contentView.backgroundColor = UIColor.whiteColor;
+        _contentView.backgroundColor = [SLColorManager primaryBackgroundColor];
         _contentView.clipsToBounds = NO;
         _contentView.layer.cornerRadius = 16.0;
         _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;

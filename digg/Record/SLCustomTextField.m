@@ -6,6 +6,7 @@
 //
 
 #import "SLCustomTextField.h"
+#import "SLColorManager.h"
 
 @implementation SLCustomTextField
 {
@@ -91,13 +92,13 @@
 
     if (text.length == 0) {
         _label.text = @"";
-        self.tintColor = [UIColor blueColor];
+        self.tintColor = [SLColorManager lineTextColor];
     } else {
         //添加一个假的光标
         self.tintColor = [UIColor clearColor];
         NSString *textWithCursor = [NSString stringWithFormat:@"%@|", text];
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:textWithCursor];
-        [attString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, textWithCursor.length)];
+        [attString addAttribute:NSForegroundColorAttributeName value:[SLColorManager lineTextColor] range:NSMakeRange(0, textWithCursor.length)];
         [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:_fontSize] range:NSMakeRange(0, textWithCursor.length - 1)];
         _label.attributedText = attString;
     }
@@ -117,7 +118,7 @@
     if (_clear) {
         _label.frame = CGRectMake(_label.frame.origin.x, _label.frame.origin.y, _label.frame.size.width - 30, _label.frame.size.height);
     }
-    _label.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    _label.backgroundColor = [SLColorManager primaryBackgroundColor];//[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     _label.font = [UIFont systemFontOfSize:_fontSize];
     _label.numberOfLines = 0;
     [self addSubview:_label];

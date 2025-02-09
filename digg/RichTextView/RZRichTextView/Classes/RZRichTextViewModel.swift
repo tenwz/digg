@@ -72,7 +72,7 @@ open class RZRichTextViewModel: NSObject {
     /// 默认字体样式, 如果需要修改，直接设置
     open lazy var defaultTypingAttributes: [NSAttributedString.Key : Any] = [:]
     /// 默认链接字体样式, 如果需要修改，直接设置
-    open lazy var defaultLinkTypingAttributes: [NSAttributedString.Key : Any] = [.foregroundColor: UIColor.qhex(0x307bf6)]
+    open lazy var defaultLinkTypingAttributes: [NSAttributedString.Key : Any] = [.foregroundColor: SLColorManager.lineTextColor()] //UIColor.qhex(0x307bf6)
     /// 需要刷新工具栏时，调用此block
     open var reloadDataWithAccessoryView: (() -> Void)?
     /// 用于记录输入历史可撤回次数
@@ -142,7 +142,7 @@ open class RZRichTextViewModel: NSObject {
         // 默认 16 标准字体
         defaultTypingAttributes[.font] = UIFont.systemFont(ofSize: 16)
         /// 默认 字体颜色
-        defaultTypingAttributes[.foregroundColor] = UIColor.qrgba(25, 25, 25, a: 1)
+        defaultTypingAttributes[.foregroundColor] = SLColorManager.cellTitleColor()//UIColor.qrgba(25, 25, 25, a: 1)
         
         self.attachmentInfoChanged = { [weak self] attachments in
             func checkupload() {

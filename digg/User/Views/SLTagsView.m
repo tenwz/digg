@@ -8,6 +8,7 @@
 #import "SLTagsView.h"
 #import "Masonry.h"
 #import "SLGeneralMacro.h"
+#import "SLColorManager.h"
 
 @interface SLTagItemView: UIView
 
@@ -57,7 +58,7 @@
     if (!_bgView) {
         _bgView = [UIView new];
         _bgView.backgroundColor = UIColor.clearColor;
-        _bgView.layer.borderColor = [UIColor.blackColor colorWithAlphaComponent:0.2].CGColor;
+        _bgView.layer.borderColor = [[SLColorManager categorySelectedTextColor] colorWithAlphaComponent:0.2].CGColor;
         _bgView.layer.borderWidth = 0.5;
         _bgView.layer.masksToBounds = YES;
         _bgView.layer.cornerRadius = 15.5;
@@ -76,7 +77,7 @@
     if (!_tagNameLabel) {
         _tagNameLabel = [[UILabel alloc] init];
         _tagNameLabel.text = @"";
-        _tagNameLabel.textColor = Color16(0x222222);
+        _tagNameLabel.textColor = [SLColorManager cellTitleColor];
         _tagNameLabel.font = [UIFont systemFontOfSize:12];
         _tagNameLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -246,7 +247,7 @@
 - (CGSize)getLabelSize:(NSString *)text {
     UILabel *tagNameLabel = [[UILabel alloc] init];
     tagNameLabel.text = text;
-    tagNameLabel.textColor = Color16(0x222222);
+    tagNameLabel.textColor = [SLColorManager cellTitleColor];
     tagNameLabel.font = [UIFont systemFontOfSize:12];
     tagNameLabel.textAlignment = NSTextAlignmentCenter;
     CGSize size = [tagNameLabel sizeThatFits:CGSizeZero];

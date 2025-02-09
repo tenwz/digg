@@ -30,7 +30,7 @@ open class RZRichTextView: UITextView {
     /// 键盘高度
     open var keyboardHeight: CGFloat = 300
     /// 显示输入字数的label
-    public let inputCountLabel = UILabel().qfont(.systemFont(ofSize: 11)).qtextColor(.lightGray)
+    public let inputCountLabel = UILabel().qfont(.systemFont(ofSize: 11)).qtextColor(SLColorManager.cellTitleColor())
     /// 内容改变之后的回调
     open var contentChanged: ((_ textView: RZRichTextView) -> Void)?
     /// 获取文本中的所有附件
@@ -79,7 +79,14 @@ open class RZRichTextView: UITextView {
         super.init(frame: frame, textContainer: nil)
         self.layoutManager.allowsNonContiguousLayout = false
         isInit = false
-        self.qplaceholder("添加内容")
+//        self.qplaceholder("添加内容")
+        let placeholder = "添加内容"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.placeholderText,
+            .font: UIFont.systemFont(ofSize: 16)
+        ]
+        let placeholderAttrString = NSAttributedString(string: placeholder, attributes: attributes)
+        self.qattributedPlaceholder(placeholderAttrString)
         self.viewModel.textView = self
         self.isEditable = self.viewModel.canEdit
         if self.isEditable {
@@ -567,7 +574,7 @@ public extension RZRichTextView {
                     let rect = self.qcaretRect(for: range.location)
                     let view = RZTextListView.init().qframe(.init(x: 3, y: rect.origin.y, width: 30, height: rect.size.height))
                     .qfont(configure.ulSymbolFont ?? ((dict[.font] as? UIFont) ?? .systemFont(ofSize: 16)))
-                    .qtextColor((dict[.foregroundColor] as? UIColor) ?? .black)
+                    .qtextColor((dict[.foregroundColor] as? UIColor) ?? SLColorManager.cellTitleColor())
                     .qtext("\(index)")
                     .qtextAliginment(configure.ulSymbolAlignment)
                     self.addSubview(view)

@@ -28,16 +28,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EC1432C7-5D84-4004-BD12-DAC95D052F4A"
+            uuid = "955CFA74-1A05-4A2C-BC4C-6DC81349C37F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "digg/Record/SLCustomTextField.m"
+            filePath = "Pods/QuicklySwift/QuicklySwift/Classes/QuicklyLabel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "-textFieldShouldClear:"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "qtextColor(gradinent:locations:start:end:size:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -17,7 +17,38 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 示例颜色 (可以添加更多颜色)
 + (UIColor *)primaryBackgroundColor;
+//dark:0xFFFFFF & 0x333333
++ (UIColor *)primaryTextColor;
+//dark:0xFFFFFF & 0x999999
 + (UIColor *)secondaryTextColor;
+
++ (UIColor *)tabbarBackgroundColor;
++ (UIColor *)tabbarNormalTextColor;
++ (UIColor *)tabbarSelectedTextColor;
+
+//Category or Segment
++ (UIColor *)categoryNormalTextColor;
++ (UIColor *)categorySelectedTextColor;
+
+//tag
++ (UIColor *)tagBackgroundTextColor;
++ (UIColor *)tagTextColor;
+
+//cell
++ (UIColor *)cellTitleColor;
++ (UIColor *)cellContentColor;
++ (UIColor *)cellDivideLineColor;
++ (UIColor *)cellNickNameColor;
++ (UIColor *)cellTimeColor;
+
+//CaocaoButton
++ (UIColor *)caocaoButtonTextColor;
+
+//link text
++ (UIColor *)lineTextColor;
+
+//header border
++ (UIColor *)headerBorderColor;
 
 @end
 

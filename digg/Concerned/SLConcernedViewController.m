@@ -15,6 +15,7 @@
 #import "SLWebViewController.h"
 #import "SLUser.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
+#import "SLColorManager.h"
 
 
 @interface SLConcernedViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -32,7 +33,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     
     [self setupUI];
     [self addRefresh];

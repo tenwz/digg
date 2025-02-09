@@ -130,10 +130,7 @@
 - (UIView *)bashOutlineView {
     if (!_bashOutlineView) {
         _bashOutlineView = [UIView new];
-        _bashOutlineView.backgroundColor = UIColor.clearColor;
-//        _bashOutlineView.clipsToBounds = YES;
-//        _bashOutlineView.layer.cornerRadius = 12.5;
-        
+        _bashOutlineView.backgroundColor = UIColor.clearColor;        
         CAShapeLayer *borderLayer = [CAShapeLayer layer];
         [self.layer addSublayer:borderLayer];
         self.borderLayer = borderLayer;
