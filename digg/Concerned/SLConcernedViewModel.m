@@ -34,6 +34,8 @@
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     if (refreshType == CaocaoCarMessageListRefreshTypeRefresh) {
         self.curPage = 1;
+    } else {
+        self.curPage++;
     }
     NSString *urlString = [NSString stringWithFormat:@"%@/feeds?pageNo=%ld&pageSize=%ld", APPBaseUrl, self.curPage, self.pageSize];
     @weakobj(self);
@@ -59,13 +61,11 @@
     NSArray *list = [NSArray yy_modelArrayWithClass:[SLArticleTodayEntity class] json:resArray];
     if (refreshType == CaocaoCarMessageListRefreshTypeRefresh) {
         self.dataArray = [NSMutableArray arrayWithArray:list];
-    }else{
+    } else {
         [self.dataArray addObjectsFromArray:list];
     }
     
-    if (refreshType == CaocaoCarMessageListRefreshTypeLoadMore &&
-        resArray.count > 0) {
-        self.curPage++;
+    if (refreshType == CaocaoCarMessageListRefreshTypeLoadMore) {
         if (resArray.count < self.pageSize) {
             self.hasToEnd = YES;
         } else {

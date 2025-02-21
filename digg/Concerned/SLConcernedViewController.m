@@ -47,7 +47,7 @@
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.top.equalTo(self.view).offset(STATUSBAR_HEIGHT);
-        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
     }];
 }
 

@@ -58,11 +58,12 @@
                         resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler{
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-
+    NSString *urlString = [self handleReqApiPath:index];
     if (refreshType == CaocaoCarMessageListRefreshTypeRefresh) {
         self.curPage = 1;
+    } else {
+        self.curPage++;
     }
-    NSString *urlString = [self handleReqApiPath:index];
     @weakobj(self);
     [manager GET:urlString parameters:@{@"label": label, @"pageNo": @(self.curPage), @"pageSize": @(self.pageSize)} headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (handler) {
@@ -98,17 +99,14 @@
 - (void)handleRes:(NSArray *)resArray
      withPageType:(NSInteger)index
   withRefreshType:(CaocaoCarMessageListRefreshType)refreshType {
-    //todo:
     NSArray *list = [NSArray yy_modelArrayWithClass: [SLArticleTodayEntity class] json:resArray];
     if (refreshType == CaocaoCarMessageListRefreshTypeRefresh) {
         self.dataArray = [NSMutableArray arrayWithArray:list];
-    }else{
+    } else {
         [self.dataArray addObjectsFromArray:list];
     }
     
-    if (refreshType == CaocaoCarMessageListRefreshTypeLoadMore &&
-        resArray.count > 0) {
-        self.curPage++;
+    if (refreshType == CaocaoCarMessageListRefreshTypeLoadMore) {
         if (resArray.count < self.pageSize) {
             self.hasToEnd = YES;
         } else {
