@@ -9,10 +9,11 @@
 #import "SLArticleTodayEntity.h"
 #import "SLCommentFeedEntity.h"
 #import "EnvConfigHeader.h"
+#import "SLGeneralMacro.h"
 
 typedef NS_ENUM(NSUInteger, HomePageStyle) {
     HomePageStyleToday = 0, //今天
-    HomePageStyleDiscover = 1,
+    HomePageStyleDiscover = 1, //发现
     HomePageStyleForyou = 2
 //    HomePageSyleLatest,    //最新
 //    HomePageSyleProduct,   //作品
@@ -22,10 +23,10 @@ typedef NS_ENUM(NSUInteger, HomePageStyle) {
     
 };
 
-typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
-    CaocaoCarMessageListRefreshTypeRefresh = 0,
-    CaocaoCarMessageListRefreshTypeLoadMore,
-};
+//typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
+//    CaocaoCarMessageListRefreshTypeRefresh = 0,
+//    CaocaoCarMessageListRefreshTypeLoadMore,
+//};
 
 @interface SLHomePageViewModel : NSObject
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -52,6 +53,9 @@ typedef NS_ENUM(NSInteger, CaocaoCarMessageListRefreshType) {
 //取消踩或者赞
 - (void)cancelLikeWith:(NSString *)articleId
       resultHandler:(void(^)(BOOL isSuccess, NSError *error))handler;
+
+//首页“为你”未读消息数量
+- (void)getForYouRedPoint:(void(^)(NSInteger number, NSError *error))handler;
 
 @end
 

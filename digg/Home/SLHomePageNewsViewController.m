@@ -10,19 +10,13 @@
 #import <Masonry/Masonry.h>
 #import "CaocaoRefresh.h"
 #import "SLGeneralMacro.h"
-
+#import "SLColorManager.h"
 #import "SLHomePageNewsTableViewCell.h"
-#import "SLHomePageLatestNewsTableViewCell.h"
-#import "SLHomePageQATableViewCell.h"
-#import "SLHomePageProductionTableViewCell.h"
-
+#import "SLTagListContainerViewController.h"
 #import "SLWebViewController.h"
 #import "SLUser.h"
 
 # define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
-# define kSLHomePageLatestNewsTableViewCellID @"SLHomePageLatestNewsTableViewCell"
-# define kSLHomePageQATableViewCellID @"SLHomePageQATableViewCell"
-# define kSLHomePageProductionTableViewCellID @"SLHomePageProductionTableViewCell"
 
 @interface SLHomePageNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -48,14 +42,6 @@
 }
 
 - (void)changeBgColor{
-//    if (self.pageStyle == HomePageSyleProduct) {
-//        self.tableView.backgroundColor = Color16(0xF7F7F7);
-////        self.tableView.backgroundColor = [UIColor redColor];
-//
-//    }else{
-//        self.tableView.backgroundColor = [UIColor clearColor];
-//    }
-    
     self.tableView.backgroundColor = [UIColor clearColor];
 
 }
@@ -94,26 +80,28 @@
         if (isSuccess) {
             if ([self.viewModel.dataArray count] == 0) {
                 self.dataState = CaocaoDataLoadStateEmpty;
-            }else{
+            } else {
                 self.dataState = CaocaoDataLoadStateNormal;
             }
-        }else{
+        } else {
             self.dataState = CaocaoDataLoadStateError;
         }
-        [self endRefresh];
         [self.tableView reloadData];
+        [self endRefresh];
     }];
 }
 
-- (void)jumpToLogin{    
+- (void)jumpToLogin {
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
     [dvc startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/login",H5BaseUrl]];
     dvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:dvc animated:YES];
+    [self.navigationController presentViewController:dvc animated:YES completion:^{     
+    }];
 }
 
-- (void)jumpToH5WithUrl:(NSString *)url{
+- (void)jumpToH5WithUrl:(NSString *)url andShowProgress:(BOOL)show {
     SLWebViewController *dvc = [[SLWebViewController alloc] init];
+    dvc.isShowProgress = show;
     [dvc startLoadRequestWithUrl:url];
     dvc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:dvc animated:YES];
@@ -121,9 +109,6 @@
 
 - (void)endRefresh
 {
-//    [self.tableView.mj_header endRefreshing];
-//    [self.tableView.mj_footer endRefreshing];
-
     if (self.viewModel.hasToEnd) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -136,7 +121,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
     NSString *url = [NSString stringWithFormat:@"%@/post/%@",H5BaseUrl,entity.articleId];
-    [self jumpToH5WithUrl:url];
+    [self jumpToH5WithUrl:url andShowProgress:NO];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -177,74 +162,61 @@
         
         cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
-            [self jumpToH5WithUrl:entity.url];
+            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
+        };
+        
+        cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self jumpToLogin];
+                return;
+            }
+            [self.viewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                            
+            }];
+        };
+        cell.cancelDisLikeClick = ^(SLArticleTodayEntity *entity) {
+            @strongobj(self);
+            if (![SLUser defaultUser].isLogin) {
+                [self jumpToLogin];
+                return;
+            }
+            [self.viewModel cancelLikeWith:entity.articleId resultHandler:^(BOOL isSuccess, NSError *error) {
+                            
+            }];
+        };
+        cell.labelClick = ^(SLArticleTodayEntity *entity) {
+            if (entity.label.length > 0) {
+                @strongobj(self);
+                SLTagListContainerViewController* vc = [SLTagListContainerViewController new];
+                vc.label = entity.label;
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
         };
     }
     return cell;
-//    switch (self.pageStyle) {
-//        case HomePageSyleToday:{
-//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
-//            if (cell) {
-//                SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//                [cell updateWithEntity:entity];
-//            }
-//            return cell;
-//        }
-//        case HomePageSyleLatest:{
-//            SLHomePageLatestNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageLatestNewsTableViewCellID forIndexPath:indexPath];
-//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//        case HomePageSyleProduct:{
-//            SLHomePageProductionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageProductionTableViewCellID forIndexPath:indexPath];
-//            SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            @weakobj(self);
-//            cell.likeClick = ^(SLArticleTodayEntity *entity) {
-//                @strongobj(self);
-//            };
-//            
-//            cell.dislikeClick = ^(SLArticleTodayEntity *entity) {
-//                @strongobj(self);
-//            };
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//        case HomePageSyleQuestion:{
-//            SLHomePageQATableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageQATableViewCellID forIndexPath:indexPath];
-//            SLCommentFeedEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
-//            [cell updateWithEntity:entity];
-//            return cell;
-//        }
-//            
-//        default:HomePageSyleToday:{
-//            SLHomePageNewsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kSLHomePageNewsTableViewCellID forIndexPath:indexPath];
-//            if (cell) {
-//                [cell updateWithEntity:nil];
-//            }
-//            return nil;
-//
-//        }
-//    }
-//    return nil;
 }
 
-- (UITableView *)tableView{
-    if(!_tableView){
+- (UITableView *)tableView {
+    if (!_tableView) {
         _tableView = [[UITableView alloc] init];
+        _tableView.backgroundColor = UIColor.clearColor;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
-        [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
+        _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        if (@available(iOS 15.0, *)) {
+            _tableView.sectionHeaderTopPadding = 0;
+        }
+        _tableView.estimatedRowHeight = 100;
     }
     return _tableView;
 }
 
 
-- (SLHomePageViewModel *)viewModel{
+- (SLHomePageViewModel *)viewModel {
     if (!_viewModel) {
         _viewModel = [[SLHomePageViewModel alloc] init];
     }

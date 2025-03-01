@@ -1,0 +1,6 @@
+module Pods_digg {
+  umbrella header "Pods-digg-umbrella.h"
+
+  export *
+  module * { export * }
+}

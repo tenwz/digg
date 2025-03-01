@@ -30,7 +30,15 @@ target 'digg' do
    pod 'AFNetworking'
    pod 'WebViewJavascriptBridge'
    pod 'YYText'
-    post_install do |installer|
+   pod 'DZNEmptyDataSet'
+   pod 'SVProgressHUD'
+
+   pod 'IQKeyboardManager'
+   pod 'Kingfisher'
+   pod 'RZColorfulSwift'
+   pod 'QuicklySwift', :git => "https://github.com/rztime/QuicklySwift"
+
+   post_install do |installer|
       # Get main project development team id
       dev_team = "5E9JBA6XT3"
       project = installer.aggregate_targets[0].user_project

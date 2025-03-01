@@ -8,7 +8,7 @@
 #import "AppDelegate.h"
 #import "SLTabbarController.h"
 #import "SLUser.h"
-#import <Bugly/Bugly.h>
+#import "IQKeyboardManager.h"
 
 @interface AppDelegate ()<UIApplicationDelegate>
 
@@ -19,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[IQKeyboardManager sharedManager] setEnable:NO];
+    
     [[SLUser defaultUser] loadUserInfoFromLocal];
     SLTabbarController *rootVC = [[SLTabbarController alloc] init];
     
@@ -28,7 +30,6 @@
     }
     [UIApplication sharedApplication].delegate.window.rootViewController = rootVC;
     [self.window makeKeyAndVisible];
-    [Bugly startWithAppId:@"b8c3f72ee7"];
     return YES;
 }
 
