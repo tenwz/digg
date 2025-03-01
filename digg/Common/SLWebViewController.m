@@ -18,6 +18,7 @@
 #import "SLProfileViewController.h"
 #import "SLRecordViewController.h"
 #import "SLColorManager.h"
+#import "SLAlertManager.h"
 
 @interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
@@ -166,16 +167,30 @@
                 NSString* type = [dic objectForKey:@"pageType"];
                 BOOL isJumpToLogin = [type isEqualToString:@"login"];
                 BOOL isOuterUrl = [type isEqualToString:@"outer"];
-                SLWebViewController *dvc = [[SLWebViewController alloc] init];
-                [dvc startLoadRequestWithUrl:url];
+                
                 if (isOuterUrl) {
-                    dvc.isShowProgress = YES;
-                }
-                dvc.hidesBottomBarWhenPushed = YES;
-                if (isJumpToLogin) {
-                    [self.navigationController presentViewController:dvc animated:YES completion:nil];
+                    [SLAlertManager showAlertWithTitle:@"提示"
+                                               message:@"您确定要打开此链接吗？"
+                                                   url:[NSURL URLWithString:url]
+                                               urlText:url
+                                          confirmTitle:@"是"
+                                           cancelTitle:@"否"
+                                        confirmHandler:^{
+                                            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
+                                        }
+                                         cancelHandler:^{
+                                        }
+                                     fromViewController:self];
+//                    dvc.isShowProgress = YES;
                 } else {
-                    [self.navigationController pushViewController:dvc animated:YES];
+                    SLWebViewController *dvc = [[SLWebViewController alloc] init];
+                    [dvc startLoadRequestWithUrl:url];
+                    dvc.hidesBottomBarWhenPushed = YES;
+                    if (isJumpToLogin) {
+                        [self.navigationController presentViewController:dvc animated:YES completion:nil];
+                    } else {
+                        [self.navigationController pushViewController:dvc animated:YES];
+                    }
                 }
             });
         }

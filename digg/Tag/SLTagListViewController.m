@@ -14,6 +14,7 @@
 #import "SLHomePageViewModel.h"
 #import "SLUser.h"
 #import "SLWebViewController.h"
+#import "SLAlertManager.h"
 
 @interface SLTagListViewController () <UITableViewDelegate,UITableViewDataSource>
 
@@ -164,7 +165,19 @@
         
         cell.checkDetailClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
-            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
+            [SLAlertManager showAlertWithTitle:@"提示"
+                                       message:@"您确定要打开此链接吗？"
+                                           url:[NSURL URLWithString:entity.url]
+                                       urlText:entity.url
+                                  confirmTitle:@"是"
+                                   cancelTitle:@"否"
+                                confirmHandler:^{
+                                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:entity.url] options:@{} completionHandler:nil];
+                                }
+                                 cancelHandler:^{
+                                }
+                             fromViewController:self];
+//            [self jumpToH5WithUrl:entity.url andShowProgress:YES];
         };
         
         cell.cancelLikeClick = ^(SLArticleTodayEntity *entity) {
