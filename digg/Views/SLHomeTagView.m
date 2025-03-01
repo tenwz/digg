@@ -8,6 +8,7 @@
 #import "SLHomeTagView.h"
 #import <Masonry/Masonry.h>
 #import "SLGeneralMacro.h"
+#import "SLColorManager.h"
 
 @interface SLHomeTagView ()
 
@@ -20,7 +21,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
-        self.backgroundColor = Color16A(0xFF1852, 0.1);
+        self.backgroundColor = [SLColorManager tagBackgroundTextColor];
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 6;
         [self addSubview:self.tagLabel];
@@ -44,7 +45,7 @@
 - (UILabel *)tagLabel{
     if (!_tagLabel) {
         _tagLabel = [[UILabel alloc] init];
-        _tagLabel.textColor = Color16(0xFF1852);
+        _tagLabel.textColor = [SLColorManager tagTextColor];
         _tagLabel.textAlignment = NSTextAlignmentCenter;
         _tagLabel.font = [UIFont boldSystemFontOfSize:12];
     }

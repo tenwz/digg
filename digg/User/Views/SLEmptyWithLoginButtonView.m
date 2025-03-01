@@ -8,6 +8,7 @@
 #import "SLEmptyWithLoginButtonView.h"
 #import "Masonry.h"
 #import "SLGeneralMacro.h"
+#import "SLColorManager.h"
 
 @interface SLEmptyWithLoginButtonView()
 
@@ -82,7 +83,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.text = @"你还没有登录";
-        _titleLabel.textColor = Color16(0x333333);
+        _titleLabel.textColor = [SLColorManager primaryTextColor];
         _titleLabel.font = [UIFont boldSystemFontOfSize:20];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -93,7 +94,7 @@
     if (!_descLabel) {
         _descLabel = [[UILabel alloc] init];
         _descLabel.text = @"登录账号，查看你关注的精彩内容";
-        _descLabel.textColor = Color16(0x999999);
+        _descLabel.textColor = [SLColorManager secondaryTextColor];
         _descLabel.font = [UIFont systemFontOfSize:14];
         _descLabel.textAlignment = NSTextAlignmentCenter;
     }

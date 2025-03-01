@@ -8,6 +8,7 @@
 #import "SLSegmentControl.h"
 #import "SLGeneralMacro.h"
 #import "Masonry.h"
+#import "SLColorManager.h"
 
 
 @interface SLSegmentControl ()
@@ -22,6 +23,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [SLColorManager primaryBackgroundColor];
         self.buttons = [NSMutableArray array];
         self.selectedIndex = 0;
     }
@@ -40,8 +42,8 @@
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake((buttonWidth + space) * i, 0, buttonWidth, self.frame.size.height);
             [button setTitle:self.titles[i] forState:UIControlStateNormal];
-            [button setTitleColor:UIColor.blackColor forState:UIControlStateSelected];
-            [button setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
+            [button setTitleColor:[SLColorManager categorySelectedTextColor] forState:UIControlStateSelected];
+            [button setTitleColor:[SLColorManager categoryNormalTextColor] forState:UIControlStateNormal];
             button.titleLabel.font = i == self.selectedIndex ? [UIFont boldSystemFontOfSize:14] : [UIFont systemFontOfSize:14];
             [button addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:button];

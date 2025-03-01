@@ -17,6 +17,7 @@
 #import "SLUser.h"
 #import "SLProfileViewController.h"
 #import "SLRecordViewController.h"
+#import "SLColorManager.h"
 
 @interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
@@ -33,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.hidesBackButton = YES;
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];;
     [self.view addSubview:self.wkwebView];
 
     if (self.isShowProgress) {

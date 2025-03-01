@@ -17,7 +17,7 @@
 #import "SVProgressHUD.h"
 #import "SLWebViewController.h"
 #import "SLCustomTextField.h"
-
+#import "SLColorManager.h"
 #import "digg-Swift.h"
 
 @interface SLRecordViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate>
@@ -51,7 +51,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.hidden = YES;
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self.leftBackButton setHidden:YES];
     self.tags = [NSMutableArray array];
     [self setupUI];
@@ -324,8 +324,16 @@
 }
 
 #pragma mark - UITextField Delegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self finishInputTag:textField];
+}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self finishInputTag:textField];
+    return YES;
+}
+
+- (void)finishInputTag:(UITextField *)textField {
     [textField resignFirstResponder];
     self.isEditing = NO;
     
@@ -341,14 +349,13 @@
     textField.text = @"";
     [self.collectionView reloadData]; // 刷新数据
     [self showTagView];
-    return YES;
 }
 
 #pragma mark - UI Elements
 - (UIView *)navigationView {
     if (!_navigationView) {
         _navigationView = [UIView new];
-        _navigationView.backgroundColor = UIColor.whiteColor;
+        _navigationView.backgroundColor = [SLColorManager primaryBackgroundColor];
     }
     return _navigationView;
 }
@@ -357,7 +364,7 @@
     if (!_leftBackButton) {
         _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftBackButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_leftBackButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_leftBackButton setTitleColor:[SLColorManager cellTitleColor] forState:UIControlStateNormal];
         [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     }
     return _leftBackButton;
@@ -367,7 +374,7 @@
     if (!_commitButton) {
         _commitButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_commitButton setTitle:@"提交" forState:UIControlStateNormal];
-        [_commitButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
+        [_commitButton setTitleColor:[SLColorManager cellTitleColor] forState:UIControlStateNormal];
         [_commitButton addTarget:self action:@selector(commitBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _commitButton;
@@ -376,7 +383,7 @@
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
-        _contentView.backgroundColor = UIColor.whiteColor;
+        _contentView.backgroundColor = [SLColorManager primaryBackgroundColor];
     }
     return _contentView;
 }
@@ -398,9 +405,8 @@
         _titleField.borderStyle = UITextBorderStyleNone;
         _titleField.font = [UIFont systemFontOfSize:20];
         _titleField.clearButtonMode = UITextFieldViewModeAlways;
-//        _titleField.rightView = [self createClearButtonForTextField:self.titleField];
         _titleField.rightViewMode = UITextFieldViewModeWhileEditing;
-        _titleField.textColor = UIColor.blackColor;
+        _titleField.textColor = [SLColorManager cellTitleColor];
     }
     return _titleField;
 }
@@ -412,13 +418,6 @@
         _linkField.updateFrame = ^(CGFloat height) {
             [weakSelf updateLinkTextFieldFrame:height];
         };
-//        _linkField.textColor = UIColor.blueColor;
-//        _linkField.placeholder = @"链接";
-//        _linkField.borderStyle = UITextBorderStyleNone;
-//        _linkField.font = [UIFont systemFontOfSize:16];
-////        _linkField.rightView = [self createClearButtonForTextField:self.linkField];
-//        _linkField.rightViewMode = UITextFieldViewModeWhileEditing;
-//        _linkField.clearButtonMode = UITextFieldViewModeAlways;
     }
     return _linkField;
 }
@@ -427,6 +426,8 @@
     if (!_textView) {
         _textView = [[RZRichTextView alloc] initWithFrame:CGRectZero viewModel:[RZRichTextViewModel sharedWithEdit:YES]];
         _textView.font = [UIFont systemFontOfSize:16];
+        _textView.backgroundColor = [SLColorManager primaryBackgroundColor];
+        _textView.textColor = [SLColorManager cellTitleColor];
     }
     return _textView;
 }
@@ -434,7 +435,7 @@
 - (UIView *)line1View {
     if (!_line1View) {
         _line1View = [[UIView alloc] init];
-        _line1View.backgroundColor = Color16(0xEEEEEE);
+        _line1View.backgroundColor = [SLColorManager cellDivideLineColor];
     }
     return _line1View;
 }
@@ -442,7 +443,7 @@
 - (UIView *)line2View {
     if (!_line2View) {
         _line2View = [[UIView alloc] init];
-        _line2View.backgroundColor = Color16(0xEEEEEE);
+        _line2View.backgroundColor = [SLColorManager cellDivideLineColor];
     }
     return _line2View;
 }
@@ -450,7 +451,7 @@
 - (UIView *)line3View {
     if (!_line3View) {
         _line3View = [[UIView alloc] init];
-        _line3View.backgroundColor = Color16(0xEEEEEE);
+        _line3View.backgroundColor = [SLColorManager cellDivideLineColor];
     }
     return _line3View;
 }

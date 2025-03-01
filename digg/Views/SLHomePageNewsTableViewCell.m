@@ -10,6 +10,7 @@
 #import "SLGeneralMacro.h"
 #import "CaocaoButton.h"
 #import "SLHomeTagView.h"
+#import "SLColorManager.h"
 
 @interface SLHomePageNewsTableViewCell ()
 
@@ -26,7 +27,6 @@
 @property (nonatomic, strong) SLHomeTagView *tagView;
 @property (nonatomic, strong) SLArticleTodayEntity *entity;
 @property (nonatomic, assign) BOOL isSelected;
-@property (nonatomic, strong) UIButton *moreBtn;
 
 @end
 
@@ -42,6 +42,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self){
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = [SLColorManager primaryBackgroundColor];
+        self.contentView.backgroundColor = [SLColorManager primaryBackgroundColor];
         [self createViews];
     }
     return self;
@@ -52,24 +54,6 @@
     [self.likeBtn layoutSubviews];
     [self.dislikeBtn layoutSubviews];
     [self.messageBtn layoutSubviews];
-//    CGRect rect = self.likeBtn.frame;
-//    if (rect.size.width > 0) {
-//        [self.likeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.width.mas_equalTo(rect.size.width + 1);
-//        }];
-//    }
-//    rect = self.dislikeBtn.frame;
-//    if (rect.size.width > 0) {
-//        [self.dislikeBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.width.mas_equalTo(rect.size.width + 1);
-//        }];
-//    }
-//    rect = self.messageBtn.frame;
-//    if (rect.size.width > 0) {
-//        [self.messageBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-//            make.width.mas_equalTo(rect.size.width + 1);
-//        }];
-//    }
 }
 
 - (void)updateWithEntity:(SLArticleTodayEntity *)entiy{
@@ -82,7 +66,7 @@
     paragraphStyle.lineSpacing = lineSpacing;
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     [attributes setObject:[UIFont systemFontOfSize:14] forKey:NSFontAttributeName];
-    [attributes setObject:Color16(0x313131) forKey:NSForegroundColorAttributeName];
+    [attributes setObject:[SLColorManager cellContentColor] forKey:NSForegroundColorAttributeName];
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
     if (contentStr != nil) {
         self.contentLabel.attributedText = [[NSAttributedString alloc] initWithString:contentStr attributes:attributes];
@@ -274,7 +258,7 @@
     if(!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:16];
-        _titleLabel.textColor = Color16(0x222222);
+        _titleLabel.textColor = [SLColorManager cellTitleColor];
         _titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     }
     return _titleLabel;
@@ -285,7 +269,7 @@
         _contentLabel = [[UILabel alloc] init];
         _contentLabel.font = [UIFont systemFontOfSize:14];
         _contentLabel.numberOfLines = 3;
-        _contentLabel.textColor = Color16(0x313131);
+        _contentLabel.textColor = [SLColorManager cellContentColor];
     }
     return _contentLabel;
 }
@@ -297,7 +281,7 @@
         _likeBtn.margin = 4;
         [_likeBtn setTitle:@"--" forState:UIControlStateNormal];
         _likeBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_likeBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
+        [_likeBtn setTitleColor:[SLColorManager caocaoButtonTextColor] forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"agree"] forState:UIControlStateNormal];
         [_likeBtn setImage:[UIImage imageNamed:@"agree_selected"] forState:UIControlStateSelected];
         [_likeBtn addTarget:self action:@selector(likeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -313,7 +297,7 @@
         _dislikeBtn.imageButtonType = CaocaoRightImageButton;
         [_dislikeBtn setTitle:@"--" forState:UIControlStateNormal];
         _dislikeBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_dislikeBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
+        [_dislikeBtn setTitleColor:[SLColorManager caocaoButtonTextColor] forState:UIControlStateNormal];
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree"]forState:UIControlStateNormal];
         [_dislikeBtn setImage:[UIImage imageNamed:@"disagree_selected"] forState:UIControlStateSelected];
         [_dislikeBtn addTarget:self action:@selector(dislikeBtnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -329,7 +313,7 @@
         _messageBtn.imageButtonType = CaocaoRightImageButton;
         [_messageBtn setTitle:@"--" forState:UIControlStateNormal];
         _messageBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_messageBtn setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
+        [_messageBtn setTitleColor:[SLColorManager caocaoButtonTextColor] forState:UIControlStateNormal];
         [_messageBtn setImage:[UIImage imageNamed:@"message"] forState:UIControlStateNormal];
         [_messageBtn sizeToFit];
     }
@@ -340,7 +324,7 @@
     if (!_checkBtn) {
         _checkBtn = [[UIButton alloc] init];
         [_checkBtn setTitle:@"查看" forState:UIControlStateNormal];
-        [_checkBtn setTitleColor:Color16(0x313131) forState:UIControlStateNormal];
+        [_checkBtn setTitleColor:[SLColorManager cellContentColor] forState:UIControlStateNormal];
         _checkBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [_checkBtn addTarget:self action:@selector(checkBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -380,7 +364,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = Color16(0xEEEEEE);
+        _lineView.backgroundColor = [SLColorManager cellDivideLineColor];
     }
     return _lineView;
 }
@@ -392,14 +376,6 @@
         [_tagView addGestureRecognizer:tap];
     }
     return _tagView;
-}
-
-- (UIButton *)moreBtn {
-    if (!_moreBtn) {
-        _moreBtn = [[UIButton alloc] init];
-        [_moreBtn setImage:[UIImage imageNamed:@"more"] forState:UIControlStateNormal];
-    }
-    return _moreBtn;
 }
 
 @end

@@ -10,19 +10,13 @@
 #import <Masonry/Masonry.h>
 #import "CaocaoRefresh.h"
 #import "SLGeneralMacro.h"
-
+#import "SLColorManager.h"
 #import "SLHomePageNewsTableViewCell.h"
-#import "SLHomePageLatestNewsTableViewCell.h"
-#import "SLHomePageQATableViewCell.h"
-#import "SLHomePageProductionTableViewCell.h"
 #import "SLTagListContainerViewController.h"
 #import "SLWebViewController.h"
 #import "SLUser.h"
 
 # define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
-# define kSLHomePageLatestNewsTableViewCellID @"SLHomePageLatestNewsTableViewCell"
-# define kSLHomePageQATableViewCellID @"SLHomePageQATableViewCell"
-# define kSLHomePageProductionTableViewCellID @"SLHomePageProductionTableViewCell"
 
 @interface SLHomePageNewsViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -212,9 +206,6 @@
         _tableView.delegate = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[SLHomePageNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageLatestNewsTableViewCell class] forCellReuseIdentifier:kSLHomePageLatestNewsTableViewCellID];
-        [_tableView registerClass:[SLHomePageQATableViewCell class] forCellReuseIdentifier:kSLHomePageQATableViewCellID];
-        [_tableView registerClass:[SLHomePageProductionTableViewCell class] forCellReuseIdentifier:kSLHomePageProductionTableViewCellID];
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         if (@available(iOS 15.0, *)) {
             _tableView.sectionHeaderTopPadding = 0;

@@ -11,6 +11,7 @@
 #import "SLProfilePageViewModel.h"
 #import "SVProgressHUD.h"
 #import <SDWebImage/SDWebImage.h>
+#import "SLColorManager.h"
 
 @interface SLEditProfileViewController () <UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -40,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = UIColor.whiteColor;
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     self.avatarOrBg = -1;
     [self setupUI];
 }
@@ -266,7 +267,7 @@
     if (!_leftBackButton) {
         _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftBackButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_leftBackButton setTitleColor:Color16(0x999999) forState:UIControlStateNormal];
+        [_leftBackButton setTitleColor:[SLColorManager categoryNormalTextColor] forState:UIControlStateNormal];
         _leftBackButton.titleLabel.font = [UIFont systemFontOfSize:16];
         [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -277,7 +278,7 @@
     if (!_saveBackButton) {
         _saveBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_saveBackButton setTitle:@"保存" forState:UIControlStateNormal];
-        [_saveBackButton setTitleColor:Color16(0x222222) forState:UIControlStateNormal];
+        [_saveBackButton setTitleColor:[SLColorManager cellTitleColor] forState:UIControlStateNormal];
         _saveBackButton.titleLabel.font = [UIFont systemFontOfSize:16];
         [_saveBackButton addTarget:self action:@selector(saveInfo) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -288,7 +289,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.text = @"编辑个人资料";
-        _titleLabel.textColor = UIColor.blackColor;
+        _titleLabel.textColor = [SLColorManager cellTitleColor];
         _titleLabel.font = [UIFont boldSystemFontOfSize:18];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -314,7 +315,7 @@
         _avatarImageView.backgroundColor = UIColor.lightGrayColor;
         _avatarImageView.layer.cornerRadius = 40;
         _avatarImageView.layer.masksToBounds = YES;
-        _avatarImageView.layer.borderColor = UIColor.whiteColor.CGColor;
+        _avatarImageView.layer.borderColor = [SLColorManager headerBorderColor].CGColor;
         _avatarImageView.layer.borderWidth = 2;
         
         [_avatarImageView setUserInteractionEnabled: YES];
@@ -328,7 +329,7 @@
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
         _nameLabel.text = @"姓名";
-        _nameLabel.textColor = UIColor.blackColor;
+        _nameLabel.textColor = [SLColorManager cellTitleColor];
         _nameLabel.font = [UIFont boldSystemFontOfSize:18];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
     }
@@ -341,7 +342,7 @@
         _nameTextField.borderStyle = UITextBorderStyleNone;
         _nameTextField.placeholder = @"请输入您的姓名";
         _nameTextField.font = [UIFont systemFontOfSize:18];
-        _nameTextField.textColor = [UIColor blackColor];
+        _nameTextField.textColor = [SLColorManager cellTitleColor];
         _nameTextField.keyboardType = UIKeyboardTypeDefault;
         _nameTextField.returnKeyType = UIReturnKeyDone;
         _nameTextField.delegate = self;
@@ -353,7 +354,7 @@
     if (!_briefLabel) {
         _briefLabel = [[UILabel alloc] init];
         _briefLabel.text = @"简介";
-        _briefLabel.textColor = UIColor.blackColor;
+        _briefLabel.textColor = [SLColorManager cellTitleColor];
         _briefLabel.font = [UIFont boldSystemFontOfSize:18];
         _briefLabel.textAlignment = NSTextAlignmentLeft;
     }
@@ -364,7 +365,7 @@
     if (!_briefTextView) {
         _briefTextView = [[UITextView alloc] initWithFrame:CGRectZero];
         _briefTextView.font = [UIFont systemFontOfSize:18];
-        _briefTextView.textColor = [UIColor blackColor];
+        _briefTextView.textColor = [SLColorManager cellTitleColor];
         _briefTextView.keyboardType = UIKeyboardTypeDefault;
         _briefTextView.returnKeyType = UIReturnKeyDefault;
     }

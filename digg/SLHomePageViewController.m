@@ -13,6 +13,7 @@
 #import "UIView+CommonKit.h"
 #import "SLHomeWebViewController.h"
 #import "SLHomePageViewModel.h"
+#import "SLColorManager.h"
 
 @interface SLHomePageViewController ()<JXCategoryViewDelegate,JXCategoryListContainerViewDelegate>
 @property (nonatomic, strong) NSArray *titles;
@@ -32,7 +33,7 @@
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
     self.navigationController.navigationBar.hidden = YES;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self.view addSubview:self.categoryView];
     [self.view addSubview:self.searchBtn];
     [self.view addSubview:self.listContainerView];
@@ -162,12 +163,13 @@
         _categoryView.titleLabelZoomEnabled = YES;
         _categoryView.titleFont = [UIFont boldSystemFontOfSize:18];
         _categoryView.titleLabelZoomScale = 1.125;
-        _categoryView.titleSelectedColor = [UIColor blackColor];
-        _categoryView.titleColor = Color16(0x7B7B7B);
+        _categoryView.titleSelectedColor = [SLColorManager categorySelectedTextColor];
+        _categoryView.titleColor = [SLColorManager categoryNormalTextColor];
         // !!!: 将列表容器视图关联到 categoryView
         _categoryView.listContainer = self.listContainerView;
         _categoryView.cellSpacing = 24;
         _categoryView.averageCellSpacingEnabled = NO;
+        _categoryView.backgroundColor = [SLColorManager primaryBackgroundColor];
     }
     return _categoryView;
 }

@@ -8,34 +8,26 @@
 #import "SLTabbarController.h"
 #import "SLNavigationController.h"
 #import "SLHomePageViewController.h"
-#import "SLFollowingListViewController.h"
-#import "SLMineViewController.h"
-#import "HomeViewController.h"
 #import "SLRecordViewController.h"
 #import "SLConcernedViewController.h"
-
-#import "SLLoginViewController.h"
-#import "SLPublishViewController.h"
 #import "SLHomeWebViewController.h"
 #import "EnvConfigHeader.h"
 #import "SLUser.h"
 #import "SLGeneralMacro.h"
-
 #import <WebKit/WebKit.h>
-
-//todo：空白页是登录页面
 #import "SLProfileViewController.h"
+#import "SLColorManager.h"
 
 @interface SLTabbarController () <UITabBarControllerDelegate>
+
 @property (nonatomic, strong) SLNavigationController *homeNavi;
 @property (nonatomic, strong) SLNavigationController *noticeNavi;
 @property (nonatomic, strong) SLConcernedViewController *noticeVC;
-//@property (nonatomic, strong) SLWebViewController *noticeVC;
 @property (nonatomic, strong) SLNavigationController *recordNavi;
-//@property (nonatomic, strong) SLWebViewController *recordVC;
 @property (nonatomic, strong) SLRecordViewController *recordVC;
 @property (nonatomic, strong) SLNavigationController *mineNavi;
 @property (nonatomic, strong) WKWebView *wkWebView;
+
 @end
 
 @implementation SLTabbarController
@@ -43,8 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.tabBar.backgroundColor = [UIColor whiteColor];
+    [self setupTabBarAppearance];
 
     self.delegate = self;
     
@@ -53,7 +44,37 @@
     [self noticeUserLogin];
 }
 
-- (void)setDefaultUA{
+- (void)setupTabBarAppearance {
+    self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
+    self.tabBar.backgroundColor = [SLColorManager tabbarBackgroundColor];
+    
+    [self configureTabBarAppearance:self.tabBar];
+}
+
+- (void)configureTabBarAppearance:(UITabBar *)tabBar {
+    UITabBarAppearance *appearance = [[UITabBarAppearance alloc] init];
+    
+    UIColor *normalColor = [SLColorManager tabbarNormalTextColor];
+    UIColor *selectedColor = [SLColorManager tabbarSelectedTextColor];
+    
+    [appearance setStackedLayoutAppearance:[self itemAppearanceWithNormalColor:normalColor selectedColor:selectedColor]];
+    
+    tabBar.standardAppearance = appearance;
+    if (@available(iOS 15.0, *)) {
+        tabBar.scrollEdgeAppearance = appearance;
+    }
+}
+
+- (UITabBarItemAppearance *)itemAppearanceWithNormalColor:(UIColor *)normalColor selectedColor:(UIColor *)selectedColor {
+    UITabBarItemAppearance *itemAppearance = [[UITabBarItemAppearance alloc] init];
+    
+    [itemAppearance.normal setTitleTextAttributes:@{NSForegroundColorAttributeName: normalColor}];
+    [itemAppearance.selected setTitleTextAttributes:@{NSForegroundColorAttributeName: selectedColor}];
+    
+    return itemAppearance;
+}
+
+- (void)setDefaultUA {
     self.wkWebView = [[WKWebView alloc] initWithFrame:CGRectZero];
     [self.wkWebView evaluateJavaScript:@"navigator.userAgent" completionHandler:^(id _Nullable defaultUserAgent, NSError * _Nullable error) {
         NSLog(@"defaultUserAgent = %@",defaultUserAgent);
@@ -89,7 +110,6 @@
     self.homeNavi = homeNavi;
 
     self.noticeVC = [[SLConcernedViewController alloc] init];
-//    [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
     SLNavigationController *noticeNavi = [self createRootNavi];
     self.noticeNavi = noticeNavi;
     noticeNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:[UIImage imageNamed:@"notice_unsel"] selectedImage:[UIImage imageNamed:@"notice_selected"]];
@@ -97,7 +117,6 @@
     self.noticeVC.navigationController.navigationBar.hidden = YES;
 
     self.recordVC = [[SLRecordViewController alloc] init];
-//    [self.recordVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/record",H5BaseUrl]];
     SLNavigationController *recordNavi = [self createRootNavi];
     self.recordNavi = recordNavi;
     recordNavi.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"记录" image:[UIImage imageNamed:@"record_unsel"] selectedImage:[UIImage imageNamed:@"record_selected"]];
@@ -131,9 +150,6 @@
             [self jumpToLogin];
             return NO;
         }
-//        if ([viewController isEqual:self.noticeNavi]) {
-//            [self.noticeVC startLoadRequestWithUrl:[NSString stringWithFormat:@"%@/follow",H5BaseUrl]];
-//        }
     }
     return YES;
 }
