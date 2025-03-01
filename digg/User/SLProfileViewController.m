@@ -66,11 +66,10 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.tableView.backgroundColor = UIColor.clearColor;
     @weakobj(self)
     [self.viewModel isUserLogin:^(BOOL isLogin, NSError * _Nonnull error) {
         @strongobj(self)
-        self.tableView.backgroundColor = UIColor.clearColor;
-//        [self.view hideSkeleton];
         if (isLogin) {
             if ([self.userId length] == 0) {
                 self.userId = [SLUser defaultUser].userEntity.userId;
@@ -81,11 +80,6 @@
             [self.emptyView setHidden:NO];
         }
     }];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.tableView.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)updateUI {
@@ -100,8 +94,10 @@
             @strongobj(self)
             if (isSuccess) {
                 if ([self.viewModel.entity.bgImage length] > 0) {
-                    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage] placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
+//                    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage] placeholderImage:[UIImage imageNamed:@"profile_header_bg"]];
+                    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:self.viewModel.entity.bgImage]];
                 }
+
                 self.nameLabel.text = self.viewModel.entity.userName;
                 self.briefLabel.text = self.viewModel.entity.desc;
                 if (self.viewModel.entity.isSelf && !self.fromWeb) {
@@ -122,26 +118,37 @@
                     }];
                 }
                 self.headerView.entity = self.viewModel.entity;
-                [self.tableView reloadData];
-                
                 [self updateTableHeaderViewHeight];
+                [self.tableView reloadData];
             }
         }];
     }
 }
 
 - (void)updateTableHeaderViewHeight {
-    [self.headerView updateConstraintsIfNeeded];
-    [self.headerView setNeedsLayout];
-    [self.headerView layoutIfNeeded];
+    UIView *currentHeaderView = self.tableView.tableHeaderView;
+    
+    // 只在必要时强制布局
+    if (!self.headerView.frame.size.height) {
+        [self.headerView setNeedsLayout];
+        [self.headerView layoutIfNeeded];
+    }
     
     CGFloat height = [self.headerView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;
-    CGRect frame = self.headerView.frame;
-    frame.size.height = height;
-    self.headerView.frame = frame;
-    self.headerImageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, height);
-    self.blurEffectView.frame = self.headerImageView.bounds;
-    self.tableView.tableHeaderView = self.headerView;
+    
+    // 只有当高度发生变化时才更新frame
+    if (self.headerView.frame.size.height != height) {
+        CGRect frame = self.headerView.frame;
+        frame.size.height = height;
+        self.headerView.frame = frame;
+        self.headerImageView.frame = CGRectMake(0, 0, self.view.bounds.size.width, height);
+        self.blurEffectView.frame = self.headerImageView.bounds;
+        
+        // 只有当headerView不是当前tableHeaderView时才设置
+        if (currentHeaderView != self.headerView) {
+            self.tableView.tableHeaderView = self.headerView;
+        }
+    }
 }
 
 #pragma mark - Setup UI
@@ -288,8 +295,8 @@
     CGFloat offsetY = scrollView.contentOffset.y;
     
     // 限制最大偏移
-    CGFloat avatarInitialSize = avatarSize;
-    CGFloat avatarFinalSize = minAvatarSize;
+     CGFloat avatarInitialSize = avatarSize;
+     CGFloat avatarFinalSize = minAvatarSize;
     
     // 计算缩放比例
     CGFloat scaleFactor = MAX(avatarFinalSize / avatarInitialSize, 1 - offsetY / 100);
@@ -537,10 +544,12 @@
 #pragma makr - UI Elements
 - (UIImageView *)headerImageView {
     if (!_headerImageView) {
-        _headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_header_bg"]];
+//        _headerImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"profile_header_bg"]];
+        _headerImageView = [[UIImageView alloc] init];
+        _headerImageView.backgroundColor = UIColor.clearColor;
         _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
         [_headerImageView setUserInteractionEnabled:YES];
-        _headerImageView.isSkeletonable = YES;
+//        _headerImageView.isSkeletonable = YES;
     }
     return _headerImageView;
 }
@@ -550,7 +559,7 @@
         _leftBackButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftBackButton setImage:[UIImage imageNamed:@"profile_left_btn"] forState:UIControlStateNormal];
         [_leftBackButton addTarget:self action:@selector(backPage) forControlEvents:UIControlEventTouchUpInside];
-        _leftBackButton.isSkeletonable = YES;
+//        _leftBackButton.isSkeletonable = YES;
     }
     return _leftBackButton;
 }
@@ -560,7 +569,7 @@
         _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_moreButton setImage:[UIImage imageNamed:@"profile_more_btn"] forState:UIControlStateNormal];
         [_moreButton addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
-        _moreButton.isSkeletonable = YES;
+//        _moreButton.isSkeletonable = YES;
     }
     return _moreButton;
 }
@@ -601,7 +610,7 @@
         _segmentControl = [[SLSegmentControl alloc] initWithFrame:CGRectZero];
         _segmentControl.titles = @[@"动态", @"赞同", @"收藏"];
         _segmentControl.delegate = self; // 设置代理为当前控制器
-        _segmentControl.isSkeletonable = YES;
+//        _segmentControl.isSkeletonable = YES;
     }
     return _segmentControl;
 }
@@ -633,7 +642,7 @@
         _tableView.emptyDataSetSource = self;
         _tableView.emptyDataSetDelegate = self;
 
-        _tableView.isSkeletonable = YES;
+//        _tableView.isSkeletonable = YES;
     }
     return _tableView;
 }

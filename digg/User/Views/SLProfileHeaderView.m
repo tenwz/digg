@@ -17,7 +17,6 @@
 
 @interface SLProfileHeaderView()
 
-@property (nonatomic, strong) UIView* headerBGView;
 @property (nonatomic, strong) UIView* contentView;
 @property (nonatomic, strong) UIButton* editorButton;
 @property (nonatomic, strong) UIButton* focusButton;
@@ -40,29 +39,18 @@
     if (self) {
         self.backgroundColor = UIColor.clearColor;
         
-        [self addSubview:self.headerBGView];
-
         [self addSubview:self.contentView];
-
-        [self.contentView addSubview:self.avatarImageView];
+        [self addSubview:self.avatarImageView];
 
         [self.contentView addSubview:self.editorButton];
-
         [self.contentView addSubview:self.focusButton];
-
         [self.contentView addSubview:self.nameLabel];
-
         [self.contentView addSubview:self.briefLabel];
-
         [self.contentView addSubview:self.followLabel];
-
         [self.contentView addSubview:self.attentionLabel];
-
         [self.contentView addSubview:self.collectLabel];
-
         [self.contentView addSubview:self.tagLabel];
-
-        [self.contentView addSubview:self.tagsView];        
+        [self.contentView addSubview:self.tagsView];   
     }
     return self;
 }
@@ -71,17 +59,13 @@
 
 - (void)updateConstraints {
     
-    [self.headerBGView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self);
-        make.height.mas_equalTo(30);
-    }];
     [self.contentView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.bottom.left.right.equalTo(self);
-        make.top.equalTo(self.headerBGView.mas_bottom);
+        make.top.equalTo(self).offset(30);
     }];
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView).offset(14);
-        make.top.equalTo(self.contentView.mas_top).offset(-30);
+        make.left.equalTo(self).offset(14);
+        make.top.equalTo(self); // 保持头像上移
         make.size.mas_equalTo(CGSizeMake(60, 60));
     }];
     [self.editorButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -158,8 +142,21 @@
             make.height.mas_equalTo(finalHeight);
         }];
     }
-    
+
     [super updateConstraints];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    // 更新avatarImageView的mask以适应其当前大小
+    if (_avatarImageView) {
+        CAShapeLayer *maskLayer = (CAShapeLayer *)_avatarImageView.layer.mask;
+        if (maskLayer) {
+            maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:_avatarImageView.bounds 
+                                                        cornerRadius:_avatarImageView.bounds.size.width / 2].CGPath;
+        }
+    }
 }
 
 - (void)setEntity:(SLProfileEntity *)entity {
@@ -242,12 +239,16 @@
         _avatarImageView = [[UIImageView alloc] init]; //WithImage:[UIImage imageNamed:@"avatar_default_img"]
         _avatarImageView.backgroundColor = [SLColorManager headerBorderColor];
         _avatarImageView.layer.cornerRadius = 30;
-        _avatarImageView.layer.masksToBounds = YES;
+        // _avatarImageView.layer.masksToBounds = YES;
         _avatarImageView.layer.borderColor = [SLColorManager headerBorderColor].CGColor;
         _avatarImageView.layer.borderWidth = 1;
-        _avatarImageView.clipsToBounds = YES;
-        _avatarImageView.layer.zPosition = 1; // 提高层级
+
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 60, 60) 
+                                                    cornerRadius:30].CGPath;
+        _avatarImageView.layer.mask = maskLayer;
         
+        _avatarImageView.layer.zPosition = 1; // 提高层级
         _avatarImageView.isSkeletonable = YES;
     }
     return _avatarImageView;
@@ -405,22 +406,13 @@
     return _tagsView;
 }
 
-- (UIView *)headerBGView {
-    if (!_headerBGView) {
-        _headerBGView = [UIView new];
-        _headerBGView.backgroundColor = UIColor.clearColor;
-        _headerBGView.isSkeletonable = NO;
-    }
-    return _headerBGView;
-}
-
 - (UIView *)contentView {
     if (!_contentView) {
         _contentView = [UIView new];
         _contentView.backgroundColor = [SLColorManager primaryBackgroundColor];
         _contentView.clipsToBounds = NO;
-        _contentView.layer.cornerRadius = 16.0;
-        _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+         _contentView.layer.cornerRadius = 16.0;
+         _contentView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     }
     return _contentView;
 }
