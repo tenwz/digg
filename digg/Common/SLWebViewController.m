@@ -73,6 +73,7 @@
         self.navigationController.navigationBar.barTintColor = UIColor.whiteColor;
         self.navigationController.navigationBar.hidden = NO;
     }
+    [[SLTrackingManager sharedInstance] trackPageViewBegin:self uniqueIdentifier:self.requestUrl];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -81,6 +82,7 @@
         self.navigationController.navigationBar.barTintColor = nil;
         self.navigationController.navigationBar.hidden = YES;
     }
+    [[SLTrackingManager sharedInstance] trackPageViewEnd:self uniqueIdentifier:self.requestUrl parameters:nil];
 }
 
 - (void)dealloc {
