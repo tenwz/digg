@@ -270,7 +270,7 @@
     self.isSetUA = YES;
 }
 
-- (void)startLoadRequestWithUrl:(NSString *)url{
+- (void)startLoadRequestWithUrl:(NSString *)url {
     if(stringIsEmpty(url)){
         NSLog(@"url为空");
         @weakobj(self);
@@ -288,8 +288,51 @@
     [self setupDefailUA];
     self.requestUrl = url;
     NSLog(@"加载的url = %@",url);
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[self addThemeToURL:url] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
     [self.wkwebView loadRequest:request];
+}
+
+- (NSURL *)addThemeToURL:(NSString *)url {
+    NSString *themeParam = @"theme=light";
+    if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+        themeParam = @"theme=dark";
+    }
+
+    // 处理URL，添加theme参数
+    NSURL *originalURL = [NSURL URLWithString:url];
+    NSURLComponents *components = [NSURLComponents componentsWithURL:originalURL resolvingAgainstBaseURL:NO];
+    
+    NSMutableArray *queryItems = [NSMutableArray array];
+    if (components.queryItems) {
+        [queryItems addObjectsFromArray:components.queryItems];
+    }
+    
+    // 检查是否已有theme参数
+    BOOL hasThemeParam = NO;
+    for (NSURLQueryItem *item in queryItems) {
+        if ([item.name isEqualToString:@"theme"]) {
+            hasThemeParam = YES;
+            break;
+        }
+    }
+    
+    // 如果没有theme参数，添加一个
+    if (!hasThemeParam) {
+        NSArray *themeComponents = [themeParam componentsSeparatedByString:@"="];
+        if (themeComponents.count == 2) {
+            NSURLQueryItem *themeItem = [NSURLQueryItem queryItemWithName:themeComponents[0] value:themeComponents[1]];
+            [queryItems addObject:themeItem];
+        }
+    }
+    
+    components.queryItems = queryItems;
+    NSURL *finalURL = components.URL;
+    
+    // 如果URL处理失败，使用原始URL
+    if (!finalURL) {
+        finalURL = originalURL;
+    }
+    return finalURL;
 }
 
 - (WKWebView *)wkwebView{
@@ -302,7 +345,8 @@
         
         
         _wkwebView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
-        _wkwebView.backgroundColor = [UIColor whiteColor];
+        _wkwebView.backgroundColor = [UIColor clearColor];
+        [_wkwebView setOpaque:NO];
         _wkwebView.scrollView.bounces = NO;
         _wkwebView.navigationDelegate = self;
         _wkwebView.allowsBackForwardNavigationGestures = YES;
