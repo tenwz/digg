@@ -16,6 +16,7 @@
 #import "SLWebViewController.h"
 #import "SLUser.h"
 #import "SLAlertManager.h"
+#import "SLTrackingManager.h"
 
 # define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
 
@@ -170,6 +171,11 @@
                                   confirmTitle:@"是"
                                    cancelTitle:@"否"
                                 confirmHandler:^{
+                NSDictionary* param = @{
+                    @"url": entity.url,
+                    @"index": @(self.pageStyle)
+                };
+                [[SLTrackingManager sharedInstance] trackEvent:@"OPEN_DETAIL_FROM_HOME" parameters:param];
                                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:entity.url] options:@{} completionHandler:nil];
                                 }
                                  cancelHandler:^{

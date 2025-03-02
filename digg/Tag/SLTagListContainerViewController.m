@@ -11,8 +11,7 @@
 #import "SLTagListContainerViewModel.h"
 #import <JXCategoryView/JXCategoryView.h>
 #import <JXCategoryView/JXCategoryListContainerView.h>
-#import "SLTagListViewController.h"
-
+//#import "SLTagListViewController.h"
 #import "SLTagListContainerViewModel.h"
 #import "SLProfileDynamicTableViewCell.h"
 #import "CaocaoRefresh.h"
@@ -20,6 +19,7 @@
 #import "SLUser.h"
 #import "SLWebViewController.h"
 #import "SLAlertManager.h"
+#import "SLTrackingManager.h"
 
 @interface UILabel (LineCheck)
 
@@ -469,6 +469,12 @@
                                   confirmTitle:@"是"
                                    cancelTitle:@"否"
                                 confirmHandler:^{
+                NSDictionary* param = @{
+                    @"url": entity.url,
+                    @"label": self.label,
+                    @"index": @(self.myCategoryView.selectedIndex)
+                };
+                [[SLTrackingManager sharedInstance] trackEvent:@"OPEN_DETAIL_FROM_TAGLIST" parameters:param];
                                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:entity.url] options:@{} completionHandler:nil];
                                 }
                                  cancelHandler:^{

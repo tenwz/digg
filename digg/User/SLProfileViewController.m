@@ -28,6 +28,7 @@
 #import "digg-Swift.h"
 #import "SLColorManager.h"
 #import "SLAlertManager.h"
+#import "SLTrackingManager.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
@@ -430,6 +431,11 @@
                                       confirmTitle:@"是"
                                        cancelTitle:@"否"
                                     confirmHandler:^{
+                    NSDictionary* param = @{
+                        @"url": entity.url,
+                        @"index": @(self.segmentControl.selectedIndex)
+                    };
+                    [[SLTrackingManager sharedInstance] trackEvent:@"OPEN_DETAIL_FROM_PROFILE" parameters:param];
                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:entity.url] options:@{} completionHandler:nil];
                                     }
                                      cancelHandler:^{
@@ -502,6 +508,11 @@
                                       confirmTitle:@"是"
                                        cancelTitle:@"否"
                                     confirmHandler:^{
+                    NSDictionary* param = @{
+                        @"url": entity.url,
+                        @"index": @(self.segmentControl.selectedIndex)
+                    };
+                    [[SLTrackingManager sharedInstance] trackEvent:@"OPEN_DETAIL_FROM_PROFILE" parameters:param];
                                         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:entity.url] options:@{} completionHandler:nil];
                                     }
                                      cancelHandler:^{

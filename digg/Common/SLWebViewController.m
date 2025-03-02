@@ -19,6 +19,7 @@
 #import "SLRecordViewController.h"
 #import "SLColorManager.h"
 #import "SLAlertManager.h"
+#import "SLTrackingManager.h"
 
 @interface SLWebViewController ()<UIWebViewDelegate,WKScriptMessageHandler,WKNavigationDelegate>
 @property (nonatomic, strong) WebViewJavascriptBridge* bridge;
@@ -127,6 +128,7 @@
         NSLog(@"userLogin called with: %@", data);
 
         NSString *userId = [NSString stringWithFormat:@"%@",[data objectForKey:@"userId"]];
+        [[SLTrackingManager sharedInstance] setUserId:userId];
         NSString *token = [NSString stringWithFormat:@"%@",[data objectForKey:@"token"]];
         SLUserEntity *entity = [[SLUserEntity alloc] init];
         entity.token = token;
@@ -176,6 +178,7 @@
                                           confirmTitle:@"是"
                                            cancelTitle:@"否"
                                         confirmHandler:^{
+                        [[SLTrackingManager sharedInstance] trackEvent:@"OPEN_DETAIL_FROM_WEB" parameters:@{@"url": url}];
                                             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
                                         }
                                          cancelHandler:^{

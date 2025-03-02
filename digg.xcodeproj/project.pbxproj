@@ -39,6 +39,7 @@
 		34A071142D72D999006BC583 /* UIView+PageName.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A070DB2D72D999006BC583 /* UIView+PageName.m */; };
 		34A071152D72D999006BC583 /* UIViewController+TMViewExposure.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A070ED2D72D999006BC583 /* UIViewController+TMViewExposure.m */; };
 		34A0711C2D732FBC006BC583 /* SLAlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A0711B2D732FBC006BC583 /* SLAlertManager.m */; };
+		34A0711F2D733882006BC583 /* SLTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A0711E2D733882006BC583 /* SLTrackingManager.m */; };
 		34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */; };
 		34D2E9822D33C8370067CC05 /* SLTagListContainerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */; };
 		34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */; };
@@ -269,6 +270,8 @@
 		34A071032D72D999006BC583 /* ViewTrackerProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewTrackerProxy.m; sourceTree = "<group>"; };
 		34A0711A2D732FBC006BC583 /* SLAlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLAlertManager.h; sourceTree = "<group>"; };
 		34A0711B2D732FBC006BC583 /* SLAlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLAlertManager.m; sourceTree = "<group>"; };
+		34A0711D2D733882006BC583 /* SLTrackingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTrackingManager.h; sourceTree = "<group>"; };
+		34A0711E2D733882006BC583 /* SLTrackingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTrackingManager.m; sourceTree = "<group>"; };
 		34D2E97D2D33C4A90067CC05 /* SLTagListContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListContainerViewController.h; sourceTree = "<group>"; };
 		34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewController.m; sourceTree = "<group>"; };
 		34D2E9802D33C8370067CC05 /* SLTagListContainerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListContainerViewModel.h; sourceTree = "<group>"; };
@@ -639,6 +642,8 @@
 		34A071182D72DBC1006BC583 /* Monitor */ = {
 			isa = PBXGroup;
 			children = (
+				34A0711D2D733882006BC583 /* SLTrackingManager.h */,
+				34A0711E2D733882006BC583 /* SLTrackingManager.m */,
 			);
 			path = Monitor;
 			sourceTree = "<group>";
@@ -1551,6 +1556,7 @@
 				34D2EBA92D3941DE0067CC05 /* TZImageCropManager.m in Sources */,
 				34D2EBAA2D3941DE0067CC05 /* TZGifPhotoPreviewController.m in Sources */,
 				34D2EBAB2D3941DE0067CC05 /* TZProgressView.m in Sources */,
+				34A0711F2D733882006BC583 /* SLTrackingManager.m in Sources */,
 				34D2EBE42D3A090B0067CC05 /* SLRecordViewTagCollectionViewCell.m in Sources */,
 				E7C137E32CF31F2A00C5053A /* SLHomeWebViewController.m in Sources */,
 				E7C405792CC26970004D90CD /* SLCommentFeedEntity.m in Sources */,
