@@ -17,6 +17,8 @@
 #import "SLUser.h"
 #import "SLAlertManager.h"
 #import "SLTrackingManager.h"
+#import "TMViewTrackerSDK.h"
+#import "UIView+TMViewTracker.h"
 
 # define kSLHomePageNewsTableViewCellID @"SLHomePageNewsTableViewCell"
 
@@ -41,6 +43,8 @@
     
     [self addRefresh];
     [self loadMessagesList:CaocaoCarMessageListRefreshTypeRefresh];
+    
+    [TMViewTrackerManager setCurrentPageName:@"Home"];
 }
 
 - (void)changeBgColor{
@@ -139,6 +143,12 @@
     if (cell) {
         SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
         [cell updateWithEntity:entity];
+        cell.controlName = @"HOME_LIST";
+        cell.args = @{
+            @"url": entity.url,
+            @"title": entity.title,
+            @"pageStyle": @(self.pageStyle)
+        };
         @weakobj(self);
         cell.likeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);

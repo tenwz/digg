@@ -153,7 +153,7 @@ static char kViewExposureStartTimeKey;
     [self trackPageViewEnd:viewController uniqueIdentifier:nil parameters:parameters];
 }
 
-- (void)trackViewExposure:(NSString *)identifier duration:(NSTimeInterval)duration parameters:(NSDictionary *)parameters {
+- (void)trackViewExposure:(NSString *)identifier duration:(NSUInteger)duration parameters:(NSDictionary *)parameters {
     if (!identifier) return;
     
     dispatch_async(self.trackingQueue, ^{

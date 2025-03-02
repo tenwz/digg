@@ -7,16 +7,19 @@
 //
 
 #import "ViewTrackerProxy.h"
+#import "SLTrackingManager.h"
 
 @implementation ViewTrackerProxy
 - (instancetype)init
 {
     if (self = [super init]) {
         //init ViewTrack Config
-        NSDictionary * dictionary = @{kExposureSwitch:@(1),
-                                      kExposureWhiteList:@[@"Tab1",@"SubViewController"],
-                                      kClickSwitch:@(1),
-                                      kClickWhiteList:@[@"Tab1",@"SubViewController"]};
+        NSDictionary * dictionary = @{
+            kExposureSwitch:@(1),
+            kExposureWhiteList:@[
+                @"Home", @"Concern", @"TagList", @"Profile"
+            ]
+        };
         
         [[TMViewTrackerManager sharedManager] setViewTrackerConfig:dictionary];
         
@@ -36,7 +39,7 @@
       duration:(NSUInteger)duration
           args:(NSDictionary *)args
 {
-    
     NSLog(@"module on Page(%@), controlName(%@), duration(%lu), with args(%@)", pageName, moduleName, (unsigned long)duration, args);
+    [[SLTrackingManager sharedInstance] trackViewExposure:pageName duration:duration parameters:args];
 }
 @end

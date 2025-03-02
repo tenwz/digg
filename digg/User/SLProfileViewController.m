@@ -29,6 +29,8 @@
 #import "SLColorManager.h"
 #import "SLAlertManager.h"
 #import "SLTrackingManager.h"
+#import "TMViewTrackerSDK.h"
+#import "UIView+TMViewTracker.h"
 
 
 @interface SLProfileViewController () <SLSegmentControlDelegate, UITableViewDelegate, UITableViewDataSource, SLEmptyWithLoginButtonViewDelegate, UIScrollViewDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, SLEmptyWithLoginButtonViewDelegate, SLProfileHeaderViewDelegate>
@@ -64,6 +66,8 @@
     self.view.backgroundColor = [SLColorManager primaryBackgroundColor];
     [self setupUI];
     [self.hideView setHidden:NO];
+    
+    [TMViewTrackerManager setCurrentPageName:@"Profile"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -399,6 +403,12 @@
         if (cell) {
             SLArticleTodayEntity *entity = [self.viewModel.entity.feedList objectAtIndex:indexPath.row];
             [cell updateWithEntity:entity];
+            cell.controlName = @"Profile_LIST";
+            cell.args = @{
+                @"url": entity.url,
+                @"title": entity.title,
+                @"index": @(self.segmentControl.selectedIndex)
+            };
             @weakobj(self);
             cell.likeClick = ^(SLArticleTodayEntity *entity) {
                 @strongobj(self);
@@ -476,6 +486,12 @@
                 entity = [self.viewModel.entity.submitList objectAtIndex:indexPath.row];
             }
             [cell updateWithEntity:entity];
+            cell.controlName = @"Profile_LIST";
+            cell.args = @{
+                @"url": entity.url,
+                @"title": entity.title,
+                @"index": @(self.segmentControl.selectedIndex)
+            };
             @weakobj(self);
             cell.likeClick = ^(SLArticleTodayEntity *entity) {
                 @strongobj(self);

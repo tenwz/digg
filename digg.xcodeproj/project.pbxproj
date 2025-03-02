@@ -42,7 +42,6 @@
 		34A0711F2D733882006BC583 /* SLTrackingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A0711E2D733882006BC583 /* SLTrackingManager.m */; };
 		34D2E97F2D33C4A90067CC05 /* SLTagListContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */; };
 		34D2E9822D33C8370067CC05 /* SLTagListContainerViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */; };
-		34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */; };
 		34D2EB992D3941DE0067CC05 /* TZImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 34D2EB832D3941DE0067CC05 /* TZImagePickerController.bundle */; };
 		34D2EB9A2D3941DE0067CC05 /* TZImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB812D3941DE0067CC05 /* TZImageManager.m */; };
 		34D2EB9B2D3941DE0067CC05 /* TZAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34D2EB772D3941DE0067CC05 /* TZAssetCell.m */; };
@@ -276,8 +275,6 @@
 		34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewController.m; sourceTree = "<group>"; };
 		34D2E9802D33C8370067CC05 /* SLTagListContainerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListContainerViewModel.h; sourceTree = "<group>"; };
 		34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListContainerViewModel.m; sourceTree = "<group>"; };
-		34D2E9832D33CF3D0067CC05 /* SLTagListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SLTagListViewController.h; sourceTree = "<group>"; };
-		34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SLTagListViewController.m; sourceTree = "<group>"; };
 		34D2EB712D3941DE0067CC05 /* TZLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TZLocationManager.h; sourceTree = "<group>"; };
 		34D2EB722D3941DE0067CC05 /* TZLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TZLocationManager.m; sourceTree = "<group>"; };
 		34D2EB742D3941DE0067CC05 /* NSBundle+TZImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSBundle+TZImagePicker.h"; sourceTree = "<group>"; };
@@ -664,8 +661,6 @@
 				34D2E97E2D33C4A90067CC05 /* SLTagListContainerViewController.m */,
 				34D2E9802D33C8370067CC05 /* SLTagListContainerViewModel.h */,
 				34D2E9812D33C8370067CC05 /* SLTagListContainerViewModel.m */,
-				34D2E9832D33CF3D0067CC05 /* SLTagListViewController.h */,
-				34D2E9842D33CF3D0067CC05 /* SLTagListViewController.m */,
 			);
 			path = Tag;
 			sourceTree = "<group>";
@@ -1577,7 +1572,6 @@
 				34933F872D2E9951009F781A /* SLTagsView.m in Sources */,
 				3486EBC22D1D3C2700A55258 /* SLNavigationController.m in Sources */,
 				3486EFEB2D2B80EB00A55258 /* SLProfileEntity.m in Sources */,
-				34D2E9852D33CF3D0067CC05 /* SLTagListViewController.m in Sources */,
 				E7769E5B2CA2E63A00AE84F4 /* AppDelegate.m in Sources */,
 				340F64022D2D55130046FC97 /* SLEditProfileViewController.m in Sources */,
 				E76A45E42CBCA955008B2746 /* SLArticleNewsEntity.m in Sources */,

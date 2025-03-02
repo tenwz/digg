@@ -67,7 +67,7 @@ typedef NS_ENUM(NSInteger, SLTrackingEventType) {
  * @param parameters 附加参数
  */
 - (void)trackViewExposure:(NSString *)identifier
-                 duration:(NSTimeInterval)duration
+                 duration:(NSUInteger)duration
                parameters:(nullable NSDictionary *)parameters;
 
 #pragma mark - 配置

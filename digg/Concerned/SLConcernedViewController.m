@@ -18,6 +18,8 @@
 #import "SLColorManager.h"
 #import "SLAlertManager.h"
 #import "SLTrackingManager.h"
+#import "TMViewTrackerSDK.h"
+#import "UIView+TMViewTracker.h"
 
 
 @interface SLConcernedViewController () <UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
@@ -40,6 +42,8 @@
     [self setupUI];
     [self addRefresh];
     [self requestData];
+    
+    [TMViewTrackerManager setCurrentPageName:@"Concern"];
 }
 
 #pragma mark - Methods
@@ -150,6 +154,11 @@
     if (cell) {
         SLArticleTodayEntity *entity = [self.viewModel.dataArray objectAtIndex:indexPath.row];
         [cell updateWithEntity:entity];
+        cell.controlName = @"CONCERN_LIST";
+        cell.args = @{
+            @"url": entity.url,
+            @"title": entity.title,
+        };
         @weakobj(self);
         cell.likeClick = ^(SLArticleTodayEntity *entity) {
             @strongobj(self);
